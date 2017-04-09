@@ -1,0 +1,6 @@
+#dialogBody {text-align: center;}
+#backgroundDiv { width:100%;height:100%; z-index:999;}
+#dialogDiv {margin:auto; width:350px; height:200px;border:1px solid #15B69A;}
+#dialogMsgDiv {margin-top:20px;}
+#buttonDiv {width:350px; margin: 100px 0 0 0;}
+#OKbutton {margin:auto;}
