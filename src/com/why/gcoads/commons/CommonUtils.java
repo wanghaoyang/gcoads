@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
-import org.junit.Test;
 
 /**
  * 
@@ -19,15 +18,6 @@ public class CommonUtils {
         return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
     
-    @Test
-    public void T(){
-        for(int i = 0; i<10;i++){
-            System.out.println(uuid());
-            System.out.println(uuid()+uuid());
-            
-        }
-    }
-
     /**
      * 把map转换成对象
      * @param map

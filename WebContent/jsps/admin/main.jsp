@@ -25,6 +25,6 @@
         </td>
     </tr>
     </table>
-    <%@include file="/jsps/dialog.jsp"%>
+    <%-- <%@include file="/jsps/dialog.jsp"%> --%>
   </body>
 </html>

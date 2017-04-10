@@ -15,7 +15,7 @@ import com.why.gcoads.servlet.BaseServlet;
 /**
  * Servlet implementation class UserManagementServlet
  */
-@WebServlet("/UserManagementServlet")
+@WebServlet("/admin/UserManagementServlet")
 public class UserManagementServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService userService = new UserService();

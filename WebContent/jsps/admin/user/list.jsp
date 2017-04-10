@@ -29,9 +29,8 @@
         $('input[name="userCheck"]:checked').each(function(){ 
             chk_value.push($(this).val()); 
         });
-        alert(chk_value);
         if(window.confirm("您确定要删除吗？")){
-            document.location="UserManagementServlet?method=deleteUsers&userids="+chk_value;
+            document.location="/admin/UserManagementServlet?method=deleteUsers&userids="+chk_value;
         }
     }
 </script>
@@ -40,7 +39,7 @@
   <div id="tableDiv">
     <div id="searchDiv">
       <div>用户信息管理</div>
-      <form action="<c:url value='/UserManagementServlet'/>"
+      <form action="<c:url value='/admin/UserManagementServlet'/>"
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findUser" /> <input
           id="username" type="text" name="username" placeholder="请输入用户名" />
@@ -52,7 +51,7 @@
       </form>
     </div>
 
-    <table id="userListTab">
+    <table border="1" cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
         <tr>
           <th></th>
@@ -76,7 +75,7 @@
             value="1" ${user.status? 'checked':''} disabled />已激活 <input
             type="radio" name="status${status.index}" value="1"
             ${user.status? '':'checked'} disabled />未激活</td>
-          <td><a href="/gcoads/UserManagementServlet?method=resetPassword&userid=${user.uid }">重置密码</a></td>
+          <td><a href="/gcoads/admin/UserManagementServlet?method=resetPassword&userid=${user.uid }">重置密码</a></td>
           <td><input type="checkbox" id="subcheck" name="userCheck"
             onclick="setSelectAll()" value="${user.uid }"/></td>
         </tr>

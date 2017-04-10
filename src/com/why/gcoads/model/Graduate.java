@@ -12,6 +12,8 @@ public class Graduate {
     private String xibie;
     private String banji;
     private String gstatus;
+    
+    
     public String getGid() {
         return gid;
     }
