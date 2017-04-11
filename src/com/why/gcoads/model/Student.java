@@ -18,7 +18,7 @@ public class Student {
     private int xuezhi;//学制
     private Date ruxueshijian;//入学时间
     private Date biyeshijian;//毕业时间
-    private boolean isshifansheng;//是否师范生
+    private String shifanshengleibie;//师范生类别
     private String xueyuan;//学院
     private String xibie;//系别
     private String banji;//班级
@@ -112,11 +112,11 @@ public class Student {
     public void setBiyeshijian(Date biyeshijian) {
         this.biyeshijian = biyeshijian;
     }
-    public boolean isIsshifansheng() {
-        return isshifansheng;
+    public String getShifanshengleibie() {
+        return shifanshengleibie;
     }
-    public void setIsshifansheng(boolean isshifansheng) {
-        this.isshifansheng = isshifansheng;
+    public void setShifanshengleibie(String shifanshengleibie) {
+        this.shifanshengleibie = shifanshengleibie;
     }
     public String getXueyuan() {
         return xueyuan;
@@ -160,6 +160,18 @@ public class Student {
     public void setAddress(String address) {
         this.address = address;
     }
+    @Override
+    public String toString() {
+        return "Student [sid=" + sid + ", kaoshenghao=" + kaoshenghao + ", shenfenzhenghao=" + shenfenzhenghao
+                + ", xuehao=" + xuehao + ", studentname=" + studentname + ", studentgender=" + studentgender
+                + ", minzu=" + minzu + ", zhengzhimianmao=" + zhengzhimianmao + ", zhuanye=" + zhuanye
+                + ", zhuanyefangxiang=" + zhuanyefangxiang + ", peiyangfangshi=" + peiyangfangshi + ", xuezhi=" + xuezhi
+                + ", ruxueshijian=" + ruxueshijian + ", biyeshijian=" + biyeshijian + ", shifanshengleibie="
+                + shifanshengleibie + ", xueyuan=" + xueyuan + ", xibie=" + xibie + ", banji=" + banji
+                + ", chushengriqi=" + chushengriqi + ", shengyuansuozaidi=" + shengyuansuozaidi + ", mail=" + mail
+                + ", address=" + address + "]";
+    }
+    
     
     
 }

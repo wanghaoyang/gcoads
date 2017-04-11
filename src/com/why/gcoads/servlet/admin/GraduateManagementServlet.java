@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.why.gcoads.exception.user.UserException;
 import com.why.gcoads.model.PageBean;
+import com.why.gcoads.model.Student;
 import com.why.gcoads.model.User;
 import com.why.gcoads.service.graduate.GraduateService;
 import com.why.gcoads.service.user.UserService;
@@ -20,7 +21,7 @@ import com.why.gcoads.servlet.BaseServlet;
 @WebServlet("/admin/GraduateManagementServlet")
 public class GraduateManagementServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	private GraduateService userService = new GraduateService();
+	private GraduateService graduateService = new GraduateService();
 	
 	/**
      * 获取当前页码
@@ -57,8 +58,7 @@ public class GraduateManagementServlet extends BaseServlet {
         return url;
     }
 	
-	
-	public String findUser(HttpServletRequest req, HttpServletResponse resp)
+	public String findStudent(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
 	    /*
@@ -73,21 +73,21 @@ public class GraduateManagementServlet extends BaseServlet {
          * 3. 获取查询条件
          */
         
-        PageBean<User> pageUser = new PageBean<User>();
-        pageUser.setPc(pc);
-        pageUser.setPs(10);
+        PageBean<Student> pageStudent = new PageBean<Student>();
+        pageStudent.setPc(pc);
+        pageStudent.setPs(10);
         
         String name = req.getParameter("username");
         /*
          * 4. 得到PageBean
          */
-        pageUser = userService.findUserByPager(pageUser, name);
-        /*
-         * 5. 给PageBean设置url，保存PageBean，转发到/jsps/admin/user/list.jsp
-         */
-        pageUser.setUrl(url);
-        
-        req.setAttribute("pageBean", pageUser);
+//        pageStudent = graduateService.findStudentByPager(pageStudent, name);
+//        /*
+//         * 5. 给PageBean设置url，保存PageBean，转发到/jsps/admin/user/list.jsp
+//         */
+//        pageStudent.setUrl(url);
+//        
+//        req.setAttribute("pageBean", pageStudent);
         return "f:/jsps/admin/user/list.jsp";
     }
 	
@@ -95,37 +95,37 @@ public class GraduateManagementServlet extends BaseServlet {
             throws ServletException, IOException {
         
         String uid = req.getParameter("userid");
-        try {
-            userService.resetPassword(uid, (User)req.getSession().getAttribute("sessionUser"));
-        } catch (UserException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            userService.resetPassword(uid, (User)req.getSession().getAttribute("sessionUser"));
+//        } catch (UserException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
         
         req.setAttribute("msg", "重置成功！");
         return "f:/jsps/dialog.jsp";
     }
 	
-	public String deleteUsers(HttpServletRequest req, HttpServletResponse resp)
+	public String deleteStudent(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
         String uid = req.getParameter("userids");
         String[] uids = uid.split(",");
         String msg = "";
-        if (uids != null) {
-            try {
-                int row = userService.deleteUsers(uids, (User)req.getSession().getAttribute("sessionUser"));
-                if (row < 0) {
-                    msg = "删除失败！";
-                } else {
-                    msg = "删除成功！";
-                }
-                
-            } catch (UserException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+//        if (uids != null) {
+//            try {
+//                int row = graduateService.deleteUsers(uids, (User)req.getSession().getAttribute("sessionUser"));
+//                if (row < 0) {
+//                    msg = "删除失败！";
+//                } else {
+//                    msg = "删除成功！";
+//                }
+//                
+//            } catch (UserException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
         req.setAttribute("msg", msg);
         return "f:/jsps/dialog.jsp";
     }

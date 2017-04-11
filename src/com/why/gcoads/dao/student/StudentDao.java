@@ -23,13 +23,14 @@ public class StudentDao {
 	 * @throws SQLException
 	 */
 	public void addStudent(Student stu) throws SQLException {
-		String sql = "insert into t_student (kaoshenghao,shenfenzhenghao,xuehao,studentname,studentgender,minzu,zhengzhimianmao,zhuanye,zhuanyefangxiang,peiyangfangshi,xuezhi,ruxueshijian,biyeshijian,isshifansheng,xueyuan,xibie,banji,chushengriqi,shengyuansuozaidi,mail,address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into t_student (kaoshenghao,shenfenzhenghao,xuehao,studentname,studentgender,minzu,zhengzhimianmao,zhuanye,zhuanyefangxiang,peiyangfangshi,xuezhi,ruxueshijian,biyeshijian,shifanshengleibie,xueyuan,xibie,banji,chushengriqi,shengyuansuozaidi,mail,address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		System.out.println(sql);
 		Object[] params = { stu.getKaoshenghao(), stu.getShenfenzhenghao(),
 				stu.getXuehao(), stu.getStudentname(), stu.getStudentgender(),
 				stu.getMinzu(), stu.getZhengzhimianmao(), stu.getZhuanye(),
 				stu.getZhuanyefangxiang(), stu.getPeiyangfangshi(),
 				stu.getXuezhi(), stu.getRuxueshijian(), stu.getBiyeshijian(),
-				stu.isIsshifansheng(), stu.getXueyuan(), stu.getXibie(),
+				stu.getShifanshengleibie(), stu.getXueyuan(), stu.getXibie(),
 				stu.getBanji(), stu.getChushengriqi(),
 				stu.getShengyuansuozaidi(), stu.getMail(), stu.getAddress() };
 
@@ -43,13 +44,13 @@ public class StudentDao {
 	 * @throws SQLException
 	 */
 	public void updateStudent(Student stu) throws SQLException {
-		String sql = "update t_student set kaoshenghao=?,shenfenzhenghao=?,studentname=?,studentgender=?,minzu=?,zhengzhimianmao=?,zhuanye=?,zhuanyefangxiang=?,peiyangfangshi=?,xuezhi=?,ruxueshijian=?,biyeshijian=?,isshifansheng=?,xueyuan=?,xibie=?,banji=?,chushengriqi=?,shengyuansuozaidi=?,mail=?,address=? where xuehao=?";
+		String sql = "update t_student set kaoshenghao=?,shenfenzhenghao=?,studentname=?,studentgender=?,minzu=?,zhengzhimianmao=?,zhuanye=?,zhuanyefangxiang=?,peiyangfangshi=?,xuezhi=?,ruxueshijian=?,biyeshijian=?,shifanshengleibie=?,xueyuan=?,xibie=?,banji=?,chushengriqi=?,shengyuansuozaidi=?,mail=?,address=? where xuehao=?";
 		Object[] params = { stu.getKaoshenghao(), stu.getShenfenzhenghao(),
 				stu.getStudentname(), stu.getStudentgender(), stu.getMinzu(),
 				stu.getZhengzhimianmao(), stu.getZhuanye(),
 				stu.getZhuanyefangxiang(), stu.getPeiyangfangshi(),
 				stu.getXuezhi(), stu.getRuxueshijian(), stu.getBiyeshijian(),
-				stu.isIsshifansheng(), stu.getXueyuan(), stu.getXibie(),
+				stu.getShifanshengleibie(), stu.getXueyuan(), stu.getXibie(),
 				stu.getBanji(), stu.getChushengriqi(),
 				stu.getShengyuansuozaidi(), stu.getMail(), stu.getAddress(),
 				stu.getXuehao() };

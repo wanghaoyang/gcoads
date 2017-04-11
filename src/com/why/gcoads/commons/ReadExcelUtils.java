@@ -18,6 +18,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.why.gcoads.utils.ExcelTitleToDBFieldUtil;
+
 /**
  * 读取Excel
  * 
@@ -29,18 +31,18 @@ public class ReadExcelUtils {
     private Row row;
 
     public ReadExcelUtils(String filepath) {
-        if(filepath==null){
+        if (filepath == null) {
             return;
         }
         String ext = filepath.substring(filepath.lastIndexOf("."));
         try {
             InputStream is = new FileInputStream(filepath);
-            if(".xls".equals(ext)){
+            if (".xls".equals(ext)) {
                 wb = new HSSFWorkbook(is);
-            }else if(".xlsx".equals(ext)){
+            } else if (".xlsx".equals(ext)) {
                 wb = new XSSFWorkbook(is);
-            }else{
-                wb=null;
+            } else {
+                wb = null;
             }
         } catch (FileNotFoundException e) {
             logger.error("FileNotFoundException", e);
@@ -48,22 +50,22 @@ public class ReadExcelUtils {
             logger.error("IOException", e);
         }
     }
-    
+
     /**
      * 读取Excel表格表头的内容
      * 
      * @param InputStream
      * @return String 表头内容的数组
      */
-    public String[] readExcelTitle() throws Exception{
-        if(wb==null){
+    public String[] readExcelTitle() throws Exception {
+        if (wb == null) {
             throw new Exception("Workbook对象为空！");
         }
         sheet = wb.getSheetAt(0);
         row = sheet.getRow(0);
         // 标题总列数
         int colNum = row.getPhysicalNumberOfCells();
-        //System.out.println("colNum:" + colNum);
+        // System.out.println("colNum:" + colNum);
         String[] title = new String[colNum];
         for (int i = 0; i < colNum; i++) {
             // title[i] = getStringCellValue(row.getCell((short) i));
@@ -78,12 +80,12 @@ public class ReadExcelUtils {
      * @param InputStream
      * @return Map 包含单元格数据内容的Map对象
      */
-    public Map<Integer, Map<Integer,Object>> readExcelContent() throws Exception{
-        if(wb==null){
+    public Map<Integer, Map<String, Object>> readExcelContent(String[] title) throws Exception {
+        if (wb == null) {
             throw new Exception("Workbook对象为空！");
         }
-        Map<Integer, Map<Integer,Object>> content = new HashMap<Integer, Map<Integer,Object>>();
-        
+        Map<Integer, Map<String, Object>> content = new HashMap<Integer, Map<String, Object>>();
+        Map<String, String> dbFieldMap = ExcelTitleToDBFieldUtil.getDBFieldMap();
         sheet = wb.getSheetAt(0);
         // 得到总行数
         int rowNum = sheet.getLastRowNum();
@@ -93,10 +95,10 @@ public class ReadExcelUtils {
         for (int i = 1; i <= rowNum; i++) {
             row = sheet.getRow(i);
             int j = 0;
-            Map<Integer,Object> cellValue = new HashMap<Integer, Object>();
+            Map<String, Object> cellValue = new HashMap<String, Object>();
             while (j < colNum) {
                 Object obj = getCellFormatValue(row.getCell(j));
-                cellValue.put(j, obj);
+                cellValue.put(dbFieldMap.get(title[j]), obj);
                 j++;
             }
             content.put(i, cellValue);
@@ -126,12 +128,12 @@ public class ReadExcelUtils {
                     // data格式是不带带时分秒的：2013-7-10
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     Date date = cell.getDateCellValue();
-                    //cellvalue = date;
+                    // cellvalue = date;
                     cellvalue = sdf.format(date);
                 } else {// 如果是纯数字
 
                     // 取得当前Cell的数值,整数
-                    cellvalue = String.valueOf((int)cell.getNumericCellValue());
+                    cellvalue = String.valueOf((int) cell.getNumericCellValue());
                 }
                 break;
             }
@@ -148,28 +150,31 @@ public class ReadExcelUtils {
         return cellvalue;
     }
 
-    public static void parseExcel(String filePath) {
+    public static Map<Integer, Map<String, Object>> parseExcel(String filePath) {
+        Map<Integer, Map<String, Object>> map = null;
         try {
-            //String filepath = "D:\\test.xls";
+            // String filepath = "D:\\test.xls";
             ReadExcelUtils excelReader = new ReadExcelUtils(filePath);
             // 对读取Excel表格标题测试
             String[] title = excelReader.readExcelTitle();
-            //System.out.println("获得Excel表格的标题:");
-//            for (String s : title) {
-//                System.out.print(s + " ");
-//            }
-            
+            // System.out.println("获得Excel表格的标题:");
+            // for (String s : title) {
+            // System.out.print(s + ", ");
+            // }
+
             // 对读取Excel表格内容测试
-            Map<Integer, Map<Integer,Object>> map = excelReader.readExcelContent();
-//            System.out.println("获得Excel表格的内容:");
-//            for (int i = 1; i <= map.size(); i++) {
-//                System.out.println(map.get(i));
-//            }
+            map = excelReader.readExcelContent(title);
+            // System.out.println("获得Excel表格的内容:");
+            // for (int i = 1; i <= map.size(); i++) {
+            // System.out.println(map.get(i));
+            // }
         } catch (FileNotFoundException e) {
             System.out.println("未找到指定路径的文件!");
             e.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return map;
     }
+
 }

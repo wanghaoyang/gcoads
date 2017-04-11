@@ -147,7 +147,7 @@ public class UserDao {
             pageUser.setPc(pageUser.getTp());
         }
 
-        sql = "select uid, loginname, email, role, status from t_user where !deleted and loginname like ? limit ?,? order by num asc";
+        sql = "select uid, loginname, email, role, status from t_user where !deleted and loginname like ? order by num asc limit ?,?";
 
         List<User> beanList = qr.query(sql, new BeanListHandler<User>(User.class), "%" + name + "%",
                 (pageUser.getPc() - 1) * pageUser.getPs(), pageUser.getPs());
