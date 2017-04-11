@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.why.gcoads.enums.Role;
+import com.why.gcoads.model.Role;
 import com.why.gcoads.model.User;
 
 public class LoginFilter implements Filter {

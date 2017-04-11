@@ -2,45 +2,19 @@ package com.why.gcoads.dao.graduate;
 
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-import org.junit.Test;
 
-import com.why.gcoads.model.EducationalLevel;
 import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PageBean;
-import com.why.gcoads.model.Student;
-import com.why.gcoads.model.User;
 import com.why.gcoads.utils.jdbc.TxQueryRunner;
 
 public class GraduateDao {
 
 	private QueryRunner qr = new TxQueryRunner();
-
-	/**
-	 * 添加学生信息
-	 * 
-	 * @param user
-	 * @throws SQLException
-	 */
-	public void addStudent(Student stu) throws SQLException {
-		String sql = "insert into t_student values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		Object[] params = { stu.getSid(), stu.getKaoshenghao(),
-				stu.getShenfenzhenghao(), stu.getXuehao(),
-				stu.getStudentname(), stu.getStudentgender(), stu.getMinzu(),
-				stu.getZhengzhimianmao(), stu.getZhuanye(),
-				stu.getZhuanyefangxiang(), stu.getPeiyangfangshi(),
-				stu.getXuezhi(), stu.getRuxueshijian(), stu.getBiyeshijian(),
-				stu.isIsshifansheng(), stu.getXueyuan(), stu.getXibie(),
-				stu.getBanji(), stu.getChushengriqi(),
-				stu.getShengyuansuozaidi(), stu.getMail(), stu.getAddress() };
-
-		qr.update(sql, params);
-	}
 
 	/**
 	 * 添加毕业生信息
@@ -49,8 +23,9 @@ public class GraduateDao {
 	 * @throws SQLException
 	 */
 	public void addGraduate(Graduate gra) throws SQLException {
-		String sql = "insert into t_graduate values(?,?,?,?,?,?,?,?,?)";
-		Object[] params = { gra.getGid(), gra.getStudentname(),
+
+		String sql = "insert into t_graduate(xuehao,studentname,studentgender,biyeshijian,xueyuan,xibie,banji,gstatus,elid) values(?,?,?,?,?,?,?,?,?)";
+		Object[] params = { gra.getXuehao(), gra.getStudentname(),
 				gra.getStudentgender(), gra.getBiyeshijian(), gra.getXueli(),
 				gra.getXueyuan(), gra.getXibie(), gra.getBanji(),
 				gra.getGstatus() };
@@ -58,34 +33,37 @@ public class GraduateDao {
 		qr.update(sql, params);
 	}
 
-	@Test
-	public void T() {
-		PageBean<Student> pageStudent = null;
-		String field = "学号";
-		String value = " ";
-		try {
-			PageBean<Student> findStudentByPage = new GraduateDao()
-					.findStudentByPage(pageStudent, field, value);
-			System.out.println(findStudentByPage.getBeanList());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	/**
+	 * 更新毕业生信息
+	 * 
+	 * @param user
+	 * @throws SQLException
+	 */
+	public void updateGraduate(Graduate gra) throws SQLException {
+
+		String sql = "update t_graduate set studentname = ?,studentgender = ?,biyeshijian = ?,xueyuan= ?, xibie= ?, banji= ?, gstatus = ?, elid = ? where xuehao = ?";
+		Object[] params = { gra.getStudentname(), gra.getStudentgender(),
+				gra.getBiyeshijian(), gra.getXueli(), gra.getXueyuan(),
+				gra.getXibie(), gra.getBanji(), gra.getGstatus(),
+				gra.getXuehao() };
+
+		qr.update(sql, params);
 	}
 
 	/**
-	 * 查询用户
+	 * 查询毕业生
 	 * 
 	 * @throws SQLException
 	 */
-	public PageBean<Student> findStudentByPage(PageBean<Student> pageStudent,
-			String field, String value) throws SQLException {
-		String sql = "select {0} from t_student where {1}";
+	public PageBean<Graduate> findGraduateByPage(
+			PageBean<Graduate> pageGraduate, String field, String value)
+			throws SQLException {
+		String sql = "select {0} from t_graduate where {1}";
 
-		if (pageStudent == null) {
-			pageStudent = new PageBean<Student>();
-			pageStudent.setPc(1);
-			pageStudent.setPs(10);
+		if (pageGraduate == null) {
+			pageGraduate = new PageBean<Graduate>();
+			pageGraduate.setPc(1);
+			pageGraduate.setPs(10);
 		}
 
 		if (value == null) {
@@ -120,46 +98,43 @@ public class GraduateDao {
 			value = " 1 = 1 ";
 		}
 
-		System.out.println(MessageFormat.format(sql, " count(1) ", field));
-
 		Number number = (Number) qr.query(
 				MessageFormat.format(sql, " count(1) ", field),
 				new ScalarHandler(), value);
 
 		int tr = number.intValue();// 得到了总记录数
-		pageStudent.setTr(tr);
+		pageGraduate.setTr(tr);
 
-		if (pageStudent.getPc() > pageStudent.getTp()) {
-			pageStudent.setPc(pageStudent.getTp());
-		} else if (pageStudent.getPc() < 1) {
-			pageStudent.setPc(1);
+		if (pageGraduate.getPc() > pageGraduate.getTp()) {
+			pageGraduate.setPc(pageGraduate.getTp());
+		} else if (pageGraduate.getPc() < 1) {
+			pageGraduate.setPc(1);
 		}
 		sql += " limit ?,? ";
-		System.out.println(MessageFormat.format(sql, " * ", field));
-		List<Student> beanList = qr.query(
+		List<Graduate> beanList = qr.query(
 				MessageFormat.format(sql, " * ", field),
-				new BeanListHandler<Student>(Student.class), value,
-				(pageStudent.getPc() - 1) * pageStudent.getPs(),
-				pageStudent.getPs());
-		pageStudent.setBeanList(beanList);
+				new BeanListHandler<Graduate>(Graduate.class), value,
+				(pageGraduate.getPc() - 1) * pageGraduate.getPs(),
+				pageGraduate.getPs());
+		pageGraduate.setBeanList(beanList);
 
-		return pageStudent;
+		return pageGraduate;
 	}
 
-	public int deleteUsers(String[] uids) throws SQLException {
+	public int deleteGraduateByXuehao(String[] xuehaos) throws SQLException {
 		// TODO Auto-generated method stub
-		String sql = "update t_user set deleted='1' where uid in (";
-		if (uids != null) {
-			for (int i = 0; i < uids.length; i++) {
+		String sql = "delete from t_graduate where xuehao in (";
+		if (xuehaos != null) {
+			for (int i = 0; i < xuehaos.length; i++) {
 				sql += "?";
-				if (i < uids.length - 1) {
+				if (i < xuehaos.length - 1) {
 					sql += ", ";
 				}
 			}
 		}
 		sql += ")";
 
-		int row = qr.update(sql, uids);
+		int row = qr.update(sql, xuehaos);
 		return row;
 	}
 

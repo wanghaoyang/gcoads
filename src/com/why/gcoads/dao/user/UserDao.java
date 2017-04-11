@@ -112,7 +112,7 @@ public class UserDao {
      * @throws SQLException
      */
     public void add(User user) throws SQLException {
-        String sql = "insert into t_user values(?,?,?,?,?,?,?)";
+        String sql = "insert into t_user ('uid','loginname','loginpass','email','role','status','activationCode','deleted') values(?,?,?,?,?,?,?)";
         Object[] params = { user.getUid(), user.getLoginname(), user.getLoginpass(), user.getRole(), user.getEmail(),
                 user.isStatus(), user.getActivationCode() };
         qr.update(sql, params);
@@ -147,7 +147,7 @@ public class UserDao {
             pageUser.setPc(pageUser.getTp());
         }
 
-        sql = "select uid, loginname, email, role, status from t_user where !deleted and loginname like ? limit ?,?";
+        sql = "select uid, loginname, email, role, status from t_user where !deleted and loginname like ? limit ?,? order by num asc";
 
         List<User> beanList = qr.query(sql, new BeanListHandler<User>(User.class), "%" + name + "%",
                 (pageUser.getPc() - 1) * pageUser.getPs(), pageUser.getPs());
@@ -172,5 +172,22 @@ public class UserDao {
         int row = qr.update(sql, uids);
         return row;
     }
+    
+    public int deleteSudentUserByXuehao(String[] xuehaos) throws SQLException {
+		// TODO Auto-generated method stub
+		String sql = "delete from t_user where loginname in (";
+		if (xuehaos != null) {
+			for (int i = 0; i < xuehaos.length; i++) {
+				sql += "?";
+				if (i < xuehaos.length - 1) {
+					sql += ", ";
+				}
+			}
+		}
+		sql += ")";
+
+		int row = qr.update(sql, xuehaos);
+		return row;
+	}
 
 }

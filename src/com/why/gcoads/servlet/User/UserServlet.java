@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.why.gcoads.commons.CommonUtils;
-import com.why.gcoads.enums.Role;
 import com.why.gcoads.exception.user.UserException;
+import com.why.gcoads.model.Role;
 import com.why.gcoads.model.User;
 import com.why.gcoads.service.user.UserService;
 import com.why.gcoads.servlet.BaseServlet;

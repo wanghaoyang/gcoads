@@ -10,11 +10,11 @@ import javax.mail.Session;
 
 import com.why.gcoads.commons.CommonUtils;
 import com.why.gcoads.dao.user.UserDao;
-import com.why.gcoads.enums.Role;
 import com.why.gcoads.exception.user.UserException;
 import com.why.gcoads.mail.Mail;
 import com.why.gcoads.mail.MailUtils;
 import com.why.gcoads.model.PageBean;
+import com.why.gcoads.model.Role;
 import com.why.gcoads.model.User;
 
 
@@ -24,33 +24,6 @@ import com.why.gcoads.model.User;
  */
 public class GraduateService {
     private UserDao userDao = new UserDao();
-    
-    /**
-     * 修改密码
-     * @param uid
-     * @param newPass
-     * @param oldPass
-     * @throws UserException 
-     */
-    public void updatePassword(String uid, String newPass, String oldPass) throws UserException {
-
-        try {
-            /*
-             * 1. 校验老密码
-             */
-            boolean bool = userDao.findByUidAndPassword(uid, oldPass);
-            if(!bool) {//如果老密码错误
-                throw new UserException("老密码错误！");
-            }
-            
-            /*
-             * 2. 修改密码
-             */
-            userDao.updatePassword(uid, newPass);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
     
     public void resetPassword(String uid, User user) throws UserException {
         

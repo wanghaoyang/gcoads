@@ -10,11 +10,11 @@ import javax.mail.Session;
 
 import com.why.gcoads.commons.CommonUtils;
 import com.why.gcoads.dao.user.UserDao;
-import com.why.gcoads.enums.Role;
 import com.why.gcoads.exception.user.UserException;
 import com.why.gcoads.mail.Mail;
 import com.why.gcoads.mail.MailUtils;
 import com.why.gcoads.model.PageBean;
+import com.why.gcoads.model.Role;
 import com.why.gcoads.model.User;
 
 

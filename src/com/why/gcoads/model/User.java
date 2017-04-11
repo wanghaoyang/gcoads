@@ -2,7 +2,7 @@ package com.why.gcoads.model;
 
 public class User {
     
-    private String uid;//主键
+    private String uid;
     private String loginname;//登录名
     private String loginpass;//登录密码
     private String email;//邮箱

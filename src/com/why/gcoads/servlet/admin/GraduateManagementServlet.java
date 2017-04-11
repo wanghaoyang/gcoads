@@ -129,4 +129,7 @@ public class GraduateManagementServlet extends BaseServlet {
         req.setAttribute("msg", msg);
         return "f:/jsps/dialog.jsp";
     }
+	
+	
+	
 }

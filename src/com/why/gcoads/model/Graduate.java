@@ -3,7 +3,8 @@ package com.why.gcoads.model;
 import java.util.Date;
 
 public class Graduate {
-    private String gid;
+    private int gid;
+    private String xuehao;
     private String studentname;
     private String studentgender;
     private Date biyeshijian;
@@ -12,15 +13,22 @@ public class Graduate {
     private String xibie;
     private String banji;
     private String gstatus;
+    private int elid;
     
     
-    public String getGid() {
+    public int getGid() {
         return gid;
     }
-    public void setGid(String gid) {
+    public void setGid(int gid) {
         this.gid = gid;
     }
-    public String getStudentname() {
+    public String getXuehao() {
+		return xuehao;
+	}
+	public void setXuehao(String xuehao) {
+		this.xuehao = xuehao;
+	}
+	public String getStudentname() {
         return studentname;
     }
     public void setStudentname(String studentname) {
@@ -68,5 +76,20 @@ public class Graduate {
     public void setGstatus(String gstatus) {
         this.gstatus = gstatus;
     }
+	public int getElid() {
+		return elid;
+	}
+	public void setElid(int elid) {
+		this.elid = elid;
+	}
+	@Override
+	public String toString() {
+		return "Graduate [gid=" + gid + ", xuehao=" + xuehao + ", studentname="
+				+ studentname + ", studentgender=" + studentgender
+				+ ", biyeshijian=" + biyeshijian + ", xueli=" + xueli
+				+ ", xueyuan=" + xueyuan + ", xibie=" + xibie + ", banji="
+				+ banji + ", gstatus=" + gstatus + ", elid=" + elid + "]";
+	}
 
+	
 }
