@@ -3,6 +3,8 @@ package com.why.gcoads.service.user;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -217,6 +219,9 @@ public class UserService {
     }
 
     public int deleteUsers(String[] uids, User user) throws UserException {
+    	
+    	List<String> uidList = new ArrayList<String>();
+    	
         try {
             /*
              * 1. 校验权限
@@ -224,14 +229,21 @@ public class UserService {
             User u = userDao.findByLoginnameAndLoginpass(user.getLoginname(), user.getLoginpass());
             if(!Role.管理员.toString().equals(u.getRole())) {//如果非管理员
                 throw new UserException("你没有权限！");
+            } else { 
+            	for (int i = 0; i < uids.length; i++) {
+					User student = userDao.findUserByLoginnameOrUid("uid", uids[i]);
+					if (!Role.毕业生.toString().equals(student.getRole())){
+						uidList.add(uids[i]);
+					}
+				}
+            	
             }
             
             /*
              * 2. 修改密码
              */
             
-            
-            int row = userDao.deleteUsers(uids);
+            int row = userDao.deleteUsers((String[])uidList.toArray());
             return row;
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -16,7 +16,10 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfGState;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
-
+/**
+ * 向pdf添加水印
+ *
+ */
 public class WaterMark {
 
 	public static void main(String[] args) throws DocumentException,
@@ -31,6 +34,16 @@ public class WaterMark {
 //				+ "  下载使用人：" + "测试user", 16);
 		waterMark("D:/_testreport/1491556103797_ITextTest.pdf", "D:/_testreport/Koala.jpg", "D:/_testreport/1_ITextTest.pdf", "学历证明", 16);
 	}
+	
+	/**
+	 * 
+	 * @param inputFile
+	 * @param imageFile
+	 * @param outputFile
+	 * @param waterMarkName
+	 * @param permission
+	 * @return
+	 */
 
 	public static boolean waterMark(String inputFile, String imageFile,
             String outputFile, String waterMarkName, int permission) {

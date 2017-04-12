@@ -30,7 +30,7 @@
     
         <dl class="channel">
             <dt>学历管理<img src="/gcoads/static/images/left/select_xl01.png"></dt>
-            <dd><a href="/admin/EducationManagementServlet?method=addEducation" target="body">学历信息管理</a></dd>
+            <dd><a href="/admin/EducationManagementServlet?method=addEducationalLevel" target="body">学历信息管理</a></dd>
         </dl>
         <dl class="app">
             <dt>支付管理<img src="/gcoads/static/images/left/select_xl01.png"></dt>

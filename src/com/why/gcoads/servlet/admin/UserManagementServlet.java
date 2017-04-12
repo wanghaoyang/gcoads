@@ -116,7 +116,7 @@ public class UserManagementServlet extends BaseServlet {
                 if (row < 0) {
                     msg = "删除失败！";
                 } else {
-                    msg = "删除成功！";
+                    msg = row+"个用户被成功删除！";
                 }
                 
             } catch (UserException e) {

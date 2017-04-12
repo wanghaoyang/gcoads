@@ -24,7 +24,7 @@ public class Student {
     private String banji;//班级
     private Date chushengriqi;//出生日期
     private String shengyuansuozaidi;//生源所在地
-    private String mail;//邮箱
+    private String email;//邮箱
     private String address;//家庭地址
     
     
@@ -148,11 +148,11 @@ public class Student {
     public void setShengyuansuozaidi(String shengyuansuozaidi) {
         this.shengyuansuozaidi = shengyuansuozaidi;
     }
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getAddress() {
         return address;
@@ -168,7 +168,7 @@ public class Student {
                 + ", zhuanyefangxiang=" + zhuanyefangxiang + ", peiyangfangshi=" + peiyangfangshi + ", xuezhi=" + xuezhi
                 + ", ruxueshijian=" + ruxueshijian + ", biyeshijian=" + biyeshijian + ", shifanshengleibie="
                 + shifanshengleibie + ", xueyuan=" + xueyuan + ", xibie=" + xibie + ", banji=" + banji
-                + ", chushengriqi=" + chushengriqi + ", shengyuansuozaidi=" + shengyuansuozaidi + ", mail=" + mail
+                + ", chushengriqi=" + chushengriqi + ", shengyuansuozaidi=" + shengyuansuozaidi + ", email=" + email
                 + ", address=" + address + "]";
     }
     

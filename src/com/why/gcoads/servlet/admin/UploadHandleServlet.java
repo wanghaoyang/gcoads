@@ -17,13 +17,17 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.why.gcoads.commons.ReadExcelUtils;
+import com.why.gcoads.service.graduate.GraduateService;
+import com.why.gcoads.servlet.BaseServlet;
 
 /**
  * Servlet implementation class UploadHandleServlet
  */
 @WebServlet("/Upload")
-public class UploadHandleServlet extends HttpServlet {
+public class UploadHandleServlet extends BaseServlet {
 
+	private GraduateService graduateService = new GraduateService();
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 得到上传文件的保存目录，将上传的文件存放于WEB-INF目录下，不允许外界直接访问，保证上传文件的安全
@@ -95,7 +99,8 @@ public class UploadHandleServlet extends HttpServlet {
 					// 删除处理文件上传时生成的临时文件
 					item.delete();
 					message = "文件上传成功！";
-					ReadExcelUtils.parseExcel(savePath + filename);
+					//ReadExcelUtils.parseExcel(savePath + filename);
+					graduateService.addGraduateInfoByExcel(savePath + filename);
 				}
 			}
 		} catch (Exception e) {
@@ -104,7 +109,7 @@ public class UploadHandleServlet extends HttpServlet {
 
 		}
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("/message.jsp").forward(request, response);
+		//request.getRequestDispatcher("/message.jsp").forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -5,11 +5,13 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.Student;
+import com.why.gcoads.model.User;
 import com.why.gcoads.utils.jdbc.TxQueryRunner;
 
 public class StudentDao {
@@ -19,20 +21,23 @@ public class StudentDao {
 	/**
 	 * 添加学生信息
 	 * 
-	 * @param user
+	 * @param student
 	 * @throws SQLException
 	 */
-	public void addStudent(Student stu) throws SQLException {
-		String sql = "insert into t_student (kaoshenghao,shenfenzhenghao,xuehao,studentname,studentgender,minzu,zhengzhimianmao,zhuanye,zhuanyefangxiang,peiyangfangshi,xuezhi,ruxueshijian,biyeshijian,shifanshengleibie,xueyuan,xibie,banji,chushengriqi,shengyuansuozaidi,mail,address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	public void addStudent(Student student) throws SQLException {
+		String sql = "insert into t_student (kaoshenghao,shenfenzhenghao,xuehao,studentname,studentgender,minzu,zhengzhimianmao,zhuanye,zhuanyefangxiang,peiyangfangshi,xuezhi,ruxueshijian,biyeshijian,shifanshengleibie,xueyuan,xibie,banji,chushengriqi,shengyuansuozaidi,email,address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		System.out.println(sql);
-		Object[] params = { stu.getKaoshenghao(), stu.getShenfenzhenghao(),
-				stu.getXuehao(), stu.getStudentname(), stu.getStudentgender(),
-				stu.getMinzu(), stu.getZhengzhimianmao(), stu.getZhuanye(),
-				stu.getZhuanyefangxiang(), stu.getPeiyangfangshi(),
-				stu.getXuezhi(), stu.getRuxueshijian(), stu.getBiyeshijian(),
-				stu.getShifanshengleibie(), stu.getXueyuan(), stu.getXibie(),
-				stu.getBanji(), stu.getChushengriqi(),
-				stu.getShengyuansuozaidi(), stu.getMail(), stu.getAddress() };
+		Object[] params = { student.getKaoshenghao(),
+				student.getShenfenzhenghao(), student.getXuehao(),
+				student.getStudentname(), student.getStudentgender(),
+				student.getMinzu(), student.getZhengzhimianmao(),
+				student.getZhuanye(), student.getZhuanyefangxiang(),
+				student.getPeiyangfangshi(), student.getXuezhi(),
+				student.getRuxueshijian(), student.getBiyeshijian(),
+				student.getShifanshengleibie(), student.getXueyuan(),
+				student.getXibie(), student.getBanji(),
+				student.getChushengriqi(), student.getShengyuansuozaidi(),
+				student.getEmail(), student.getAddress() };
 
 		qr.update(sql, params);
 	}
@@ -40,30 +45,49 @@ public class StudentDao {
 	/**
 	 * 更新学生信息
 	 * 
-	 * @param user
+	 * @param student
+	 * @return
 	 * @throws SQLException
 	 */
-	public void updateStudent(Student stu) throws SQLException {
-		String sql = "update t_student set kaoshenghao=?,shenfenzhenghao=?,studentname=?,studentgender=?,minzu=?,zhengzhimianmao=?,zhuanye=?,zhuanyefangxiang=?,peiyangfangshi=?,xuezhi=?,ruxueshijian=?,biyeshijian=?,shifanshengleibie=?,xueyuan=?,xibie=?,banji=?,chushengriqi=?,shengyuansuozaidi=?,mail=?,address=? where xuehao=?";
-		Object[] params = { stu.getKaoshenghao(), stu.getShenfenzhenghao(),
-				stu.getStudentname(), stu.getStudentgender(), stu.getMinzu(),
-				stu.getZhengzhimianmao(), stu.getZhuanye(),
-				stu.getZhuanyefangxiang(), stu.getPeiyangfangshi(),
-				stu.getXuezhi(), stu.getRuxueshijian(), stu.getBiyeshijian(),
-				stu.getShifanshengleibie(), stu.getXueyuan(), stu.getXibie(),
-				stu.getBanji(), stu.getChushengriqi(),
-				stu.getShengyuansuozaidi(), stu.getMail(), stu.getAddress(),
-				stu.getXuehao() };
+	public int updateStudent(Student student) throws SQLException {
+		String sql = "update t_student set kaoshenghao=?,shenfenzhenghao=?,studentname=?,studentgender=?,minzu=?,zhengzhimianmao=?,zhuanye=?,zhuanyefangxiang=?,peiyangfangshi=?,xuezhi=?,ruxueshijian=?,biyeshijian=?,shifanshengleibie=?,xueyuan=?,xibie=?,banji=?,chushengriqi=?,shengyuansuozaidi=?,email=?,address=? where xuehao=?";
+		Object[] params = { student.getKaoshenghao(),
+				student.getShenfenzhenghao(), student.getStudentname(),
+				student.getStudentgender(), student.getMinzu(),
+				student.getZhengzhimianmao(), student.getZhuanye(),
+				student.getZhuanyefangxiang(), student.getPeiyangfangshi(),
+				student.getXuezhi(), student.getRuxueshijian(),
+				student.getBiyeshijian(), student.getShifanshengleibie(),
+				student.getXueyuan(), student.getXibie(), student.getBanji(),
+				student.getChushengriqi(), student.getShengyuansuozaidi(),
+				student.getEmail(), student.getAddress(), student.getXuehao() };
 
-		qr.update(sql, params);
+		int row = qr.update(sql, params);
+		return row;
 	}
 
 	/**
-	 * 查询学生信息
+	 * 通过主键查询学生信息
 	 * 
+	 * @param sid
+	 * @return
 	 * @throws SQLException
 	 */
-	public PageBean<Student> findStudentByPage(PageBean<Student> pageStudent,
+	public Student findStudentBySid(int sid) throws SQLException {
+		String sql = "select * from t_student where sid = ?";
+		return qr.query(sql, new BeanHandler<Student>(Student.class), sid);
+	}
+
+	/**
+	 * 通过分页查询学生信息
+	 * 
+	 * @param pageStudent
+	 * @param field
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
+	public PageBean<Student> findStudentByPager(PageBean<Student> pageStudent,
 			String field, String value) throws SQLException {
 		String sql = "select {0} from t_student where {1}";
 
@@ -81,28 +105,6 @@ public class StudentDao {
 			value.replace("_", "\\_");
 			value.replace("'", "\'");
 			value.replace("\"", "\\\"");
-		}
-
-		if (field != null) {
-			switch (field) {
-			case "学号":
-				field = " xuehao = ? ";
-				break;
-			case "身份证号":
-				field = " shenfenzhenghao = ? ";
-				break;
-			case "姓名":
-				field = " studentname like ? ";
-				value = "%" + value + "%";
-				break;
-			default:
-				field = " sid = ? ";
-				value = "";
-				break;
-			}
-		} else {
-			field = " ? ";
-			value = " 1 = 1 ";
 		}
 
 		System.out.println(MessageFormat.format(sql, " count(1) ", field));
@@ -131,22 +133,38 @@ public class StudentDao {
 		return pageStudent;
 	}
 
-	public int deleteStudentByXuehao(String[] sids) throws SQLException {
+	/**
+	 * 通过学号批量删除学生
+	 * 
+	 * @param xuehao
+	 * @return
+	 * @throws SQLException
+	 */
+
+	public int deleteStudentByXuehao(String[] xuehao) throws SQLException {
 		// TODO Auto-generated method stub
 		String sql = "delete from t_student where xuehao in (";
-		if (sids != null) {
-			for (int i = 0; i < sids.length; i++) {
+		if (xuehao != null) {
+			for (int i = 0; i < xuehao.length; i++) {
 				sql += "?";
-				if (i < sids.length - 1) {
+				if (i < xuehao.length - 1) {
 					sql += ", ";
 				}
 			}
 		}
 		sql += ")";
 
-		int row = qr.update(sql, sids);
+		int row = qr.update(sql, xuehao);
 		return row;
 	}
+
+	/**
+	 * 通过学好查询学生身份证号
+	 * 
+	 * @param xuehaos
+	 * @return
+	 * @throws SQLException
+	 */
 
 	public List<Student> findStudentIdentifyIdByXuehao(String[] xuehaos)
 			throws SQLException {
@@ -164,6 +182,23 @@ public class StudentDao {
 
 		return qr.query(sql, new BeanListHandler<Student>(Student.class),
 				xuehaos);
+	}
+
+	/**
+	 * 判断学号、身份证号、考生号是否存在
+	 * 
+	 * @param student
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean isExistStudent(Student student) throws SQLException {
+		// TODO Auto-generated method stub
+		String sql = "select count(1) from t_student where xuehao = ? or shenfenzhenghao = ? or kaoshenghao = ?";
+		Object[] params = { student.getXuehao(), student.getShenfenzhenghao(),
+				student.getKaoshenghao() };
+
+		Number number = (Number) qr.query(sql, new ScalarHandler(), params);
+		return number.intValue() > 0;
 	}
 
 }

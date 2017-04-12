@@ -16,7 +16,26 @@ public class Graduate {
     private int elid;
     
     
-    public int getGid() {
+    public Graduate() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+    
+	public Graduate(Student stu) {
+		this.xuehao = stu.getXuehao();
+		this.studentname = stu.getStudentname();
+		this.studentgender = stu.getStudentgender();
+		this.biyeshijian = stu.getBiyeshijian();
+		this.xueyuan = stu.getXueyuan();
+		this.xibie = stu.getXibie();
+		this.banji = stu.getBanji();
+	}
+
+
+
+	public int getGid() {
         return gid;
     }
     public void setGid(int gid) {

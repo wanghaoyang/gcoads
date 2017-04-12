@@ -29,7 +29,7 @@ public class ExcelTitleToDBFieldUtil {
         dbFieldMap.put("所在班级", "banji");
         dbFieldMap.put("出生日期", "chushengriqi");
         dbFieldMap.put("生源所在地", "shengyuansuozaidi");
-        dbFieldMap.put("邮箱", "mail");
+        dbFieldMap.put("邮箱", "email");
         dbFieldMap.put("家庭地址", "address");
         dbFieldMap.put("学历", "xueli");
     }
