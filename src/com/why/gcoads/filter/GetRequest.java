@@ -2,6 +2,7 @@ package com.why.gcoads.filter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -27,7 +28,7 @@ public class GetRequest extends HttpServletRequestWrapper {
 		if(value == null) return null;//如果为null，直接返回null
 		try {
 			// 对参数进行编码处理后返回
-			return new String(value.getBytes("ISO-8859-1"), charset);
+			return new String(value.getBytes("UTF-8"), charset);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
@@ -43,7 +44,7 @@ public class GetRequest extends HttpServletRequestWrapper {
 			String[] values = map.get(key);
 			for(int i = 0; i < values.length; i++) {
 				try {
-					values[i] = new String(values[i].getBytes("ISO-8859-1"), charset);
+					values[i] = new String(values[i].getBytes("UTF-8"), charset);
 				} catch (UnsupportedEncodingException e) {
 					throw new RuntimeException(e);
 				}
@@ -58,7 +59,7 @@ public class GetRequest extends HttpServletRequestWrapper {
 		String[] values = super.getParameterValues(name);
 		for(int i = 0; i < values.length; i++) {
 			try {
-				values[i] = new String(values[i].getBytes("ISO-8859-1"), charset);
+				values[i] = new String(values[i].getBytes("UTF-8"), charset);
 			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}

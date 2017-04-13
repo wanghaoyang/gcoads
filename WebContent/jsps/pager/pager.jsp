@@ -3,6 +3,7 @@
 
 <div class="divBody">
   <div class="divContent">
+  <span id="spanCount">共${pageBean.tr }条记录</span>
     <%--上一页 --%>
 <c:choose>
 	<c:when test="${pageBean.pc eq 1 }"><span class="spanBtnDisabled">上一页</span></c:when>
@@ -66,6 +67,7 @@
      <%--下一页 --%>
 <c:choose>
 	<c:when test="${pageBean.pc eq pageBean.tp }"><span class="spanBtnDisabled">下一页</span></c:when>
+	<c:when test="${pageBean.tp eq 0 }"><span class="spanBtnDisabled">下一页</span></c:when>
 	<c:otherwise><a href="${pageBean.url }&pc=${pageBean.pc+1}" class="aBtn bold">下一页</a></c:otherwise>
 </c:choose>
         

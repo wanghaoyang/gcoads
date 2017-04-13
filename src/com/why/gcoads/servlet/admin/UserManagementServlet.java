@@ -86,6 +86,7 @@ public class UserManagementServlet extends BaseServlet {
         pageUser.setUrl(url);
         
         req.setAttribute("pageBean", pageUser);
+        req.setAttribute("username", name);
         return "f:/jsps/admin/user/list.jsp";
     }
 	

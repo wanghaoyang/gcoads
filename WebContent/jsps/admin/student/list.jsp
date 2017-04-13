@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/search.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/list.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/static/style/pager/pager.css'/>">
 <script type="text/javascript" src="<c:url value='/static/js/common/common.js'/>"></script>
 <script type="text/javascript">
     function _go() {
@@ -38,11 +39,28 @@
 <body>
   <div id="tableDiv">
     <div id="searchDiv">
-      <div>用户信息管理</div>
-      <form action="<c:url value='/admin/UserManagementServlet'/>"
+      <div>学生信息列表</div>
+      <form action="<c:url value='/admin/GraduateManagementServlet'/>"
         method="get" target="body" id="form1">
-        <input type="hidden" name="method" value="findUser" /> <input
-          id="username" type="text" name="username" placeholder="请输入用户名" />
+        <input type="hidden" name="method" value="findStudent" /> <input
+          id="username" type="text" name="value" placeholder="请输入" value="${value }"/>
+        <select>
+          <c:forEach varStatus="status" items="${pageBean.beanList }" var="student">
+        <tr>
+          <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
+          <td>${student.xuehao}</td>
+          <td>${student.studentname }</td>
+          <td>${student.xueyuan }</td>
+          <td>${student.xibie }</td>
+          <td>${student.banji }</td>
+          <td>${student.zhuanye }</td>
+          
+          <td><input type="checkbox" id="subcheck" name="userCheck"
+            onclick="setSelectAll()" value="${user.uid }"/></td>
+        </tr>
+      </c:forEach>
+        </select>
+        
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
@@ -55,27 +73,27 @@
       <thead>
         <tr>
           <th></th>
-          <th>用户名</th>
-          <th>邮箱</th>
-          <th>角色</th>
-          <th>状态</th>
-          <th>操作</th>
+          <th>学号</th>
+          <th>姓名</th>
+          <th>学院</th>
+          <th>所在系名称</th>
+          <th>所在班级</th>
+          <th>专业</th>
           <th id="checkboxTd"><input type="checkbox" id="selectAll"
             onclick="selectAll()" />全选</th>
         </tr>
       </thead>
       <c:forEach varStatus="status" items="${pageBean.beanList }"
-        var="user">
+        var="student">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${user.loginname}</td>
-          <td>${user.email }</td>
-          <td>${user.role }</td>
-          <td><input type="radio" name="status${status.index}"
-            value="1" ${user.status? 'checked':''} disabled />已激活 <input
-            type="radio" name="status${status.index}" value="1"
-            ${user.status? '':'checked'} disabled />未激活</td>
-          <td><a href="/gcoads/admin/UserManagementServlet?method=resetPassword&userid=${user.uid }">重置密码</a></td>
+          <td>${student.xuehao}</td>
+          <td>${student.studentname }</td>
+          <td>${student.xueyuan }</td>
+          <td>${student.xibie }</td>
+          <td>${student.banji }</td>
+          <td>${student.zhuanye }</td>
+          
           <td><input type="checkbox" id="subcheck" name="userCheck"
             onclick="setSelectAll()" value="${user.uid }"/></td>
         </tr>
@@ -83,7 +101,6 @@
     </table>
   </div>
   <div style="float: left; width: 100%; text-align: center;">
-    <hr />
     <br />
     <%@include file="/jsps/pager/pager.jsp"%>
   </div>

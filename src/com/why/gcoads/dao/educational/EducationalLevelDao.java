@@ -1,10 +1,10 @@
 package com.why.gcoads.dao.educational;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -66,11 +66,11 @@ public class EducationalLevelDao {
     /**
      * 分页查询，通过学历名字模糊查询学历信息
      * @param pageEducationalLevel
-     * @param educationallevel 
+     * @param educationallevel
      * @return
      * @throws SQLException
      */
-    public PageBean<EducationalLevel> find(PageBean<EducationalLevel> pageEducationalLevel, String educationallevel) throws SQLException {
+    public PageBean<EducationalLevel> findEducationalLevelByPager(PageBean<EducationalLevel> pageEducationalLevel, String educationallevel) throws SQLException {
         
         if (pageEducationalLevel == null){
             pageEducationalLevel = new PageBean<EducationalLevel>();
@@ -89,18 +89,22 @@ public class EducationalLevelDao {
 		}
         educationallevel = "%" + educationallevel + "%";
         
-        String sql = "select count(1) from t_educationallevel where educationallevel like ?";
-        Number number = (Number)qr.query(sql, new ScalarHandler());
+        String sql = "select count(1) from t_educationallevel where elid != 1 and educationallevel like ?";
+        Number number = (Number)qr.query(sql, new ScalarHandler(), educationallevel);
         int tr = number.intValue();//得到了总记录数
         pageEducationalLevel.setTr(tr);
-        
+        if (tr == 0){
+            pageEducationalLevel.setPc(1);
+            pageEducationalLevel.setBeanList(new ArrayList<EducationalLevel>());
+            return pageEducationalLevel;
+        }
         if (pageEducationalLevel.getPc() > pageEducationalLevel.getTp()) {
             pageEducationalLevel.setPc(pageEducationalLevel.getTp());
         }
         
-        sql = "select elid, educationallevel from t_educationallevel where educationallevel like ? limit ?,? order by elid asc";
+        sql = "select elid, educationallevel from t_educationallevel where elid != 1 and educationallevel like ? order by elid asc limit ?,? ";
         
-        List<EducationalLevel> beanList = qr.query(sql, new BeanListHandler<EducationalLevel>(EducationalLevel.class),  educationallevel, (pageEducationalLevel.getPc() - 1), pageEducationalLevel.getPs());
+        List<EducationalLevel> beanList = qr.query(sql, new BeanListHandler<EducationalLevel>(EducationalLevel.class),  educationallevel, (pageEducationalLevel.getPc() - 1) * pageEducationalLevel.getPs(), pageEducationalLevel.getPs());
         pageEducationalLevel.setBeanList(beanList);
         
         return pageEducationalLevel;

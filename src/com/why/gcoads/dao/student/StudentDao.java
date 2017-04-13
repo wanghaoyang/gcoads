@@ -2,16 +2,20 @@ package com.why.gcoads.dao.student;
 
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.junit.Test;
 
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.Student;
 import com.why.gcoads.model.User;
+import com.why.gcoads.service.graduate.GraduateService;
+import com.why.gcoads.utils.StringUtil;
 import com.why.gcoads.utils.jdbc.TxQueryRunner;
 
 public class StudentDao {
@@ -91,14 +95,8 @@ public class StudentDao {
 			String field, String value) throws SQLException {
 		String sql = "select {0} from t_student where {1}";
 
-		if (pageStudent == null) {
-			pageStudent = new PageBean<Student>();
-			pageStudent.setPc(1);
-			pageStudent.setPs(10);
-		}
-
 		if (value == null) {
-			value = " ";
+			value = StringUtil.Empty;
 		} else {
 			value.replace("\\", "\\\\");
 			value.replace("%", "\\%");
@@ -106,8 +104,27 @@ public class StudentDao {
 			value.replace("'", "\'");
 			value.replace("\"", "\\\"");
 		}
+		
+		switch (field) {
+		case "xuehao":
+			field = " xuehao = ? ";
+			break;
+		case "shenfenzhenghao":
+			field = " shenfenzhenghao = ? ";
+			break;
+		default:
+			field = " studentname like ? ";
+			value = "%" + value + "%";
+			break;
+		}
+		
+		if (pageStudent == null) {
+			pageStudent = new PageBean<Student>();
+			pageStudent.setPc(1);
+			pageStudent.setPs(10);
+		}
 
-		System.out.println(MessageFormat.format(sql, " count(1) ", field));
+		
 
 		Number number = (Number) qr.query(
 				MessageFormat.format(sql, " count(1) ", field),
@@ -116,13 +133,20 @@ public class StudentDao {
 		int tr = number.intValue();// 得到了总记录数
 		pageStudent.setTr(tr);
 
+		if (tr == 0)
+		{
+			pageStudent.setBeanList(new ArrayList<Student>());
+			pageStudent.setPc(1);
+			pageStudent.setPs(10);
+			return pageStudent;
+		}
 		if (pageStudent.getPc() > pageStudent.getTp()) {
 			pageStudent.setPc(pageStudent.getTp());
 		} else if (pageStudent.getPc() < 1) {
 			pageStudent.setPc(1);
 		}
 		sql += " limit ?,? ";
-		System.out.println(MessageFormat.format(sql, " * ", field));
+		
 		List<Student> beanList = qr.query(
 				MessageFormat.format(sql, " * ", field),
 				new BeanListHandler<Student>(Student.class), value,

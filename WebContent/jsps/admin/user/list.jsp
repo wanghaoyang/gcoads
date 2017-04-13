@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/search.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/list.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/static/style/pager/pager.css'/>">
 <script type="text/javascript" src="<c:url value='/static/js/common/common.js'/>"></script>
 <script type="text/javascript">
     function _go() {
@@ -42,7 +43,7 @@
       <form action="<c:url value='/admin/UserManagementServlet'/>"
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findUser" /> <input
-          id="username" type="text" name="username" placeholder="请输入用户名" />
+          id="username" type="text" name="username" placeholder="请输入用户名" value="${username }"/>
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
@@ -83,7 +84,6 @@
     </table>
   </div>
   <div style="float: left; width: 100%; text-align: center;">
-    <hr />
     <br />
     <%@include file="/jsps/pager/pager.jsp"%>
   </div>

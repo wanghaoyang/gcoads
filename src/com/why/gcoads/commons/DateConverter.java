@@ -21,7 +21,7 @@ public class DateConverter implements Converter {
         String val = (String) value;//把值转换成String
         
         // 使用SimpleDateFormat进行转换
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return sdf.parse(val);
         } catch (ParseException e) {

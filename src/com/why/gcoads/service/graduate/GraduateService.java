@@ -126,6 +126,7 @@ public class GraduateService {
 
 	/**
 	 * 通过表单添加学生
+	 * 
 	 * @param beanMap
 	 * @return
 	 */
@@ -262,27 +263,26 @@ public class GraduateService {
 	public PageBean<Student> findStudentByPager(PageBean<Student> pageStudent,
 			String field, String value) {
 		try {
-			if (!StringUtil.isNullOrEmpty(field)) {
-				switch (field) {
-				case "学号":
-					field = " xuehao = ? ";
-					break;
-				case "身份证号":
-					field = " shenfenzhenghao = ? ";
-					break;
-				case "姓名":
-					field = " studentname like ? ";
-					value = "%" + value + "%";
-					break;
-				default:
-					field = " sid = ? ";
-					value = "";
-					break;
-				}
-			} else {
-				field = " ? ";
-				value = " 1 = 1 ";
+			if (StringUtil.isNullOrEmpty(field)) {
+				field = StringUtil.Empty;
+				value = StringUtil.Empty;
 			}
+			switch (field) {
+			case "学号":
+				field = " xuehao";
+				break;
+			case "身份证号":
+				field = " shenfenzhenghao";
+				break;
+			case "姓名":
+				field = " studentname";
+				break;
+			default:
+				field = StringUtil.Empty;
+				value = StringUtil.Empty;
+				break;
+			}
+
 			pageStudent = studentDao.findStudentByPager(pageStudent, field,
 					value);
 		} catch (SQLException e) {
@@ -295,26 +295,24 @@ public class GraduateService {
 	public PageBean<Graduate> findGraduateByPager(
 			PageBean<Graduate> pageGraduate, String field, String value) {
 		try {
-			if (!StringUtil.isNullOrEmpty(field)) {
-				switch (field) {
-				case "学号":
-					field = " xuehao = ? ";
-					break;
-				case "届毕业生":
-					field = " year(biyeshijian) = ? ";
-					break;
-				case "姓名":
-					field = " studentname like ? ";
-					value = "%" + value + "%";
-					break;
-				default:
-					field = " sid = ? ";
-					value = "";
-					break;
-				}
-			} else {
-				field = " ? ";
-				value = " 1 = 1 ";
+			if (StringUtil.isNullOrEmpty(field)) {
+				field = StringUtil.Empty;
+				value = StringUtil.Empty;
+			}
+			switch (field) {
+			case "学号":
+				field = " xuehao";
+				break;
+			case "届毕业生":
+				field = " biyeshijian";
+				break;
+			case "姓名":
+				field = " studentname ";
+				break;
+			default:
+				field = StringUtil.Empty;
+				value = StringUtil.Empty;
+				break;
 			}
 			pageGraduate = graduateDao.findGraduateByPager(pageGraduate, field,
 					value);
@@ -339,11 +337,11 @@ public class GraduateService {
 		return pageGraduate;
 	}
 
-	@Test
-	public void T() {
-		GraduateService graduateService = new GraduateService();
-		graduateService.addGraduateInfoByExcel("");
-		String str = "123123111101010000";
-		System.out.println(str.substring(str.length() - 6));
-	}
+	// @Test
+	// public void T() {
+	// GraduateService graduateService = new GraduateService();
+	// graduateService.addGraduateInfoByExcel("");
+	// String str = "123123111101010000";
+	// System.out.println(str.substring(str.length() - 6));
+	// }
 }

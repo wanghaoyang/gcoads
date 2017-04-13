@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.junit.Test;
 
 import com.why.gcoads.commons.CommonUtils;
 import com.why.gcoads.commons.VerifyDateFormat;
+import com.why.gcoads.dao.graduate.GraduateDao;
 import com.why.gcoads.model.EducationalLevel;
 import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PageBean;
@@ -107,6 +111,7 @@ public class GraduateManagementServlet extends BaseServlet {
 		pageStudent.setUrl(url);
 
 		req.setAttribute("pageBean", pageStudent);
+		req.setAttribute("value", value);
 		return "f:/jsps/admin/student/list.jsp";
 	}
 
@@ -142,6 +147,7 @@ public class GraduateManagementServlet extends BaseServlet {
 		pageGraduate.setUrl(url);
 
 		req.setAttribute("pageBean", pageGraduate);
+		req.setAttribute("value", value);
 		return "f:/jsps/admin/graduate/list.jsp";
 	}
 

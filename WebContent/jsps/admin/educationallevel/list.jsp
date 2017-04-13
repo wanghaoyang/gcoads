@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户信息列表</title>
+<title>学历信息列表</title>
 <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/search.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/list.css'/>">
@@ -31,10 +31,10 @@
   <div id="tableDiv">
     <div id="searchDiv">
       <div>毕业生信息列表</div>
-      <form action="<c:url value='/admin/GraduateManagementServlet'/>"
+      <form action="<c:url value='/admin/EducationalLevelManagementServlet'/>"
         method="get" target="body" id="form1">
-        <input type="hidden" name="method" value="findGraduate" /> <input
-          id="username" type="text" name="username" placeholder="请输入" value="${value }"/>
+        <input type="hidden" name="method" value="findEducationalLevel" /> <input
+          id="username" type="text" name="educationalLevel" placeholder="请输入学历名称" value="${educationalLevel }"/>
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
@@ -47,24 +47,16 @@
       <thead>
         <tr>
           <th></th>
-          <th>学号</th>
-          <th>姓名</th>
-          <th>学院</th>
-          <th>学历</th>
-          <th>毕业时间</th>
-          <th>状态</th>
+          <th>学历号</th>
+          <th>学历名称</th>
         </tr>
       </thead>
       <c:forEach varStatus="status" items="${pageBean.beanList }"
-        var="graduate">
+        var="educationalLevel">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${graduate.xuehao}</td>
-          <td>${graduate.studentname }</td>
-          <td>${graduate.xueyuan }</td>
-          <td>${graduate.xueli.educationalLevel }</td>
-          <td>${graduate.biyeshijian }</td>
-          <td>${graduate.gstatus }</td>
+          <td>${educationalLevel.elid}</td>
+          <td>${educationalLevel.educationalLevel }</td>
         </tr>
       </c:forEach>
     </table>

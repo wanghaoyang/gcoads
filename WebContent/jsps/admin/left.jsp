@@ -12,7 +12,6 @@
 <body id="bg">
 
 <div class="container">
-
     <div class="leftsidebar_box">
         <div class="line"></div>
         <dl class="system_log">
@@ -22,22 +21,22 @@
     
         <dl class="custom">
             <dt>毕业生管理<img src="/gcoads/static/images/left/select_xl01.png"></dt>
-            <dd><a href="/admin/GraduateManagementServlet?method=findStudent" target="body">毕业生基本信息管理</a></dd>
-            <dd><a href="/admin/GraduateManagementServlet?method=findGraduate" target="body">毕业生毕业信息管理</a></dd>
-            <dd><a href="/admin/GraduateManagementServlet?method=findVerifyEducation" target="body">毕业生学历认证管理</a></dd>
-            <dd><a href="/admin/GraduateManagementServlet?method=addStudent" target="body">毕业生信息录入</a></dd>
+            <dd><a href="<c:url value='/admin/GraduateManagementServlet?method=findStudent'/>" target="body">毕业生基本信息管理</a></dd>
+            <dd><a href="<c:url value='/admin/GraduateManagementServlet?method=findGraduate'/>" target="body">毕业生毕业信息管理</a></dd>
+            <dd><a href="<c:url value='/admin/GraduateManagementServlet?method=findEducationalLevel'/>" target="body">毕业生学历认证管理</a></dd>
+            <dd><a href="<c:url value='/admin/GraduateManagementServlet?method=addStudent'/>" target="body">毕业生信息录入</a></dd>
         </dl>
     
         <dl class="channel">
             <dt>学历管理<img src="/gcoads/static/images/left/select_xl01.png"></dt>
-            <dd><a href="/admin/EducationManagementServlet?method=addEducationalLevel" target="body">学历信息管理</a></dd>
+            <dd><a href="<c:url value='/admin/EducationalLevelManagementServlet?method=findEducationalLevel'/>" target="body">学历信息管理</a></dd>
+            <%-- <dd><a href="<c:url value='/admin/EducationManagementServlet?method=addEducationalLevel'/>" target="body">学历信息管理</a></dd> --%>
         </dl>
         <dl class="app">
             <dt>支付管理<img src="/gcoads/static/images/left/select_xl01.png"></dt>
             <dd><a href="#">支付渠道管理</a></dd>
             <dd><a href="#">支付费用管理</a></dd>
         </dl>
-    
         <dl class="statistics">
             <dt>统计分析<img src="/gcoads/static/images/left/select_xl01.png" ></img></dt>
             <dd><a href="#">就业统计</a></dd>
