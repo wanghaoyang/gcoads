@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户信息列表</title>
 <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/search.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/search.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/list.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/pager/pager.css'/>">
 <script type="text/javascript" src="<c:url value='/static/js/common/common.js'/>"></script>
@@ -52,7 +52,7 @@
       </form>
     </div>
 
-    <table border="1" cellspacing="0" cellpadding="0" id="userListTab">
+    <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
         <tr>
           <th></th>

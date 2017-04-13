@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,20 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.junit.Test;
 
-import com.why.gcoads.commons.CommonUtils;
-import com.why.gcoads.commons.VerifyDateFormat;
-import com.why.gcoads.dao.graduate.GraduateDao;
-import com.why.gcoads.model.EducationalLevel;
 import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PageBean;
-import com.why.gcoads.model.Role;
 import com.why.gcoads.model.Student;
-import com.why.gcoads.model.User;
 import com.why.gcoads.service.graduate.GraduateService;
 import com.why.gcoads.servlet.BaseServlet;
-import com.why.gcoads.utils.StringUtil;
 
 /**
  * Servlet implementation class UserManagementServlet
@@ -151,7 +140,7 @@ public class GraduateManagementServlet extends BaseServlet {
 		return "f:/jsps/admin/graduate/list.jsp";
 	}
 
-	public String deleteStudent(HttpServletRequest req, HttpServletResponse resp)
+	public String deleteStudents(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
 		String xuehao = req.getParameter("xuehaos");
@@ -159,7 +148,7 @@ public class GraduateManagementServlet extends BaseServlet {
 		String msg = "";
 		if (xuehaos != null) {
 			try {
-				int row = graduateService.deleteStudentByXuehaos(xuehaos);
+				int row = 1;//graduateService.deleteStudentByXuehaos(xuehaos);
 				if (row < 0) {
 					msg = "删除失败！";
 				} else {

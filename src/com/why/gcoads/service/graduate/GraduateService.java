@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
-
 import com.why.gcoads.commons.CommonUtils;
 import com.why.gcoads.commons.ReadExcelUtils;
 import com.why.gcoads.commons.VerifyDateFormat;
@@ -271,8 +269,8 @@ public class GraduateService {
 			case "学号":
 				field = " xuehao";
 				break;
-			case "身份证号":
-				field = " shenfenzhenghao";
+			case "学院":
+				field = " xueyuan";
 				break;
 			case "姓名":
 				field = " studentname";
@@ -303,7 +301,7 @@ public class GraduateService {
 			case "学号":
 				field = " xuehao";
 				break;
-			case "届毕业生":
+			case "毕业年份":
 				field = " biyeshijian";
 				break;
 			case "姓名":

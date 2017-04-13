@@ -5,6 +5,23 @@
     margin:0px;
     border-color: #15B69A;
 }
+
+#value {
+    width: 300px;
+    height: 30px;
+    border-style:solid;
+    margin:0px;
+    border-color: #15B69A;
+}
+
+#condition {
+    width: 70px;
+    height: 37px;
+    border-style:solid;
+    margin:0px;
+    border-color: #15B69A;
+}
+
 #search a {
     text-transform:none;
     text-decoration:none;

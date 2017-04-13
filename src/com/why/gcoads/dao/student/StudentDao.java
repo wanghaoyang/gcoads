@@ -9,12 +9,9 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-import org.junit.Test;
 
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.Student;
-import com.why.gcoads.model.User;
-import com.why.gcoads.service.graduate.GraduateService;
 import com.why.gcoads.utils.StringUtil;
 import com.why.gcoads.utils.jdbc.TxQueryRunner;
 
@@ -109,8 +106,9 @@ public class StudentDao {
 		case "xuehao":
 			field = " xuehao = ? ";
 			break;
-		case "shenfenzhenghao":
-			field = " shenfenzhenghao = ? ";
+		case "xueyuan":
+		    field = " xueyuan like ? ";
+            value = "%" + value + "%";
 			break;
 		default:
 			field = " studentname like ? ";
@@ -123,8 +121,6 @@ public class StudentDao {
 			pageStudent.setPc(1);
 			pageStudent.setPs(10);
 		}
-
-		
 
 		Number number = (Number) qr.query(
 				MessageFormat.format(sql, " count(1) ", field),

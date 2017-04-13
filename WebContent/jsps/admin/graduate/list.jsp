@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户信息列表</title>
 <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/search.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/search.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/admin/user/list.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/pager/pager.css'/>">
 <script type="text/javascript" src="<c:url value='/static/js/common/common.js'/>"></script>
@@ -25,6 +25,27 @@
         }
         location = "${pageBean.url}&pc=" + pc;
     }
+    
+    $(function(){
+        $("#condition").change(function(){
+          var text = $("#condition").find("option:selected").text();
+          var selectedVal = $("#condition").find("option:selected").val();
+          switch (selectedVal) {
+            case "1":
+                $("#value").attr('placeholder','请输入姓名');
+                break;
+            case "2":
+                $("#value").attr('placeholder','请输入学号');
+                break;
+            case "3":
+                $("#value").attr('placeholder','请输入毕业年份');
+                break;
+            default:
+                break;
+            }
+          $("#field").val(text);
+        });
+    })
 </script>
 </head>
 <body>
@@ -33,8 +54,15 @@
       <div>毕业生信息列表</div>
       <form action="<c:url value='/admin/GraduateManagementServlet'/>"
         method="get" target="body" id="form1">
-        <input type="hidden" name="method" value="findGraduate" /> <input
-          id="username" type="text" name="username" placeholder="请输入" value="${value }"/>
+        <input type="hidden" name="method" value="findGraduate" />
+        <input id="value" type="text" name="value" placeholder="请输入姓名" value="${value }"/>
+        <input type="hidden" id="field" name="field" value="" />
+        <select id="condition">
+          <option value="1" selected>姓名</option>
+          <option value="2">学号</option>
+          <option value="3">毕业年份</option>
+        </select>
+          
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
@@ -43,7 +71,7 @@
       </form>
     </div>
 
-    <table border="1" cellspacing="0" cellpadding="0" id="userListTab">
+    <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
         <tr>
           <th></th>

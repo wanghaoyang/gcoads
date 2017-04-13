@@ -110,7 +110,7 @@ function validateVerifyCode() {
 			type: "POST",
 			dataType: "json",
 			data: {method: "ajaxValidateVerifyCode", verifyCode: value},
-			url: "/goods/UserServlet",
+			url: "/gcoads/UserServlet",
 			success: function(flag) {
 				if(!flag) {
 					$("#verifyCodeError").css("display", "");

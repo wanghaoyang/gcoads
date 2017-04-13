@@ -1,6 +1,44 @@
-#tableDiv {height: 350px;}
+#tableDiv {height: 400px;}
 #searchDiv {width:800px; margin:auto;}
 #deleteAllSpan {float: right; margin-right: 20px; margin-top: 15px;}
 #userListTab { margin: 10px 0 10px 70px; width: 800px;}
+
+/* Border styles */
+#userListTab tr td {
+border-top-width: 1px;
+border-top-style: solid;
+border-top-color: rgb(211, 202, 221);
+}
+
+#userListTab {
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: rgb(211, 202, 221);
+}
+
+#userListTab tr th {
+border-top-width: 2px;
+border-top-style: solid;
+border-top-color: rgb(211, 202, 221);
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: rgb(211, 202, 221);
+}
+/* Padding and font style */
+#userListTab td, #userListTab th {
+padding: 5px 10px;
+font-size: 12px;
+font-family: Verdana;
+color: rgb(95, 74, 121);
+}
+
+/* Alternating background colors */
+#userListTab tr:nth-child(even) {
+background: rgb(223, 216, 232)
+}
+#userListTab tr:nth-child(odd) {
+background: #FFF
+}
+
 #checkboxTd {width: 60px;}
 td{text-align:center}
