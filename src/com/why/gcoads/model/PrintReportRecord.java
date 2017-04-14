@@ -1,14 +1,21 @@
 package com.why.gcoads.model;
 
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.why.gcoads.service.printreportrecord.PayRecordService;
+
 public class PrintReportRecord {
 
     private int pprid;// 主键
     private String loginname;// 支付人的用户名
     private String reportname;// 学历证明文件名
     private String reportpath;// 学历证明文件路径
-    private String printdatetime;// 打印时间
+    private Date printdatetime;// 打印时间
     private String printpagenum;// 打印页数
-    private String printstatus;// 打印状态
+    private boolean printstatus;// 打印状态
     private Graduate graduate;// 毕业生信息
 
     public int getPprid() {
@@ -43,11 +50,11 @@ public class PrintReportRecord {
         this.reportpath = reportpath;
     }
 
-    public String getPrintdatetime() {
+    public Date getPrintdatetime() {
         return printdatetime;
     }
 
-    public void setPrintdatetime(String printdatetime) {
+    public void setPrintdatetime(Date printdatetime) {
         this.printdatetime = printdatetime;
     }
 
@@ -59,11 +66,11 @@ public class PrintReportRecord {
         this.printpagenum = printpagenum;
     }
 
-    public String getPrintstatus() {
+    public boolean getPrintstatus() {
         return printstatus;
     }
 
-    public void setPrintstatus(String printstatus) {
+    public void setPrintstatus(Boolean printstatus) {
         this.printstatus = printstatus;
     }
 
@@ -75,4 +82,21 @@ public class PrintReportRecord {
         this.graduate = graduate;
     }
 
+    @Test
+    public void T(){
+        PayRecordService payRecordService = new PayRecordService();
+        PayRecord payRecord = new PayRecord();
+        payRecord.setPrid(1);
+        payRecord.setLoginname("1235");
+        payRecord.setPaystartdatetime(new Date());;
+        payRecord.setPayfinisheddatetime(new Date());;
+        payRecord.setTotalcost(200);
+        payRecord.setPaystatus(true);
+        payRecord.setCertificationquantity(100);
+        
+        List<PayRecord> beanList = payRecordService.findPayRecordByPager(null, "").getBeanList();
+        for (PayRecord payRecord2 : beanList) {
+            System.out.println(payRecord);
+        }
+    }
 }

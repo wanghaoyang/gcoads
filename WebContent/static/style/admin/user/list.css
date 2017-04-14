@@ -1,6 +1,8 @@
-#tableDiv {height: 400px;}
+body {margin: 0;}
+#funTitleDiv {font-size: 22px;margin: auto; text-align: center;}
+#tableDiv {height: 430px;margin-top: 13px;}
 #searchDiv {width:800px; margin:auto;}
-#deleteAllSpan {float: right; margin-right: 20px; margin-top: 15px;}
+#deleteAllSpan {float: right; margin-right: 40px; margin-top: 15px;}
 #userListTab { margin: 10px 0 10px 70px; width: 800px;}
 
 /* Border styles */
@@ -40,5 +42,10 @@ background: rgb(223, 216, 232)
 background: #FFF
 }
 
+#userListTab tr:hover{
+background: rgb(150, 150, 232)
+}
+
 #checkboxTd {width: 60px;}
 td{text-align:center}
+#flashMsg{widows: 100%; text-align: center;}

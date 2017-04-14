@@ -7,8 +7,6 @@
   <title>左侧导航</title>
   <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
   <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/left.css'/>">
-  
-  
 </head>
 
 <body id="bg">
@@ -41,28 +39,34 @@
             href="<c:url value='/admin/GraduateManagementServlet?method=findGraduate'/>"
             target="body">毕业生毕业信息管理</a>
         </dd>
-        <dd>
-          <a
-            href="<c:url value='/admin/GraduateManagementServlet?method=findEducationalLevel'/>"
-            target="body">毕业生学历认证管理</a>
-        </dd>
+        
         <dd>
           <a
             href="<c:url value='/admin/GraduateManagementServlet?method=addStudent'/>"
-            target="body">毕业生信息录入</a>
+            target="body">录入单个毕业生</a>
+        </dd>
+        
+        <dd>
+          <a
+            href="<c:url value='/admin/GraduateManagementServlet?method=addStudentByFile'/>"
+            target="body">Excel导入毕业生</a>
         </dd>
       </dl>
 
       <dl class="channel">
         <dt>
-          学历管理<img src="/gcoads/static/images/left/select_xl01.png">
+          学历证明管理<img src="/gcoads/static/images/left/select_xl01.png">
         </dt>
         <dd>
           <a
             href="<c:url value='/admin/EducationalLevelManagementServlet?method=findEducationalLevel'/>"
             target="body">学历信息管理</a>
         </dd>
-        <%-- <dd><a href="<c:url value='/admin/EducationManagementServlet?method=addEducationalLevel'/>" target="body">学历信息管理</a></dd> --%>
+        <dd>
+          <a
+            href="<c:url value='/admin/GraduateManagementServlet?method=findEducationalLevel'/>"
+            target="body">毕业生学历认证管理</a>
+        </dd>
       </dl>
       <dl class="app">
         <dt>
@@ -72,7 +76,7 @@
           <a href="#">支付渠道管理</a>
         </dd>
         <dd>
-          <a href="#">支付费用管理</a>
+          <a href="#">支付记录管理</a>
         </dd>
       </dl>
       <dl class="statistics">

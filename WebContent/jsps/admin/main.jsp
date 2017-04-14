@@ -4,9 +4,12 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    
     <title>主页</title>
+    <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/main.css'/>">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/dialog.css'/>">
+    <script type="text/javascript" >
+    </script>
 </head>
   
   <body style="height: 640px;">
@@ -25,6 +28,26 @@
         </td>
     </tr>
     </table>
-    <%-- <%@include file="/jsps/dialog.jsp"%> --%>
+    <div id="dialog1" class="dialog">
+	    <div id="backgroundDiv"></div>
+	    <div id="dialogDiv" class="dialogDiv">
+	    <div class="closeDivImg"><img src="<c:url value='/static/images/BTN_Close_16x16.png'/>"></div>
+	      <div id="dialogMsgDiv1" class="dialogMsgDiv">${msg }</div>
+	      <div id="buttonDiv">
+	        <input id="OKbutton" type="button" value="OK">
+	      </div>
+	    </div>
+    </div>
+    <div id="dialog2" class="dialog">
+        <div id="backgroundDiv"></div>
+        <div id="dialogDiv" class="dialogDiv">
+	    <div class="closeDivImg close" onclick="close()"><img src="<c:url value='/static/images/BTN_Close_16x16.png'/>"></div>
+          <div id="dialogMsgDiv2" class="dialogMsgDiv">${msg }</div>
+          <div id="buttonDiv">
+            <input id="Yesbutton" type="button" value="Yes">
+            <input id="Nobutton" type="button" value="No" >
+          </div>
+        </div>
+    </div>
   </body>
 </html>

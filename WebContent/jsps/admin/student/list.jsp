@@ -29,8 +29,27 @@
         $('input[name="userCheck"]:checked').each(function(){ 
             chk_value.push($(this).val()); 
         });
-        if(window.confirm("您确定要删除吗？")){
-            document.location="/gcoads/admin/GraduateManagementServlet?method=deleteStudents&xuehaos="+chk_value;
+        if (chk_value.length > 0){
+        $("#dialogMsgDiv2",parent.document).text("你确定要删除？");
+        $("#dialog2",parent.document).show();
+        $(".closeDivImg",parent.document).click(function() {
+            $(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+        })
+        var aaa = $("#Nobutton",parent.document).click(function() {
+            $(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+        })
+        $("#Yesbutton",parent.document).click(function() {
+            $(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+            if (chk_value.length > 0){
+                document.location="/gcoads/admin/GraduateManagementServlet?method=deleteStudents&xuehaos="+chk_value;
+            }
+        })
         }
     }
     $(function(){
@@ -52,13 +71,14 @@
             }
           $("#field").val(text);
         });
+        $("#flashMsg").show(300).delay(2000).hide(300);
     })
 </script>
 </head>
 <body>
+  <div id="funTitleDiv">学生信息列表</div>
   <div id="tableDiv">
     <div id="searchDiv">
-      <div>学生信息列表</div>
       <form action="<c:url value='/admin/GraduateManagementServlet'/>"
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findStudent" /> <input
@@ -69,18 +89,18 @@
           <option value="2">学号</option>
           <option value="3">学院</option>
         </select>
-        
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
             src="/gcoads/static/images/btn.bmp" /></a>
-        </span> <span id="deleteAllSpan"><input type="button" value="删除" id="deleteBtn" onclick="_delete()"></span>
+        </span>
+        <span id="deleteAllSpan"><input type="button" value="删除" id="deleteBtn" onclick="_delete()"></span>
       </form>
     </div>
 
     <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
-        <tr>
+        <tr style="background-color: #FFF;">
           <th></th>
           <th>学号</th>
           <th>姓名</th>
@@ -108,6 +128,7 @@
         </tr>
       </c:forEach>
     </table>
+    <div id="flashMsg">${msg }</div>
   </div>
   <div style="float: left; width: 100%; text-align: center;">
     <br />

@@ -17,9 +17,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.why.gcoads.model.EducationalLevel;
 import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.Student;
+import com.why.gcoads.service.educationallevel.EducationalLevelService;
 import com.why.gcoads.service.graduate.GraduateService;
 import com.why.gcoads.servlet.BaseServlet;
 
@@ -30,6 +32,7 @@ import com.why.gcoads.servlet.BaseServlet;
 public class GraduateManagementServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private GraduateService graduateService = new GraduateService();
+	private EducationalLevelService educationalLevelService = new EducationalLevelService();
 
 	/**
 	 * 获取当前页码
@@ -162,6 +165,22 @@ public class GraduateManagementServlet extends BaseServlet {
 		}
 		req.setAttribute("msg", msg);
 		return "f:/jsps/dialog.jsp";
+	}
+	
+	public String addStudent(HttpServletRequest req,
+            HttpServletResponse resp) throws ServletException, IOException {
+
+	    List<EducationalLevel> educationalLevelList = educationalLevelService.findAllEducationalLevel();
+	    req.setAttribute("educationalLevelList", educationalLevelList);
+        return "f:/jsps/admin/addstudent.jsp";
+    }
+	
+	public String addStudentByFile(HttpServletRequest req,
+	        HttpServletResponse resp) throws ServletException, IOException {
+	    
+	    List<EducationalLevel> educationalLevelList = educationalLevelService.findAllEducationalLevel();
+	    req.setAttribute("educationalLevelList", educationalLevelList);
+	    return "f:/jsps/admin/addstudentbyexcel.jsp";
 	}
 
 	public String addStudentByForm(HttpServletRequest req,

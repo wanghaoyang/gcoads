@@ -56,8 +56,7 @@ public class PayRecordDao {
      * @return
      * @throws SQLException
      */
-    public PayRecord findPayRecordByPrid(int prid)
-            throws SQLException {
+    public PayRecord findPayRecordByPrid(int prid) throws SQLException {
         String sql = "select * from t_payrecord where prid=?";
         return qr.query(sql, new BeanHandler<PayRecord>(PayRecord.class), prid);
     }
@@ -71,8 +70,8 @@ public class PayRecordDao {
      * @throws SQLException
      */
     public PageBean<PayRecord> findPayRecordByPager(
-            PageBean<PayRecord> pagePayRecord,
-            String loginname) throws SQLException {
+            PageBean<PayRecord> pagePayRecord, String loginname)
+            throws SQLException {
 
         if (pagePayRecord == null) {
             pagePayRecord = new PageBean<PayRecord>();
@@ -92,8 +91,7 @@ public class PayRecordDao {
         loginname = "%" + loginname + "%";
 
         String sql = "select count(1) from t_payrecord where loginname like ?";
-        Number number = (Number) qr.query(sql, new ScalarHandler(),
-                pagePayRecord);
+        Number number = (Number) qr.query(sql, new ScalarHandler(), loginname);
         int tr = number.intValue();// 得到了总记录数
         pagePayRecord.setTr(tr);
         if (tr == 0) {
@@ -108,10 +106,9 @@ public class PayRecordDao {
         sql = "select * from t_payrecord where loginname like ? order by payfinisheddatetime desc, paystartdatetime desc limit ?,? ";
 
         List<PayRecord> beanList = qr.query(sql,
-                new BeanListHandler<PayRecord>(PayRecord.class),
-                pagePayRecord, (pagePayRecord.getPc() - 1)
-                        * pagePayRecord.getPs(),
-                        pagePayRecord.getPs());
+                new BeanListHandler<PayRecord>(PayRecord.class), loginname,
+                (pagePayRecord.getPc() - 1) * pagePayRecord.getPs(),
+                pagePayRecord.getPs());
         pagePayRecord.setBeanList(beanList);
 
         return pagePayRecord;

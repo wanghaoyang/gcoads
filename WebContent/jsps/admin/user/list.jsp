@@ -30,16 +30,38 @@
         $('input[name="userCheck"]:checked').each(function(){ 
             chk_value.push($(this).val()); 
         });
-        if(window.confirm("您确定要删除吗？")){
-            document.location="/admin/UserManagementServlet?method=deleteUsers&userids="+chk_value;
+        if (chk_value.length > 0){
+        $("#dialogMsgDiv2",parent.document).text("你确定要删除？");
+        $("#dialog2",parent.document).show();
+        $(".closeDivImg",parent.document).click(function() {
+        	$(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+		})
+        var aaa = $("#Nobutton",parent.document).click(function() {
+        	$(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+		})
+        $("#Yesbutton",parent.document).click(function() {
+        	$(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+            if (chk_value.length > 0){
+                document.location="/gcoads/admin/UserManagementServlet?method=deleteUsers&userids="+chk_value;
+            }
+		})
         }
     }
+    $(function() {
+    	$("#flashMsg").show(3000).delay(2000).hide(300);
+	})
 </script>
 </head>
 <body>
+  <div id="funTitleDiv">用户信息管理</div>
   <div id="tableDiv">
     <div id="searchDiv">
-      <div>用户信息管理</div>
       <form action="<c:url value='/admin/UserManagementServlet'/>"
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findUser" /> <input
@@ -48,13 +70,14 @@
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
             src="/gcoads/static/images/btn.bmp" /></a>
-        </span> <span id="deleteAllSpan"><input type="button" value="删除" id="deleteBtn" onclick="_delete()"></span>
+        </span>
+        <span id="deleteAllSpan"><input type="button" value="删除" id="deleteBtn" onclick="_delete()"></span>
       </form>
     </div>
 
     <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
-        <tr>
+        <tr style="background-color: #FFF;">
           <th></th>
           <th>用户名</th>
           <th>邮箱</th>
@@ -82,6 +105,7 @@
         </tr>
       </c:forEach>
     </table>
+    <div id="flashMsg">${msg }</div>
   </div>
   <div style="float: left; width: 100%; text-align: center;">
     <br />

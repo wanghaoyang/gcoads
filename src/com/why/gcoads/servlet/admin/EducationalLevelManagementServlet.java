@@ -117,7 +117,7 @@ public class EducationalLevelManagementServlet extends BaseServlet {
 
         try {
             errorMap = educationalLevelService
-                    .addGraduateInfoByExcel(formEducationalLevel);
+                    .addEducationalLevel(formEducationalLevel);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

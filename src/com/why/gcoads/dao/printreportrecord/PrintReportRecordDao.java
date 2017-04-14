@@ -42,12 +42,15 @@ public class PrintReportRecordDao {
      * @param printReportRecord
      * @throws SQLException
      */
-    public void updatePrintReportRecord(PrintReportRecord printReportRecord) throws SQLException {
+    public void updatePrintReportRecord(PrintReportRecord printReportRecord)
+            throws SQLException {
         String sql = "UPDATE t_payrecord SET loginname = ?, reportname = ?, reportpath = ?, printdatetime = ?, printpagenum = ?, printstatus = ? WHERE pprid = ?";
         Object[] params = { printReportRecord.getLoginname(),
                 printReportRecord.getReportname(),
-                printReportRecord.getReportpath(), printReportRecord.getPrintdatetime(),
-                printReportRecord.getPrintpagenum(), printReportRecord.getPrintstatus(),
+                printReportRecord.getReportpath(),
+                printReportRecord.getPrintdatetime(),
+                printReportRecord.getPrintpagenum(),
+                printReportRecord.getPrintstatus(),
                 printReportRecord.getPprid() };
         qr.update(sql, params);
     }
@@ -59,13 +62,15 @@ public class PrintReportRecordDao {
      * @return
      * @throws SQLException
      */
-    public PrintReportRecord findPrintReportRecord(int pprid) throws SQLException {
+    public PrintReportRecord findPrintReportRecord(int pprid)
+            throws SQLException {
         String sql = "select * from t_printreportrecord where pprid=?";
-        return qr.query(sql, new BeanHandler<PrintReportRecord>(PrintReportRecord.class), pprid);
+        return qr.query(sql, new BeanHandler<PrintReportRecord>(
+                PrintReportRecord.class), pprid);
     }
 
     /**
-     * 分页查询，可通过用户名模糊查询支付记录
+     * 分页查询，可通过用户名模糊查询打印记录
      * 
      * @param pageEducationalLevel
      * @param educationallevel
@@ -94,13 +99,13 @@ public class PrintReportRecordDao {
         loginname = "%" + loginname + "%";
 
         String sql = "select count(1) from t_printreportrecord where loginname like ?";
-        Number number = (Number) qr.query(sql, new ScalarHandler(),
-                pagePrintReportRecord);
+        Number number = (Number) qr.query(sql, new ScalarHandler(), loginname);
         int tr = number.intValue();// 得到了总记录数
         pagePrintReportRecord.setTr(tr);
         if (tr == 0) {
             pagePrintReportRecord.setPc(1);
-            pagePrintReportRecord.setBeanList(new ArrayList<PrintReportRecord>());
+            pagePrintReportRecord
+                    .setBeanList(new ArrayList<PrintReportRecord>());
             return pagePrintReportRecord;
         }
         if (pagePrintReportRecord.getPc() > pagePrintReportRecord.getTp()) {
@@ -109,10 +114,12 @@ public class PrintReportRecordDao {
 
         sql = "select * from t_printreportrecord where loginname like ? order by printdatetime desc limit ?,? ";
 
-        List<PrintReportRecord> beanList = qr.query(sql,
-                new BeanListHandler<PrintReportRecord>(PrintReportRecord.class), pagePrintReportRecord,
-                (pagePrintReportRecord.getPc() - 1) * pagePrintReportRecord.getPs(),
-                pagePrintReportRecord.getPs());
+        List<PrintReportRecord> beanList = qr
+                .query(sql, new BeanListHandler<PrintReportRecord>(
+                        PrintReportRecord.class), pagePrintReportRecord,
+                        (pagePrintReportRecord.getPc() - 1)
+                                * pagePrintReportRecord.getPs(),
+                        pagePrintReportRecord.getPs());
         pagePrintReportRecord.setBeanList(beanList);
 
         return pagePrintReportRecord;

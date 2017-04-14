@@ -1,7 +1,9 @@
 package com.why.gcoads.service.educationallevel;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.why.gcoads.dao.educational.EducationalLevelDao;
@@ -17,7 +19,7 @@ public class EducationalLevelService {
 
     private EducationalLevelDao educationalLevelDao = new EducationalLevelDao();
 
-    public Map<String, String> addGraduateInfoByExcel(
+    public Map<String, String> addEducationalLevel(
             EducationalLevel educationalLevel) {
         Map<String, String> errorMap = new HashMap<String, String>();
         if (StringUtil.isNullOrEmpty(educationalLevel.getEducationalLevel())) {
@@ -79,6 +81,17 @@ public class EducationalLevelService {
             throw new RuntimeException(e);
         }
         return pageEducationalLevel;
+    }
+    
+    public List<EducationalLevel> findAllEducationalLevel() {
+        List<EducationalLevel> list= new ArrayList<EducationalLevel>();
+        try {
+            list = educationalLevelDao.findAll();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 
 }

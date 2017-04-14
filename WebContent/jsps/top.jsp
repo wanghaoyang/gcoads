@@ -41,7 +41,12 @@
               <a href="<c:url value='/jsps/user/regist.jsp'/>" target="_parent">注册</a>&nbsp;&nbsp;
         </c:when>
         <c:otherwise>
-        用户：${sessionScope.sessionUser.loginname }&nbsp;|&nbsp;
+        <span>用户：</span>
+        <c:choose>
+        <c:when test="${'毕业生用户' eq sessionScope.sessionUser.role } "><a href="<c:url value='/jsps/graduate/student.jsp'/>" target="body">${sessionScope.sessionUser.loginname }</a>&nbsp;|&nbsp;</c:when>
+        <c:otherwise>${sessionScope.sessionUser.loginname }&nbsp;|&nbsp;</c:otherwise>
+        </c:choose>
+              
               <a href="<c:url value='/jsps/user/pwd.jsp'/>" target="body">修改密码</a>&nbsp;|&nbsp;
               <a href="<c:url value='/UserServlet?method=quit'/>" target="_parent">退出</a>&nbsp;&nbsp;
         </c:otherwise>

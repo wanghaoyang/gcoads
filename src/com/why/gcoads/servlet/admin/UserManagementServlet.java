@@ -1,6 +1,7 @@
 package com.why.gcoads.servlet.admin;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.User;
 import com.why.gcoads.service.user.UserService;
 import com.why.gcoads.servlet.BaseServlet;
+import com.why.gcoads.utils.StringUtil;
 
 /**
  * Servlet implementation class UserManagementServlet
@@ -84,7 +86,6 @@ public class UserManagementServlet extends BaseServlet {
          * 5. 给PageBean设置url，保存PageBean，转发到/jsps/admin/user/list.jsp
          */
         pageUser.setUrl(url);
-        
         req.setAttribute("pageBean", pageUser);
         req.setAttribute("username", name);
         return "f:/jsps/admin/user/list.jsp";
@@ -92,22 +93,27 @@ public class UserManagementServlet extends BaseServlet {
 	
 	public String resetPassword(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+	    PageBean<User> pageUser = null;
         String uid = req.getParameter("userid");
         try {
             userService.resetPassword(uid, (User)req.getSession().getAttribute("sessionUser"));
+            pageUser = userService.findUserByPager(null, StringUtil.Empty);
+            if (pageUser != null) {
+                pageUser.setUrl("/gcoads/admin/UserManagementServlet?method=findUser");
+            }
         } catch (UserException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        req.setAttribute("msg", "重置成功！");
-        return "f:/jsps/dialog.jsp";
+        req.setAttribute("pageBean", pageUser);
+        req.setAttribute("msg", "密码重置成功！");
+        return "f:/jsps/admin/user/list.jsp";
     }
 	
 	public String deleteUsers(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+	    PageBean<User> pageUser = null;
         String uid = req.getParameter("userids");
         String[] uids = uid.split(",");
         String msg = "";
@@ -119,13 +125,17 @@ public class UserManagementServlet extends BaseServlet {
                 } else {
                     msg = row+"个用户被成功删除！";
                 }
-                
+                pageUser = userService.findUserByPager(null, StringUtil.Empty);
+                if (pageUser != null) {
+                    pageUser.setUrl("/gcoads/admin/UserManagementServlet?method=findUser");
+                }
             } catch (UserException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
+        req.setAttribute("pageBean", pageUser);
         req.setAttribute("msg", msg);
-        return "f:/jsps/dialog.jsp";
+        return "f:/jsps/admin/user/list.jsp";
     }
 }

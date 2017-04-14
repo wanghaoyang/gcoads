@@ -28,9 +28,9 @@
 </script>
 </head>
 <body>
+  <div id="funTitleDiv">学历信息列表</div>
   <div id="tableDiv">
     <div id="searchDiv">
-      <div>毕业生信息列表</div>
       <form action="<c:url value='/admin/EducationalLevelManagementServlet'/>"
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findEducationalLevel" /> <input
@@ -45,7 +45,7 @@
 
     <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
-        <tr>
+        <tr style="background-color: #FFF;">
           <th></th>
           <th>学历号</th>
           <th>学历名称</th>
