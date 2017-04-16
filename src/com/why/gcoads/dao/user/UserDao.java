@@ -219,7 +219,7 @@ public class UserDao {
 	 */
 	public int deleteSudentUserByLoginname(String[] Loginnames) throws SQLException {
 		// TODO Auto-generated method stub
-		String sql = "delete from t_user where loginname in (";
+		String sql = "update t_user set deleted='1' where loginname in (";
 		if (Loginnames != null) {
 			for (int i = 0; i < Loginnames.length; i++) {
 				sql += "?";

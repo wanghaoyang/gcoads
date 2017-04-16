@@ -26,6 +26,13 @@
         location = "${pageBean.url}&pc=" + pc;
     }
     
+    function detail(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var xuehao = $td.eq(1).text();
+        if("" != xuehao)
+        document.location="/gcoads/admin/GraduateManagementServlet?method=findGraduateByXuehao&xuehao="+xuehao;
+    }
+    
     $(function(){
         $("#condition").change(function(){
           var text = $("#condition").find("option:selected").text();
@@ -45,6 +52,7 @@
             }
           $("#field").val(text);
         });
+        $("#flashMsg").show(300).delay(2000).hide(300);
     })
 </script>
 </head>
@@ -56,13 +64,12 @@
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findGraduate" />
         <input id="value" type="text" name="value" placeholder="请输入姓名" value="${value }"/>
-        <input type="hidden" id="field" name="field" value="" />
-        <select id="condition">
-          <option value="1" selected>姓名</option>
-          <option value="2">学号</option>
-          <option value="3">毕业年份</option>
+        <input type="hidden" id="field" name="field" value="${field }" />
+        <select id="condition" style="width: 76px;">
+          <c:forEach items="${condition }" var="str">
+          <option <c:if test="${field eq str }">selected</c:if>>${str }</option>
+          </c:forEach>
         </select>
-          
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
             id="searchImg" align="top" border="0"
@@ -70,7 +77,6 @@
         </span>
       </form>
     </div>
-
     <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>
         <tr style="background-color: #FFF;">
@@ -87,15 +93,16 @@
         var="graduate">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${graduate.xuehao}</td>
-          <td>${graduate.studentname }</td>
+          <td id="xuehao">${graduate.xuehao}</td>
+          <td><span class="studentName" onclick="detail(this)">${graduate.studentname }</span></td>
           <td>${graduate.xueyuan }</td>
-          <td>${graduate.xueli.educationalLevel }</td>
+          <td>${graduate.xueli.educationallevel }</td>
           <td>${graduate.biyeshijian }</td>
           <td>${graduate.gstatus }</td>
         </tr>
       </c:forEach>
     </table>
+    <div id="flashMsg">${msg }</div>
   </div>
   <div style="float: left; width: 100%; text-align: center;">
     <br />

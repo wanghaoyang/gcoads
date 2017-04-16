@@ -1,11 +1,6 @@
 package com.why.gcoads.model;
 
 import java.util.Date;
-import java.util.List;
-
-import org.junit.Test;
-
-import com.why.gcoads.service.printreportrecord.PayRecordService;
 
 public class PrintReportRecord {
 
@@ -14,7 +9,7 @@ public class PrintReportRecord {
     private String reportname;// 学历证明文件名
     private String reportpath;// 学历证明文件路径
     private Date printdatetime;// 打印时间
-    private String printpagenum;// 打印页数
+    private int printpagenum;// 打印页数
     private boolean printstatus;// 打印状态
     private Graduate graduate;// 毕业生信息
 
@@ -58,11 +53,11 @@ public class PrintReportRecord {
         this.printdatetime = printdatetime;
     }
 
-    public String getPrintpagenum() {
+    public int getPrintpagenum() {
         return printpagenum;
     }
 
-    public void setPrintpagenum(String printpagenum) {
+    public void setPrintpagenum(int printpagenum) {
         this.printpagenum = printpagenum;
     }
 
@@ -70,7 +65,7 @@ public class PrintReportRecord {
         return printstatus;
     }
 
-    public void setPrintstatus(Boolean printstatus) {
+    public void setPrintstatus(boolean printstatus) {
         this.printstatus = printstatus;
     }
 
@@ -82,21 +77,12 @@ public class PrintReportRecord {
         this.graduate = graduate;
     }
 
-    @Test
-    public void T(){
-        PayRecordService payRecordService = new PayRecordService();
-        PayRecord payRecord = new PayRecord();
-        payRecord.setPrid(1);
-        payRecord.setLoginname("1235");
-        payRecord.setPaystartdatetime(new Date());;
-        payRecord.setPayfinisheddatetime(new Date());;
-        payRecord.setTotalcost(200);
-        payRecord.setPaystatus(true);
-        payRecord.setCertificationquantity(100);
-        
-        List<PayRecord> beanList = payRecordService.findPayRecordByPager(null, "").getBeanList();
-        for (PayRecord payRecord2 : beanList) {
-            System.out.println(payRecord);
-        }
+    @Override
+    public String toString() {
+        return "PrintReportRecord [pprid=" + pprid + ", loginname=" + loginname + ", reportname=" + reportname
+                + ", reportpath=" + reportpath + ", printdatetime=" + printdatetime + ", printpagenum=" + printpagenum
+                + ", printstatus=" + printstatus + ", graduate=" + graduate + "]";
     }
+
+    
 }

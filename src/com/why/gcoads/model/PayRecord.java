@@ -53,4 +53,12 @@ public class PayRecord {
     public void setPaystatus(boolean paystatus) {
         this.paystatus = paystatus;
     }
+    @Override
+    public String toString() {
+        return "PayRecord [prid=" + prid + ", loginname=" + loginname + ", paystartdatetime=" + paystartdatetime
+                + ", payfinisheddatetime=" + payfinisheddatetime + ", totalcost=" + totalcost
+                + ", certificationquantity=" + certificationquantity + ", paystatus=" + paystatus + "]";
+    }
+    
+    
 }

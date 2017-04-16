@@ -39,14 +39,14 @@ public class PayRecordService {
 
     public PageBean<PayRecord> findPayRecordByPager(
             PageBean<PayRecord> pagePayRecord,
-            String educationalLevel) {
+            String loginname) {
         try {
-            if (StringUtil.isNullOrEmpty(educationalLevel)) {
-                educationalLevel = StringUtil.Empty;
+            if (StringUtil.isNullOrEmpty(loginname)) {
+                loginname = StringUtil.Empty;
             }
             pagePayRecord = payRecordDao
                     .findPayRecordByPager(pagePayRecord,
-                            educationalLevel);
+                            loginname);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);

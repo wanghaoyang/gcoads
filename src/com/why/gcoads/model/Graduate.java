@@ -12,9 +12,11 @@ public class Graduate {
     private EducationalLevel xueli;
     private String xueyuan;
     private String xibie;
-    private String banji;
+    private String zhuanye;
     private String graduatecertificatenum;
     private String gstatus;
+    private String province;
+    private String city;
     private int elid;
 
     public Graduate() {
@@ -26,10 +28,11 @@ public class Graduate {
         this.xuehao = stu.getXuehao();
         this.studentname = stu.getStudentname();
         this.studentgender = stu.getStudentgender();
-        this.biyeshijian = stu.getBiyeshijian();
+        this.ruxueshijian = stu.getRuxueshijian();
+        System.out.println(this.ruxueshijian);
         this.xueyuan = stu.getXueyuan();
         this.xibie = stu.getXibie();
-        this.banji = stu.getBanji();
+        this.zhuanye = stu.getZhuanye();
     }
 
     public int getGid() {
@@ -104,12 +107,12 @@ public class Graduate {
         this.xibie = xibie;
     }
 
-    public String getBanji() {
-        return banji;
+    public String getZhuanye() {
+        return zhuanye;
     }
 
-    public void setBanji(String banji) {
-        this.banji = banji;
+    public void setZhuanye(String zhuanye) {
+        this.zhuanye = zhuanye;
     }
 
     public String getGraduatecertificatenum() {
@@ -136,15 +139,31 @@ public class Graduate {
         this.elid = elid;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
-        return "Graduate [gid=" + gid + ", xuehao=" + xuehao + ", studentname="
-                + studentname + ", studentgender=" + studentgender
-                + ", ruxueshijian=" + ruxueshijian + ", biyeshijian="
-                + biyeshijian + ", xueli=" + xueli + ", xueyuan=" + xueyuan
-                + ", xibie=" + xibie + ", banji=" + banji
-                + ", graduatecertificatenum=" + graduatecertificatenum
-                + ", gstatus=" + gstatus + ", elid=" + elid + "]";
+        return "Graduate [gid=" + gid + ", xuehao=" + xuehao + ", studentname=" + studentname + ", studentgender="
+                + studentgender + ", ruxueshijian=" + ruxueshijian + ", biyeshijian=" + biyeshijian + ", xueli=" + xueli
+                + ", xueyuan=" + xueyuan + ", xibie=" + xibie + ", zhuanye=" + zhuanye + ", graduatecertificatenum="
+                + graduatecertificatenum + ", gstatus=" + gstatus + ", province=" + province + ", city=" + city
+                + ", elid=" + elid + "]";
     }
+
+    
 
 }

@@ -38,6 +38,7 @@ public class CommonUtils {
             BeanUtils.populate(bean, map);
             return bean;
         } catch(Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

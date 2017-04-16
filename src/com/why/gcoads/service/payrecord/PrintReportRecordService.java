@@ -35,20 +35,18 @@ public class PrintReportRecordService {
 
     public PageBean<PrintReportRecord> findPrintReportRecordByPager(
             PageBean<PrintReportRecord> pagePrintReportRecord,
-            String educationalLevel) {
+            String loginname) {
         try {
-            if (StringUtil.isNullOrEmpty(educationalLevel)) {
-                educationalLevel = StringUtil.Empty;
+            if (StringUtil.isNullOrEmpty(loginname)) {
+                loginname = StringUtil.Empty;
             }
-
             pagePrintReportRecord = printReportRecordDao
                     .findPrintReportRecordByPager(pagePrintReportRecord,
-                            educationalLevel);
+                            loginname);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);
         }
         return pagePrintReportRecord;
     }
-
 }

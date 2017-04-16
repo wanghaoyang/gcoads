@@ -16,9 +16,9 @@
 		$("#uploadfilepath").val($("#excel").val());
 	}
 	function submitFile() {
-		$("#uploadfilepath").val($("#excel").val());
+		//$("#uploadfilepath").val($("#excel").val());
 		doCheck();
-		return false;
+		$("#uploadExcelForm").submit();
 	}
 	function doCheck() {
 		var file = $("#excel").val();
@@ -44,17 +44,34 @@
 </head>
 <body>
 	<div>
-		单击<a href="<c:url value=''/>">这里</a>excel模板
-		<form id="singleInfoForm" enctype="multipart/form-data"
-			action="<c:url value='/GraduateManagementServlet?method=addStudentByExcel' />">
+		单击<a href="<c:url value='/admin/DownloadFileServlet?method=downloadExcelFile'/>">这里</a>excel模板
+		<div id="error">${msg }</div>
+		<form id="uploadExcelForm" enctype="multipart/form-data" method="post"
+			action="<c:url value='/admin/GraduateManagementServlet?method=addStudentByExcel' />">
 			<input id="uploadfilepath" name="uploadfilepath" type="text"
 				placeholder="请选择excel文件" value="${uploadfilepath }"> <input
 				id="excel" type="file" name="excel" onchange="handleFile()"
 				accept="application/vnd.ms-excel" />
-			<div id="error"></div>
 			<br /> <input id="upload" onclick="submitFile()" type="button"
 				value="上传" />
 		</form>
+    <%-- <form name="uploadform" action="<c:url value='/admin/GraduateManagementServlet?method=addStudentByExcel' />" ENCTYPE="multipart/form-data">
+        <table border="1" width="450" cellpadding="4" cellspacing="2" bordercolor="#9BD7FF">
+        <tr>
+            <td width="100%" colspan="2">
+
+                            文件：<input name="x" size="40" type="file">
+
+            </td>
+        </tr>
+        </table>
+        <br/><br/>
+
+        <table>
+        <tr><td align="center"><input name="upload" type="submit" value="开始上传"/></td></tr>
+        </table>
+
+</form> --%>
 	</div>
 </body>
 </html>

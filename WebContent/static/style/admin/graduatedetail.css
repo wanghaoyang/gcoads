@@ -1,0 +1,5 @@
+table{margin:auto;}
+.star{color: #F00;}
+#buttonTd{text-align: center;}
+#save{margin:20px 20px 0 0; height: 30px; width: 75px; background-color: #15B69A; border: 0; color: #FFF; font-size: 14px; font-weight: 600;}
+#reset{margin:20px 0 0 20px; height: 30px; width: 75px; background-color: #15B69A; border: 0; color: #FFF; font-size: 14px; font-weight: 600;}

@@ -27,12 +27,10 @@ public class GraduateDao {
      */
     public void addGraduate(Graduate graduate) throws SQLException {
 
-        String sql = "insert into t_graduate(xuehao,studentname,studentgender,ruxueshijian,biyeshijian,xueyuan,xibie,banji,Graduatecertificatenum,gstatus,elid) values(?,?,?,?,?,?,?,?,?,?,?)";
-        Object[] params = { graduate.getXuehao(), graduate.getStudentname(),
-                graduate.getStudentgender(), graduate.getRuxueshijian(),
-                graduate.getBiyeshijian(), graduate.getXueyuan(),
-                graduate.getXibie(), graduate.getBanji(),
-                graduate.getGraduatecertificatenum(), graduate.getGstatus(),
+        String sql = "insert into t_graduate(xuehao,studentname,studentgender,ruxueshijian,biyeshijian,xueyuan,xibie,zhuanye,Graduatecertificatenum,gstatus,elid) values(?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] params = { graduate.getXuehao(), graduate.getStudentname(), graduate.getStudentgender(),
+                graduate.getRuxueshijian(), graduate.getBiyeshijian(), graduate.getXueyuan(), graduate.getXibie(),
+                graduate.getZhuanye(), graduate.getGraduatecertificatenum(), graduate.getGstatus(),
                 graduate.getElid() };
 
         qr.update(sql, params);
@@ -44,14 +42,15 @@ public class GraduateDao {
      * @param graduate
      * @throws SQLException
      */
-    public void updateGraduateInfoByXuehao(Graduate graduate)
-            throws SQLException {
+    public void updateGraduateInfoByXuehao(Graduate graduate) throws SQLException {
 
-        String sql = "update t_graduate set graduatecertificatenum = ? gstatus = ?, elid = ? where xuehao = ?";
-        Object[] params = { graduate.getGstatus(),
-                graduate.getXueli().getElid(), graduate.getXuehao() };
+        String sql = "update t_graduate set xueyuan=?,xibie=?,zhuanye=?, biyeshijian=?, graduatecertificatenum = ?, gstatus = ?, elid = ?, province=?,city=? where xuehao = ?";
+        Object[] params = { graduate.getXueyuan(),graduate.getXibie(),graduate.getZhuanye(),graduate.getBiyeshijian(), graduate.getGraduatecertificatenum(), graduate.getGstatus(),
+                graduate.getXueli().getElid(), graduate.getProvince(), graduate.getCity(), graduate.getXuehao() };
 
         qr.update(sql, params);
+        sql = "update t_student set xueyuan=?,xibie=?,zhuanye=?,biyeshijian = ? where xuehao = ?";
+        qr.update(sql, graduate.getXueyuan(),graduate.getXibie(),graduate.getZhuanye(),graduate.getBiyeshijian(),graduate.getXuehao());
     }
 
     /**
@@ -61,12 +60,10 @@ public class GraduateDao {
      * @throws SQLException
      */
     public void updateGraduateBasicInfo(Graduate graduate) throws SQLException {
-
-        String sql = "update t_graduateduate set studentname = ?,studentgender = ?,biyeshijian = ?,xueyuan= ?, xibie= ?, banji= ? where gid = ?";
-        Object[] params = { graduate.getStudentname(),
-                graduate.getStudentgender(), graduate.getBiyeshijian(),
-                graduate.getXueli(), graduate.getXueyuan(),
-                graduate.getXibie(), graduate.getBanji() };
+        String sql = "update t_graduate set xuehao=?, studentname = ?,studentgender = ?,ruxueshijian=?,biyeshijian=?,xueyuan= ?, xibie= ?, zhuanye= ? where gid = ?";
+        Object[] params = { graduate.getXuehao(), graduate.getStudentname(), graduate.getStudentgender(),
+                graduate.getRuxueshijian(),graduate.getBiyeshijian(), graduate.getXueyuan(), graduate.getXibie(), graduate.getZhuanye(),
+                graduate.getGid() };
 
         qr.update(sql, params);
     }
@@ -93,10 +90,9 @@ public class GraduateDao {
      * @return
      * @throws SQLException
      */
-    public PageBean<Graduate> findGraduateByPager(
-            PageBean<Graduate> pageGraduate, String field, String value)
+    public PageBean<Graduate> findGraduateByPager(PageBean<Graduate> pageGraduate, String field, String value)
             throws SQLException {
-        String sql = "select {0} from t_graduate where {1}";
+        String sql = "select {0} from t_graduate where {1} order by biyeshijian DESC, ruxueshijian DESC";
 
         if (value == null) {
             value = StringUtil.Empty;
@@ -108,12 +104,12 @@ public class GraduateDao {
             value.replace("\"", "\\\"");
         }
 
-        switch (field) {
+        switch (field.trim()) {
         case "xuehao":
             field = " xuehao = ? ";
             break;
         case "biyeshijian":
-            field = " yesr(biyeshijian) = ? ";
+            field = " year(biyeshijian) = ? ";
             break;
         default:
             field = " studentname like ? ";
@@ -127,9 +123,7 @@ public class GraduateDao {
             pageGraduate.setPs(10);
         }
 
-        Number number = (Number) qr.query(
-                MessageFormat.format(sql, " count(1) ", field),
-                new ScalarHandler(), value);
+        Number number = (Number) qr.query(MessageFormat.format(sql, " count(1) ", field), new ScalarHandler(), value);
 
         int tr = number.intValue();// 得到了总记录数
         pageGraduate.setTr(tr);
@@ -148,10 +142,8 @@ public class GraduateDao {
         }
         sql += " limit ?,? ";
 
-        List<Graduate> beanList = qr.query(
-                MessageFormat.format(sql, " * ", field),
-                new BeanListHandler<Graduate>(Graduate.class), value,
-                (pageGraduate.getPc() - 1) * pageGraduate.getPs(),
+        List<Graduate> beanList = qr.query(MessageFormat.format(sql, " * ", field),
+                new BeanListHandler<Graduate>(Graduate.class), value, (pageGraduate.getPc() - 1) * pageGraduate.getPs(),
                 pageGraduate.getPs());
         pageGraduate.setBeanList(beanList);
 
@@ -167,7 +159,7 @@ public class GraduateDao {
      */
     public int deleteGraduateByXuehao(String[] xuehaos) throws SQLException {
         // TODO Auto-generated method stub
-        String sql = "delete from t_graduate where xuehao in (";
+        String sql = "update t_graduate set deleted = 1 where xuehao in (";
         if (xuehaos != null) {
             for (int i = 0; i < xuehaos.length; i++) {
                 sql += "?";

@@ -53,8 +53,34 @@
 		})
         }
     }
+    function _resetPwd(obj){
+        var $td = $(obj).parents('td').parents('tr').children('td');
+        var loginname = $td.eq(1).text();
+        var uid = $td.eq(0).text();
+        var uid =$("#subcheck"+uid).val();
+        $("#dialogMsgDiv2",parent.document).text("你确定要重置"+loginname+"的密码？");
+        $("#dialog2",parent.document).show();
+        $(".closeDivImg",parent.document).click(function() {
+        	$(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+		})
+        var aaa = $("#Nobutton",parent.document).click(function() {
+        	$(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+		})
+        $("#Yesbutton",parent.document).click(function() {
+        	$(".dialogMsgDiv",parent.document).text("");
+            $("#dialog1",parent.document).hide();
+            $("#dialog2",parent.document).hide();
+            if (""!=uid){
+                document.location="/gcoads/admin/UserManagementServlet?method=resetPassword&userid="+uid;
+            }
+		})
+    }
     $(function() {
-    	$("#flashMsg").show(3000).delay(2000).hide(300);
+    	$("#flashMsg").show(300).delay(2000).hide(300);
 	})
 </script>
 </head>
@@ -99,8 +125,9 @@
             value="1" ${user.status? 'checked':''} disabled />已激活 <input
             type="radio" name="status${status.index}" value="1"
             ${user.status? '':'checked'} disabled />未激活</td>
-          <td><a href="/gcoads/admin/UserManagementServlet?method=resetPassword&userid=${user.uid }">重置密码</a></td>
-          <td><input type="checkbox" id="subcheck" name="userCheck"
+          <td>
+          <span class="clickspan" onclick="_resetPwd(this)">重置密码</span></td>
+          <td><input type="checkbox" id="subcheck${status.index + 1}" name="userCheck"
             onclick="setSelectAll()" value="${user.uid }"/></td>
         </tr>
       </c:forEach>

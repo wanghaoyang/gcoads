@@ -52,6 +52,13 @@
         })
         }
     }
+    function detail(obj) {
+        var $td = $(obj).parents('tr').children('td');
+        var xuehao = $td.eq(1).text();
+        if("" != xuehao)
+        document.location="/gcoads/admin/GraduateManagementServlet?method=findStudentByXuehao&xuehao="+xuehao;
+    }
+    
     $(function(){
         $("#condition").change(function(){
           var text = $("#condition").find("option:selected").text();
@@ -83,11 +90,11 @@
         method="get" target="body" id="form1">
         <input type="hidden" name="method" value="findStudent" /> <input
           id="value" type="text" name="value" placeholder="请输入姓名" value="${value }"/>
-          <input type="hidden" id="field" name="field" value="" />
+          <input type="hidden" id="field" name="field" value="${field}" />
         <select id="condition">
-          <option value="1" selected>姓名</option>
-          <option value="2">学号</option>
-          <option value="3">学院</option>
+          <c:forEach items="${condition }" var="str">
+          <option <c:if test="${field eq str }">selected</c:if>>${str }</option>
+          </c:forEach>
         </select>
         <span> <a
           href="javascript:document.getElementById('form1').submit();"><img
@@ -117,7 +124,7 @@
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
           <td>${student.xuehao}</td>
-          <td>${student.studentname }</td>
+          <td><span class="studentName" onclick="detail(this)">${student.studentname }</span></td>
           <td>${student.xueyuan }</td>
           <td>${student.xibie }</td>
           <td>${student.banji }</td>

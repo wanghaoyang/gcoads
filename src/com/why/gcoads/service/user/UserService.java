@@ -185,7 +185,6 @@ public class UserService {
 		String to = user.getEmail();
 		String subject = prop.getProperty("subject");
 		// MessageForm.format方法会把第一个参数中的{0},使用第二个参数来替换。
-		// 例如MessageFormat.format("你好{0}, 你{1}!", "张三", "去死吧"); 返回“你好张三，你去死吧！”
 		String content = MessageFormat.format(prop.getProperty("content"),
 				user.getActivationCode());
 		Mail mail = new Mail(from, to, subject, content);

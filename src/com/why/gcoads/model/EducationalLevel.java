@@ -11,10 +11,10 @@ public class EducationalLevel {
     public void setElid(int elid) {
         this.elid = elid;
     }
-    public String getEducationalLevel() {
+    public String getEducationallevel() {
         return educationallevel;
     }
-    public void setEducationalLevel(String educationallevel) {
+    public void setEducationallevel(String educationallevel) {
         this.educationallevel = educationallevel;
     }
 	@Override
