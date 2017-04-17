@@ -46,8 +46,10 @@ public class ReadExcelUtils {
 			}
 		} catch (FileNotFoundException e) {
 			logger.error("FileNotFoundException", e);
+			throw new RuntimeException(e);
 		} catch (IOException e) {
 			logger.error("IOException", e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -183,8 +185,10 @@ public class ReadExcelUtils {
 		} catch (FileNotFoundException e) {
 			System.out.println("未找到指定路径的文件!");
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return map;
 	}

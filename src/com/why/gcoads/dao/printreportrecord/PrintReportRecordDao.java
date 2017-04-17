@@ -26,17 +26,29 @@ public class PrintReportRecordDao {
      * @param payRecord
      * @throws SQLException
      */
-    public void addPrintReportRecord(PrintReportRecord printReportRecord)
+    public int addPrintReportRecord(PrintReportRecord printReportRecord)
             throws SQLException {
-        String sql = "INSERT INTO t_printreportrecord (loginname, reportname,reportpath,printdatetime,printpagenum,printstatus) VALUES (?,?,?,?,?,?)";
-        Object[] params = { printReportRecord.getLoginname(),
+
+        String sql = "INSERT INTO t_printreportrecord (docnum,loginname, reportname,reportpath,printdatetime,printpagenum,printstatus) VALUES (?,?,?,?,?,?)";
+        Object[] params = { StringUtil.Empty, printReportRecord.getLoginname(),
                 printReportRecord.getReportname(),
                 printReportRecord.getReportpath(),
                 printReportRecord.getPrintdatetime(),
                 printReportRecord.getPrintpagenum(),
                 printReportRecord.getPrintstatus() };
         qr.update(sql, params);
+
+        sql = "select max(pprid) from t_payrecord";
+        Number number = (Number) qr.query(sql, new ScalarHandler());
+        int pprid = number.intValue();// 得到了最新记录主键
+
+        sql = "update t_payrecord set docnum = ? where pprid = ?";
+        String docnum = "HHD" + String.format("%07d", pprid);
+        ;
+        qr.update(sql, docnum, pprid);
+        return pprid;
     }
+
     @Test
     public void pub() {
         // TODO Auto-generated method stub
@@ -61,7 +73,7 @@ public class PrintReportRecordDao {
      * @param printReportRecord
      * @throws SQLException
      */
-    public void updatePrintReportRecord(PrintReportRecord printReportRecord)
+    public int updatePrintReportRecord(PrintReportRecord printReportRecord)
             throws SQLException {
         String sql = "UPDATE t_payrecord SET loginname = ?, reportname = ?, reportpath = ?, printdatetime = ?, printpagenum = ?, printstatus = ? WHERE pprid = ?";
         Object[] params = { printReportRecord.getLoginname(),
@@ -71,7 +83,8 @@ public class PrintReportRecordDao {
                 printReportRecord.getPrintpagenum(),
                 printReportRecord.getPrintstatus(),
                 printReportRecord.getPprid() };
-        qr.update(sql, params);
+        return qr.update(sql, params);
+        
     }
 
     /**
@@ -86,6 +99,20 @@ public class PrintReportRecordDao {
         String sql = "select * from t_printreportrecord where pprid=?";
         return qr.query(sql, new BeanHandler<PrintReportRecord>(
                 PrintReportRecord.class), pprid);
+    }
+
+    /**
+     * 查询打印记录
+     * 
+     * @param pprid
+     * @return
+     * @throws SQLException
+     */
+    public PrintReportRecord findPrintReportRecordByshenfenzhenghao(
+            String loginname, String shenfenzhenghao) throws SQLException {
+        String sql = "select * from t_printreportrecord where !printstatus and loginname=? and shenfenzhenghao=?";
+        return qr.query(sql, new BeanHandler<PrintReportRecord>(
+                PrintReportRecord.class), loginname, shenfenzhenghao);
     }
 
     /**

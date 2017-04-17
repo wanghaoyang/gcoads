@@ -29,7 +29,6 @@ public class Graduate {
         this.studentname = stu.getStudentname();
         this.studentgender = stu.getStudentgender();
         this.ruxueshijian = stu.getRuxueshijian();
-        System.out.println(this.ruxueshijian);
         this.xueyuan = stu.getXueyuan();
         this.xibie = stu.getXibie();
         this.zhuanye = stu.getZhuanye();

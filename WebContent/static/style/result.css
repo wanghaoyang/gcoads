@@ -1,0 +1,8 @@
+body {margin: 0;}
+#funTitleDiv {font-size: 22px;margin: auto; text-align: center;}
+#tableDiv {height: 430px;margin-top: 13px;}
+#searchDiv {width:840px; margin:auto;}
+#deleteAllSpan {float: right; margin-right: 40px; margin-top: 15px;}
+#userListTab { margin: 10px 0 10px 70px; width:840px;}
+
+#resultTab{margin:auto;margin-top:50px;}

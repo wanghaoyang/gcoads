@@ -35,13 +35,13 @@
           学历证明<img src="/gcoads/static/images/left/select_xl01.png">
         </dt>
         <dd>
-          <a href="<c:url value='/GraduateServlet?method=findStudent'/>"
+          <a href="<c:url value='/GraduateServlet?method=findGraduateEdu'/>"
             target="body">学历查询</a>
         </dd>
         <dd>
           <a
             href="<c:url value='/GraduateServlet?method=findGraduate'/>"
-            target="body">学历证明申请</a>
+            target="body">申请学历证明</a>
         </dd>
         <c:if test="${!('企业用户' eq sessionScope.sessionUser.role) } ">
           <dl class="statistics">

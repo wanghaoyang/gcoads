@@ -26,8 +26,7 @@ public class DownloadFileServlet extends BaseServlet {
      * @throws Exception
      */
     public void downloadExcelFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String fileName = "模板.xls"; // 下载的文件名（前提：下载的文件需要存放在服务器的位置上，这里是
-                                    // WebRoot/excel 中）
+        String fileName = "模板.xls"; // 下载的文件名
         response.setContentType("text/html;charset=UTF-8");
         BufferedInputStream in = null;
         BufferedOutputStream out = null;

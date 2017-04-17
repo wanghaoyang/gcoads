@@ -81,6 +81,18 @@ public class StudentDao {
         String sql = "select * from t_student where xuehao = ?";
         return qr.query(sql, new BeanHandler<Student>(Student.class), xuehao);
     }
+    
+    /**
+     * 通过学号查询学生信息
+     * 
+     * @param xuehao
+     * @return
+     * @throws SQLException
+     */
+    public Student findStudentByshenfenzhenghao(String shenfenzhenghao) throws SQLException {
+        String sql = "select * from t_student where shenfenzhenghao = ?";
+        return qr.query(sql, new BeanHandler<Student>(Student.class), shenfenzhenghao);
+    }
 
     /**
      * 通过分页查询学生信息

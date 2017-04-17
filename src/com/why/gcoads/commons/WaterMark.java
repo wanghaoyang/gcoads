@@ -1,13 +1,7 @@
 package com.why.gcoads.commons;
 import java.awt.Color;
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
@@ -21,19 +15,19 @@ import com.lowagie.text.pdf.PdfStamper;
  *
  */
 public class WaterMark {
-
-	public static void main(String[] args) throws DocumentException,
-			IOException {
-		// 要输出的pdf文件
-		BufferedOutputStream bos = new BufferedOutputStream(
-				new FileOutputStream(new File("D:/_testreport/1491554068772_ITextTest.pdf")));
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		// 将pdf文件先加水印然后输出
-//		setWatermark(bos, "D:/_testreport/ITextTest.pdf", format.format(cal.getTime())
-//				+ "  下载使用人：" + "测试user", 16);
-		waterMark("D:/_testreport/1491556103797_ITextTest.pdf", "D:/_testreport/Koala.jpg", "D:/_testreport/1_ITextTest.pdf", "学历证明", 16);
-	}
+//
+//	public static void main(String[] args) throws DocumentException,
+//			IOException {
+//		// 要输出的pdf文件
+//		BufferedOutputStream bos = new BufferedOutputStream(
+//				new FileOutputStream(new File("D:/_testreport/1491554068772_ITextTest.pdf")));
+//		Calendar cal = Calendar.getInstance();
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//		// 将pdf文件先加水印然后输出
+////		setWatermark(bos, "D:/_testreport/ITextTest.pdf", format.format(cal.getTime())
+////				+ "  下载使用人：" + "测试user", 16);
+//		waterMark("D:/_testreport/1491556103797_ITextTest.pdf", "D:/_testreport/Koala.jpg", "D:/_testreport/1_ITextTest.pdf", "学历证明", 16);
+//	}
 	
 	/**
 	 * 
@@ -59,7 +53,7 @@ public class WaterMark {
             // 图片位置
             //image.setAbsolutePosition(110, 110);
            
-            image.setAbsolutePosition(10, -10); 
+            image.setAbsolutePosition(10, -10);
             PdfContentByte under;
             Rectangle pageRect = null;
             for (int i = 1; i < total; i++) {

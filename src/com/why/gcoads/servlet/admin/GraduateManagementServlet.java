@@ -25,6 +25,7 @@ import com.why.gcoads.model.EducationalLevel;
 import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.Student;
+import com.why.gcoads.model.User;
 import com.why.gcoads.service.educationallevel.EducationalLevelService;
 import com.why.gcoads.service.graduate.GraduateService;
 import com.why.gcoads.servlet.BaseServlet;
@@ -265,9 +266,15 @@ public class GraduateManagementServlet extends BaseServlet {
     public String addStudentByExcel(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        User user = (User)req.getSession().getAttribute("sessionUser");
+        if(user == null) {
+            return "r:/jsps/user/login.jsp";
+        }
+        
         Map<String, String> errorMap = new HashMap<String, String>();
         // 得到上传文件的保存目录，将上传的文件存放于WEB-INF目录下，不允许外界直接访问，保证上传文件的安全
         String savePath = this.getServletContext().getRealPath("/excel/upload/");
+        savePath = savePath.substring(0, savePath.indexOf("\\"))+ "\\" + req.getContextPath().substring(1) +"\\excel\\upload" +"\\";
         File file = new File(savePath);
         // 判断上传文件的保存目录是否存在
         if (!file.exists() && !file.isDirectory()) {
@@ -313,10 +320,11 @@ public class GraduateManagementServlet extends BaseServlet {
                     // c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
                     // 处理获取到的上传文件的文件名的路径部分，只保留文件名部分
                     filename = filename.substring(filename.lastIndexOf("\\") + 1);
+                    filename = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_"+ user.getLoginname() + "_" + filename;
                     // 获取item中的上传文件的输入流
                     InputStream in = item.getInputStream();
                     // 创建一个文件输出流
-                    FileOutputStream out = new FileOutputStream(savePath + "\\" + filename);
+                    FileOutputStream out = new FileOutputStream(savePath + filename);
                     // 创建一个缓冲区
                     byte buffer[] = new byte[1024];
                     // 判断输入流中的数据是否已经读完的标识
@@ -336,7 +344,7 @@ public class GraduateManagementServlet extends BaseServlet {
                     // message = "文件上传成功！";
                     // ReadExcelUtils.parseExcel(savePath + filename);
                     try {
-                        graduateService.addGraduateInfoByExcel(savePath + filename);
+                        errorMap = graduateService.addGraduateInfoByExcel(savePath + filename);
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -344,20 +352,21 @@ public class GraduateManagementServlet extends BaseServlet {
                 }
             }
         } catch (Exception e) {
-            errorMap.put("code", "error");
-            errorMap.put("msg", "数据导入失败, 请检查!");
+            req.setAttribute("code", "error");
+            req.setAttribute("msg", "数据导入失败, 请检查!");
             e.printStackTrace();
         }
         // req.setAttribute("message", message);
         // request.getRequestDispatcher("/message.jsp").forward(request,
         // response);
-        req.setAttribute("errorMap", errorMap);
         if (errorMap.size() == 0) {
             req.setAttribute("code", "success");
             req.setAttribute("msg", "数据导入成功");
         } else {
-            errorMap.put("code", "error");
-            errorMap.put("msg", "数据导入失败, 请检查!");
+            req.setAttribute("code", "error");
+            req.setAttribute("errorRowsOfFormat", errorMap.get("errorRowsOfFormat"));
+            req.setAttribute("errorRowsOfStuExist", errorMap.get("errorRowsOfStuExist"));
+            req.setAttribute("msg", "数据导入失败, 请检查!");
         }
 
         return "f:/jsps/admin/msg.jsp";

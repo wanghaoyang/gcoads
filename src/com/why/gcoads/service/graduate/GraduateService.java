@@ -42,15 +42,17 @@ public class GraduateService {
      * @param filePath
      * @return
      */
-    public Map<String, List<Integer>> addGraduateInfoByExcel(String filePath) {
+    public Map<String, String> addGraduateInfoByExcel(String filePath) {
         if (StringUtil.isNullOrEmpty(filePath)) {
             return null;
         }
         // filePath = "D:/cloud/Qsync/gcoads/conf/student.xls";
         // filePath = "D:/student.xls";
-        Map<String, List<Integer>> errorMap = new HashMap<String, List<Integer>>();
-        List<Integer> errorRows = new ArrayList<Integer>();
-        Map<Integer, Map<String, Object>> map = ReadExcelUtils.parseExcel(filePath);
+        Map<String, String> errorMap = new HashMap<String, String>();
+        List<Integer> errorRowsOfFormat = new ArrayList<Integer>();
+        List<Integer> errorRowsOfStuExist = new ArrayList<Integer>();
+        Map<Integer, Map<String, Object>> map = ReadExcelUtils
+                .parseExcel(filePath);
         int i = 1;
         for (; i <= map.size(); i++) {
             Map<String, Object> beanMap = map.get(i);
@@ -63,80 +65,86 @@ public class GraduateService {
             try {
                 for (Entry<String, Object> entry : beanMap.entrySet()) {
                     if (StringUtil.isNullOrEmpty(entry.getValue())) {
-                        errorRows.add(i);
-                    } else if ("shenfenzhenghao".equals(entry.getKey()) && entry.getValue().toString().length() != 18) {
-                        errorRows.add(i);
-                    } else if ("email".equals(entry.getKey()) && !entry.getValue().toString()
-                            .matches("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$")) {
-                        errorRows.add(i);
-                    } else if ("ruxueshijian".equals(entry.getKey())){
-                        if(entry.getValue() == null || StringUtil.isNullOrEmpty(entry.getValue().toString())){
+                        errorRowsOfFormat.add(i);
+                    } else if ("shenfenzhenghao".equals(entry.getKey())
+                            && entry.getValue().toString().length() != 18) {
+                        errorRowsOfFormat.add(i);
+                    } else if ("email".equals(entry.getKey())
+                            && !entry
+                                    .getValue()
+                                    .toString()
+                                    .matches(
+                                            "^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$")) {
+                        errorRowsOfFormat.add(i);
+                    } else if ("ruxueshijian".equals(entry.getKey())) {
+                        if (entry.getValue() == null
+                                || StringUtil.isNullOrEmpty(entry.getValue()
+                                        .toString())) {
                             beanMap.remove("ruxueshijian");
-                        } else{
+                        } else {
                             try {
-                            Date date = sdf.parse(entry.getValue().toString());
-                            beanMap.put("ruxueshijian", date);
+                                Date date = sdf.parse(entry.getValue()
+                                        .toString());
+                                beanMap.put("ruxueshijian", date);
                             } catch (ParseException e) {
                                 beanMap.remove("ruxueshijian");
                             }
                         }
-                    }else if ("biyeshijian".equals(entry.getKey())){
-                        if(entry.getValue() == null || StringUtil.isNullOrEmpty(entry.getValue().toString())){
+                    } else if ("biyeshijian".equals(entry.getKey())) {
+                        if (entry.getValue() == null
+                                || StringUtil.isNullOrEmpty(entry.getValue()
+                                        .toString())) {
                             beanMap.remove("biyeshijian");
-                        } else{
+                        } else {
                             try {
-                            Date date = sdf.parse(entry.getValue().toString());
-                            beanMap.put("biyeshijian", date);
+                                Date date = sdf.parse(entry.getValue()
+                                        .toString());
+                                beanMap.put("biyeshijian", date);
                             } catch (ParseException e) {
                                 beanMap.remove("biyeshijian");
                             }
                         }
                     }
                 }
-                if (errorRows.size() == 0) {
-                    Object obj = beanMap.get("shenfenzhenghao");
-                    String birthDay = obj.toString().substring(6, 14);
-                    try {
-                        Date date = sdf.parse(birthDay);
-                        beanMap.put("chushengriqi", date);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        birthDay = "2000-01-01";
-                        beanMap.put("chushengriqi", birthDay);
-                    }
-                    educationalLevel = educationalLevelDao
-                            .findEducationalLevelByEducationalName(beanMap.get("xueli").toString());
-                    beanMap.put("xueli", educationalLevel);
-                    student = CommonUtils.toBean(beanMap, Student.class);
-                    graduate = CommonUtils.toBean(beanMap, Graduate.class);
-                    user = CommonUtils.toBean(beanMap, User.class);
-                    user.setLoginname(student.getShenfenzhenghao());
-                    user.setLoginpass(
-                            student.getShenfenzhenghao().substring(student.getShenfenzhenghao().length() - 6));
-                    user.setUid(CommonUtils.uuid());
-                    user.setActivationCode(CommonUtils.uuid() + CommonUtils.uuid());
-                    user.setStatus(true);
-                    user.setRole(Role.毕业生.toString());
-                    if (!studentDao.isExistStudent(student)) {
-                        JdbcUtils.beginTransaction();
-                        if (StringUtil.isNullOrEmpty(graduate.getXueli())) {
-                            graduate.setGstatus("未审核");
-                            graduate.setElid(1);
-                        } else {
-                            graduate.setGstatus("毕业");
-                            graduate.setElid(graduate.getXueli().getElid());
-                        }
-                        studentDao.addStudent(student);
-                        graduateDao.addGraduate(graduate);
-                        userDao.add(user);
-                        JdbcUtils.commitTransaction();
+                Object obj = beanMap.get("shenfenzhenghao");
+                String birthDay = obj.toString().substring(6, 14);
+                try {
+                    Date date = sdf.parse(birthDay);
+                    beanMap.put("chushengriqi", date);
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    birthDay = "2000-01-01";
+                    beanMap.put("chushengriqi", birthDay);
+                }
+                educationalLevel = educationalLevelDao
+                        .findEducationalLevelByEducationalName(beanMap.get(
+                                "xueli").toString());
+                beanMap.put("xueli", educationalLevel);
+                student = CommonUtils.toBean(beanMap, Student.class);
+                graduate = CommonUtils.toBean(beanMap, Graduate.class);
+                user = CommonUtils.toBean(beanMap, User.class);
+                user.setLoginname(student.getShenfenzhenghao());
+                user.setLoginpass(student.getShenfenzhenghao().substring(
+                        student.getShenfenzhenghao().length() - 6));
+                user.setUid(CommonUtils.uuid());
+                user.setActivationCode(CommonUtils.uuid() + CommonUtils.uuid());
+                user.setStatus(true);
+                user.setRole(Role.毕业生.toString());
+                if (!studentDao.isExistStudent(student)) {
+                    JdbcUtils.beginTransaction();
+                    if (StringUtil.isNullOrEmpty(graduate.getXueli())) {
+                        graduate.setGstatus("未审核");
+                        graduate.setElid(1);
                     } else {
-                        errorRows.add(i);
-                        errorMap.put("excelErrorRowsOfStudentExisted", errorRows);
+                        graduate.setGstatus("毕业");
+                        graduate.setElid(graduate.getXueli().getElid());
                     }
+                    studentDao.addStudent(student);
+                    graduateDao.addGraduate(graduate);
+                    userDao.add(user);
+                    JdbcUtils.commitTransaction();
                 } else {
-                    errorRows.add(i);
-                    errorMap.put("excelErrorRowsOfDateFormatError", errorRows);
+                    errorRowsOfStuExist.add(i);
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -149,6 +157,17 @@ public class GraduateService {
                 throw new RuntimeException(e);
             }
         }
+        String errorRowsOfStuExistStr = errorRowsOfStuExist.toString()
+                .substring(1, errorRowsOfStuExist.toString().indexOf("]"));
+        String errorRowsOfFormatStr = errorRowsOfFormat.toString().substring(1,
+                errorRowsOfFormat.toString().indexOf("]"));
+        if (!StringUtil.isNullOrEmpty(errorRowsOfStuExistStr)) {
+            errorMap.put("errorRowsOfStuExist", errorRowsOfStuExistStr);
+        }
+        if (!StringUtil.isNullOrEmpty(errorRowsOfFormatStr)) {
+            errorMap.put("errorRowsOfFormat", errorRowsOfFormatStr);
+        }
+
         return errorMap;
     }
 
@@ -164,7 +183,8 @@ public class GraduateService {
         return errorMap;
     }
 
-    private void verifyGraduateInfoInForm(Map<String, Object> beanMap, Map<String, String> errorMap) {
+    private void verifyGraduateInfoInForm(Map<String, Object> beanMap,
+            Map<String, String> errorMap) {
         Student student;
         Graduate graduate;
         User user;
@@ -183,13 +203,14 @@ public class GraduateService {
         educationalLevel = CommonUtils.toBean(beanMap, EducationalLevel.class);
         try {
             educationalLevel = educationalLevelDao
-                    .findEducationalLevelByEducationalName(educationalLevel.getEducationallevel());
+                    .findEducationalLevelByEducationalName(educationalLevel
+                            .getEducationallevel());
         } catch (SQLException e1) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e1);
         }
-        
-        if (educationalLevel == null){
+
+        if (educationalLevel == null) {
             educationalLevel = new EducationalLevel();
             educationalLevel.setElid(1);
             educationalLevel.setEducationallevel("无");
@@ -202,7 +223,8 @@ public class GraduateService {
             graduate = CommonUtils.toBean(beanMap, Graduate.class);
             user = CommonUtils.toBean(beanMap, User.class);
             user.setLoginname(student.getShenfenzhenghao());
-            user.setLoginpass(student.getShenfenzhenghao().substring(student.getShenfenzhenghao().length() - 6));
+            user.setLoginpass(student.getShenfenzhenghao().substring(
+                    student.getShenfenzhenghao().length() - 6));
             user.setUid(CommonUtils.uuid());
             user.setActivationCode(CommonUtils.uuid() + CommonUtils.uuid());
             user.setStatus(true);
@@ -246,7 +268,8 @@ public class GraduateService {
                     int row = studentDao.updateStudent(student);
                     if (row > 0) {
                         Graduate graduate = new Graduate(student);
-                        graduate.setGid(graduateDao.findGraduateByXuehao(student.getXuehao()).getGid());
+                        graduate.setGid(graduateDao.findGraduateByXuehao(
+                                student.getXuehao()).getGid());
                         graduateDao.updateGraduateBasicInfo(graduate);
                     }
                     JdbcUtils.commitTransaction();
@@ -273,7 +296,8 @@ public class GraduateService {
             try {
                 JdbcUtils.beginTransaction();
                 EducationalLevel educationalLevel = educationalLevelDao
-                        .findEducationalLevelByEducationalName(graduate.getXueli().getEducationallevel());
+                        .findEducationalLevelByEducationalName(graduate
+                                .getXueli().getEducationallevel());
                 graduate.setXueli(educationalLevel);
                 graduateDao.updateGraduateInfoByXuehao(graduate);
                 JdbcUtils.commitTransaction();
@@ -296,7 +320,8 @@ public class GraduateService {
 
         int row = 0;
         try {
-            List<Student> students = studentDao.findStudentIdentifyIdByXuehao(xuehaos);
+            List<Student> students = studentDao
+                    .findStudentIdentifyIdByXuehao(xuehaos);
             if (students != null && students.size() > 0) {
                 String[] loginnameList = new String[students.size()];
                 int i = 0;
@@ -327,7 +352,8 @@ public class GraduateService {
         return row;
     }
 
-    public PageBean<Student> findStudentByPager(PageBean<Student> pageStudent, String field, String value) {
+    public PageBean<Student> findStudentByPager(PageBean<Student> pageStudent,
+            String field, String value) {
         try {
             switch (field) {
             case "学号":
@@ -345,7 +371,8 @@ public class GraduateService {
                 break;
             }
 
-            pageStudent = studentDao.findStudentByPager(pageStudent, field, value);
+            pageStudent = studentDao.findStudentByPager(pageStudent, field,
+                    value);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);
@@ -353,7 +380,8 @@ public class GraduateService {
         return pageStudent;
     }
 
-    public PageBean<Graduate> findGraduateByPager(PageBean<Graduate> pageGraduate, String field, String value) {
+    public PageBean<Graduate> findGraduateByPager(
+            PageBean<Graduate> pageGraduate, String field, String value) {
         try {
             switch (field) {
             case "学号":
@@ -370,8 +398,10 @@ public class GraduateService {
                 value = StringUtil.Empty;
                 break;
             }
-            pageGraduate = graduateDao.findGraduateByPager(pageGraduate, field, value);
-            List<EducationalLevel> educationalLevelList = educationalLevelDao.findAll();
+            pageGraduate = graduateDao.findGraduateByPager(pageGraduate, field,
+                    value);
+            List<EducationalLevel> educationalLevelList = educationalLevelDao
+                    .findAll();
 
             if (pageGraduate.getBeanList() != null) {
                 for (Graduate graduate : pageGraduate.getBeanList()) {
@@ -391,56 +421,99 @@ public class GraduateService {
         return pageGraduate;
     }
 
-    public Student findStudentByXuehao(String xuehao){
-        Student stu = new Student();
-        
+    public Student findStudentByXuehao(String xuehao) {
+        Student stu = null;
+
         try {
             stu = studentDao.findStudentByXuehao(xuehao);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
         return stu;
     }
-    public Graduate findGraduateByXuehao(String xuehao){
-        Graduate gra = new Graduate();
-        
+
+    public Graduate findGraduateByXuehao(String xuehao) {
+        Graduate gra = null;
+
         try {
             gra = graduateDao.findGraduateByXuehao(xuehao);
-            List<EducationalLevel> educationalLevel = educationalLevelDao.findAll();
-            for (EducationalLevel educationalLevel2 : educationalLevel) {
-                if(gra.getElid()==educationalLevel2.getElid()){
-                    gra.setXueli(educationalLevel2);
-                    break;
+            if (gra != null) {
+                List<EducationalLevel> educationalLevel = educationalLevelDao
+                        .findAll();
+                for (EducationalLevel educationalLevel2 : educationalLevel) {
+                    if (gra.getElid() == educationalLevel2.getElid()) {
+                        gra.setXueli(educationalLevel2);
+                        break;
+                    }
                 }
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
         return gra;
     }
-    
-    public String findXuehaoByshenfenzhenghao(String xuehao){
+
+    public String findXuehaoByshenfenzhenghao(String shenfenzhenghao) {
         Student stu = new Student();
         try {
-            stu = studentDao.findStudentByXuehao(xuehao);
-            
+            stu = studentDao.findStudentByshenfenzhenghao(shenfenzhenghao);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        String shenfenzhenghao = stu != null ? stu.getShenfenzhenghao() : StringUtil.Empty;
-        return shenfenzhenghao;
+        String xuehao = stu != null ? stu.getXuehao() : StringUtil.Empty;
+        return xuehao;
     }
-    
-    // @Test
-    // public void T() {
-    // GraduateService graduateService = new GraduateService();
-    // graduateService.addGraduateInfoByExcel("");
-    // String str = "123123111101010000";
-    // System.out.println(str.substring(str.length() - 6));
-    // }
+
+    public String updateGraduateByLoginname(String loginname, Student student,
+            Graduate graduate) {
+        String xuehao = findXuehaoByshenfenzhenghao(loginname);
+        String msg = "error";
+        if (StringUtil.isNullOrEmpty(xuehao)) {
+            return msg;
+        }
+        try {
+
+            Student stu = studentDao.findStudentByXuehao(xuehao);
+            if (stu != null) {
+                student.setKaoshenghao(stu.getKaoshenghao());
+                student.setXuehao(stu.getXuehao());
+                student.setShenfenzhenghao(stu.getShenfenzhenghao());
+                student.setShifanshengleibie(stu.getShifanshengleibie());
+                student.setRuxueshijian(stu.getRuxueshijian());
+                student.setBiyeshijian(stu.getBiyeshijian());
+
+                Graduate gra = findGraduateByXuehao(xuehao);
+                if (gra != null) {
+                    gra.setProvince(graduate.getProvince());
+                    gra.setCity(graduate.getCity());
+                    gra.setXueyuan(graduate.getXueyuan());
+                    gra.setXibie(graduate.getXibie());
+                    gra.setZhuanye(graduate.getZhuanye());
+
+                    JdbcUtils.beginTransaction();
+                    studentDao.updateStudent(student);
+                    graduateDao.updateGraduateBasicInfo(gra);
+                    graduateDao.updateGraduateInfoByXuehao(gra);
+                    JdbcUtils.commitTransaction();
+                    msg = "success";
+                }
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            try {
+                JdbcUtils.rollbackTransaction();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+        return msg;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.why.gcoads.service.printreportrecord;
+package com.why.gcoads.service.payrecord;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -18,19 +18,29 @@ import com.why.gcoads.utils.StringUtil;
 public class PayRecordService {
 
     private PayRecordDao payRecordDao = new PayRecordDao();
-
-    public void addPayRecord(PayRecord payRecord) {
+    
+    public int addPayRecord(PayRecord payRecord) {
         try {
-            payRecordDao.addPayRecord(payRecord);
+            int key = payRecordDao.addPayRecord(payRecord);
+            return key;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public void updatePayRecord(PayRecord payRecord) {
+    public int updatePayRecord(PayRecord payRecord) {
         try {
-            payRecordDao.updatePayRecord(payRecord);
+            return payRecordDao.updatePayRecord(payRecord);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public PayRecord findPayRecordByPrid(int prid) {
+        try {
+            return payRecordDao.findPayRecordByPrid(prid);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);

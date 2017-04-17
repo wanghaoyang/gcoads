@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%> 
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -15,13 +15,11 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
-    <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
 <style type="text/css">
     body {
         font-size: 10pt;
         color: #404040;
         font-family: SimSun;
-        text-align: center;
     }
     
     .divTitle {
@@ -49,13 +47,8 @@ a {text-decoration: none;}
 a:visited {color: #018BD3;}
 a:hover {color:#FF6600; text-decoration: underline;}
 }
-
 </style>
-<script type="text/javascript">
-function showError() {
-	$("#errorreason").css("display","");
-}
-</script>
+
   </head>
   
   <body>
@@ -82,33 +75,9 @@ function showError() {
         <br/>
         <br/>
         <br/>
-        <c:choose>
-      <c:when test="${code eq 'success' }">
-          <span style="margin-left: 50px;"><a target="body" href="<c:url value='/admin/GraduateManagementServlet?method=findStudent'/>">查看</a></span>
-      </c:when>
-      <c:when test="${code eq 'error' }">
-          
-          <span onclick="showError()" style="margin-left: 50px;cursor: pointer; color: blue; font-size: 12px;text-decoration:underline;">查看原因</span>
-      </c:when>
-      
-  </c:choose>
-        
+        <span style="margin-left: 50px;"><a target="body" href="<c:url value='/GraduateServlet?method=findGraduateByLoginname'/>">返回</a></span>
       </div>
     </div>
-</div>
-<div id="errorreason" style="display: none;font-size: 14px;color: red;width: 500px;">
-<c:if test="${!(empty errorRowsOfFormat)}">
-<div>
-格式错误行：
-<span>${errorRowsOfFormat }</span>
-</div>
-</c:if>
-<c:if test="${!(empty errorRowsOfStuExist)}">
-<div>
-学生已存在行：
-<span>${errorRowsOfStuExist }</span>
-</div>
-</c:if>
 </div>
   </body>
 </html>

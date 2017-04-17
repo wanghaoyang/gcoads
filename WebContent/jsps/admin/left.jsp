@@ -16,7 +16,6 @@
   <div class="container">
     <div class="leftsidebar_box">
       <div class="line"></div>
-      <c:if test="${'管理员' eq sessionScope.sessionUser.role } ">
         <dl class="system_log">
           <dt>
             用户管理<img src="/gcoads/static/images/left/select_xl01.png">
@@ -92,7 +91,6 @@
             <a href="#">就业统计</a>
           </dd>
         </dl>
-      </c:if>
     </div>
   </div>
   <script type="text/javascript">

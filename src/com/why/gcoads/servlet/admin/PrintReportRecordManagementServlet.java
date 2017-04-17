@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.PrintReportRecord;
-import com.why.gcoads.service.payrecord.PrintReportRecordService;
+import com.why.gcoads.service.printreportrecord.PrintReportRecordService;
 import com.why.gcoads.servlet.BaseServlet;
 
 /**

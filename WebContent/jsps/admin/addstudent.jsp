@@ -152,7 +152,7 @@
           <td></td>
           <td>培养方式：</td>
           <td><input type="text" id="peiyangfangshi" name="peiyangfangshi"
-            value="${peiyangfangshi }" maxlength="30"></td>
+             maxlength="30"></td>
         </tr>
         <tr>
           <td></td>
