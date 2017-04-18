@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -41,18 +40,18 @@
         <dd>
           <a
             href="<c:url value='/GraduateServlet?method=findGraduate'/>"
-            target="body">申请学历证明</a>
+            target="body">学历证明</a>
         </dd>
-        <c:if test="${!('企业用户' eq sessionScope.sessionUser.role) } ">
+        <%-- <c:if test="${!('企业用户' eq sessionScope.sessionUser.role) } "> --%>
           <dl class="statistics">
             <dt>
               就业统计<img src="/gcoads/static/images/left/select_xl01.png"></img>
             </dt>
             <dd>
-              <a href="#">就业统计</a>
+              <a href="<c:url value='/StatisticsServlet?method=employmentStatistics'/>" target="body">就业统计</a>
             </dd>
           </dl>
-        </c:if>
+        <%-- </c:if> --%>
     </div>
 
   </div>

@@ -129,7 +129,7 @@
     <form id="singleInfoForm"
       action="<c:url value='/admin/GraduateManagementServlet' />">
       <input type="hidden" name="method" value="updateGraduateByXuehao">
-      <table border="1">
+      <table >
         <tr>
           <td class="star">*</td>
           <td>学号：</td>

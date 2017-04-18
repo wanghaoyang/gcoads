@@ -19,6 +19,8 @@
 		//$("#uploadfilepath").val($("#excel").val());
 		doCheck();
 		$("#uploadExcelForm").submit();
+		$("#tipmsg").text("上传解析中,请勿稍后。。。");
+		
 	}
 	function doCheck() {
 		var file = $("#excel").val();
@@ -73,5 +75,6 @@
 
 </form> --%>
 	</div>
+	<div id="tipmsg" style="color: #F00;"></div>
 </body>
 </html>

@@ -24,7 +24,7 @@ import com.why.gcoads.utils.jdbc.JdbcUtils;
 /**
  * Servlet implementation class GraduateManagementServlet
  */
-@WebServlet("/GraduateServlet")
+@WebServlet("/PayServlet")
 public class PayServlet extends BaseServlet {
     private static final long serialVersionUID = 1L;
     private PayRecordService payRecordService = new PayRecordService();
@@ -109,11 +109,10 @@ public class PayServlet extends BaseServlet {
                 printReportRecord.setLoginname(pay.getLoginname());
                 printReportRecord.setShenfenzhenghao(pay.getShenfenzhenghao());
                 printReportRecord.setReportpath(savePath);
-                printReportRecord.setPrintdatetime(pay.getPayfinisheddatetime());;
                 printReportRecord.setReportname(fileName);
                 printReportRecord.setPrintpagenum(pay
                         .getCertificationquantity());
-                printReportRecord.setPrintstatus(true);
+                printReportRecord.setPrintstatus(false);
                 try {
                     GeneratePDF.writeSimplePdf(savePath, fileName,
                             printReportRecord);

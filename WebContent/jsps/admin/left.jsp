@@ -88,7 +88,7 @@
             统计分析<img src="/gcoads/static/images/left/select_xl01.png"></img>
           </dt>
           <dd>
-            <a href="#">就业统计</a>
+            <a href="<c:url value='/StatisticsServlet?method=employmentStatistics'/>" target="body">就业统计</a>
           </dd>
         </dl>
     </div>

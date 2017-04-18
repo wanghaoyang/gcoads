@@ -366,7 +366,7 @@ public class GraduateManagementServlet extends BaseServlet {
             req.setAttribute("code", "error");
             req.setAttribute("errorRowsOfFormat", errorMap.get("errorRowsOfFormat"));
             req.setAttribute("errorRowsOfStuExist", errorMap.get("errorRowsOfStuExist"));
-            req.setAttribute("msg", "数据导入失败, 请检查!");
+            req.setAttribute("msg", "存在数据导入失败, 请检查!");
         }
 
         return "f:/jsps/admin/msg.jsp";

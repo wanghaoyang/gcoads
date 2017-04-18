@@ -132,11 +132,19 @@ public class GraduateService {
                 user.setRole(Role.毕业生.toString());
                 if (!studentDao.isExistStudent(student)) {
                     JdbcUtils.beginTransaction();
-                    if (StringUtil.isNullOrEmpty(graduate.getXueli())) {
-                        graduate.setGstatus("未审核");
-                        graduate.setElid(1);
-                    } else {
+                    if (StringUtil.isNullOrEmpty(graduate.getXueli())){
+                        if (beanMap.containsKey("biyeshijian")){
+                            graduate.setGstatus("待审核");
+                            graduate.setElid(1);
+                        } else {
+                            graduate.setGstatus("未毕业");
+                            graduate.setElid(1);
+                        }
+                    } else if(beanMap.containsKey("biyeshijian") && (getDiscrepantDays((Date)beanMap.get("ruxueshijian"), new Date())>0)){
                         graduate.setGstatus("毕业");
+                        graduate.setElid(graduate.getXueli().getElid());
+                    } else {
+                        graduate.setGstatus("待审核");
                         graduate.setElid(graduate.getXueli().getElid());
                     }
                     studentDao.addStudent(student);
@@ -154,9 +162,13 @@ public class GraduateService {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                throw new RuntimeException(e);
+                System.out.println("-------");
+                errorRowsOfFormat.add(i);
+                //throw new RuntimeException(e);
             }
         }
+        System.out.println(errorRowsOfFormat);
+        System.out.println(errorRowsOfStuExist);
         String errorRowsOfStuExistStr = errorRowsOfStuExist.toString()
                 .substring(1, errorRowsOfStuExist.toString().indexOf("]"));
         String errorRowsOfFormatStr = errorRowsOfFormat.toString().substring(1,
@@ -516,4 +528,9 @@ public class GraduateService {
         return msg;
     }
 
+    private int getDiscrepantDays(Date dateStart, Date dateEnd){
+        return (int) ((dateEnd.getTime() - dateStart.getTime()) / 1000 / 60 / 60 / 24);
+        
+    }
+    
 }

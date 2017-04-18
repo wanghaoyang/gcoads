@@ -99,13 +99,13 @@ function showError() {
 <div id="errorreason" style="display: none;font-size: 14px;color: red;width: 500px;">
 <c:if test="${!(empty errorRowsOfFormat)}">
 <div>
-格式错误行：
+格式错误,行号：
 <span>${errorRowsOfFormat }</span>
 </div>
 </c:if>
 <c:if test="${!(empty errorRowsOfStuExist)}">
 <div>
-学生已存在行：
+学生已存在,行号：
 <span>${errorRowsOfStuExist }</span>
 </div>
 </c:if>

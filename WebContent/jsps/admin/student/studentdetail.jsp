@@ -256,12 +256,12 @@ function _delete(){
               <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
               <option value="香港特别行政区">香港特别行政区</option>
               <option value="澳门特别行政区">澳门特别行政区</option>
-          </select><input type="text" id="province" name="province"
+          </select><input type="hidden" id="province" name="province"
             value="${graduate.province }"> <select
             name="chengshi" id="chengshi"
             onchange="selectchengshi(this)" style="width: 30%;">
               <option value="请选择市区">请选择市区</option>
-          </select><input type="text" id="city" name="city"
+          </select><input type="hidden" id="city" name="city"
             value="${graduate.city}"></td>
         </tr>
         <tr>

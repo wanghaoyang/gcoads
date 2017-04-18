@@ -45,6 +45,7 @@
 					<th>专业</th>
 					<th>毕业时间</th>
 					<th>学历</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tr>
@@ -52,6 +53,7 @@
 				<td>${student.zhuanye }</td>
 				<td>${student.biyeshijian }</td>
 				<td>${graduate.xueli.educationallevel }</td>
+				<td><a href="">申请学历证明</a></td>
 		</table>
 		</c:if>
 		<div id="flashMsg">${msg }</div>

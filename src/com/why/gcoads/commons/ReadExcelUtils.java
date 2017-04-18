@@ -71,7 +71,11 @@ public class ReadExcelUtils {
 		String[] title = new String[colNum];
 		for (int i = 0; i < colNum; i++) {
 			// title[i] = getStringCellValue(row.getCell((short) i));
-			title[i] = row.getCell(i).getStringCellValue();
+		    if (row.getCell(i) != null){
+		        title[i] = row.getCell(i).getStringCellValue();
+		    }else{
+		        break;
+		    }
 		}
 		return title;
 	}
