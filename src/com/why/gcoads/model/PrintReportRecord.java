@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PrintReportRecord {
 
-    private int pprid;// 主键
+    private int prrid;// 主键
     private String docnum;// 主键
     private String loginname;// 支付人的用户名
     private String shenfenzhenghao;//毕业生身份证号
@@ -16,12 +16,12 @@ public class PrintReportRecord {
     private Student student;// 毕业生基本信息
     private Graduate graduate;// 毕业生信息
 
-    public int getPprid() {
-        return pprid;
+    public int getPrrid() {
+        return prrid;
     }
 
-    public void setPprid(int pprid) {
-        this.pprid = pprid;
+    public void setPrrid(int prrid) {
+        this.prrid = prrid;
     }
 
     public String getDocnum() {
@@ -106,7 +106,7 @@ public class PrintReportRecord {
 
     @Override
     public String toString() {
-        return "PrintReportRecord [pprid=" + pprid + ", loginname=" + loginname
+        return "PrintReportRecord [prrid=" + prrid + ", loginname=" + loginname
                 + ", reportname=" + reportname + ", reportpath=" + reportpath
                 + ", printdatetime=" + printdatetime + ", printpagenum="
                 + printpagenum + ", printstatus=" + printstatus + ", graduate="

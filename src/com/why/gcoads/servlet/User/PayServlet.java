@@ -84,8 +84,10 @@ public class PayServlet extends BaseServlet {
         payRecord.setTotalcost(2);
         payRecord.setCertificationquantity(1);
         payRecord.setPaystatus(false);
-        int prid = payRecordService.addPayRecord(payRecord);
+        String payid = payRecordService.addPayRecord(payRecord);
+        int prid = Integer.parseInt(payid.substring(2));
         payRecord.setPrid(prid);
+        payRecord.setPayid(payid);
         req.setAttribute("payRecord", payRecord);
 
         return "f:/jsps/banklist.jsp";
@@ -155,12 +157,12 @@ public class PayServlet extends BaseServlet {
                     JdbcUtils.rollbackTransaction();
                     e.printStackTrace();
                 }
-                int pprid = printReportRecordService
+                int prrid = printReportRecordService
                         .addPrintReportRecord(printReportRecord);
                 JdbcUtils.commitTransaction();
                 req.setAttribute("code", "success");
                 req.setAttribute("msg", "支付成功!");
-                printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(pprid);
+                printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(prrid);
                 req.setAttribute("printReportRecord", printReportRecord);
             } else {
                 JdbcUtils.rollbackTransaction();
@@ -223,15 +225,15 @@ public class PayServlet extends BaseServlet {
     public String loadPdf(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         String prridStr = req.getParameter("prrid");
-        int pprid = -1;
+        int prrid = -1;
         try{
-            pprid = Integer.parseInt(prridStr);
+            prrid = Integer.parseInt(prridStr);
             
         }catch(NumberFormatException e){
             req.setAttribute("msg", "文件编号错误！");
             return "f:/jsps/user/pdflist.jsp";
         }
-        PrintReportRecord printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(pprid);
+        PrintReportRecord printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(prrid);
         
         return "r:/jsps/user/paymsg.jsp";
     }

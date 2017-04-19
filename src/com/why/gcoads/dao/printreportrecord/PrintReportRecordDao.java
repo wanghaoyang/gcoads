@@ -36,15 +36,14 @@ public class PrintReportRecordDao {
                 printReportRecord.getPrintstatus() };
         qr.update(sql, params);
 
-        sql = "select max(pprid) from t_payrecord";
+        sql = "select max(prrid) from t_payrecord";
         Number number = (Number) qr.query(sql, new ScalarHandler());
-        int pprid = number.intValue();// 得到了最新记录主键
+        int prrid = number.intValue();// 得到了最新记录主键
 
-        sql = "update t_payrecord set docnum = ? where pprid = ?";
-        String docnum = "HHD" + String.format("%07d", pprid);
-        ;
-        qr.update(sql, docnum, pprid);
-        return pprid;
+        sql = "update t_printreportrecord set docnum = ? where prrid = ?";
+        String docnum = "HHD" + String.format("%07d", prrid);
+        qr.update(sql, docnum, prrid);
+        return prrid;
     }
 
     /**
@@ -55,14 +54,14 @@ public class PrintReportRecordDao {
      */
     public int updatePrintReportRecord(PrintReportRecord printReportRecord)
             throws SQLException {
-        String sql = "UPDATE t_payrecord SET loginname = ?, reportname = ?, reportpath = ?, printdatetime = ?, printpagenum = ?, printstatus = ? WHERE pprid = ?";
+        String sql = "UPDATE t_payrecord SET loginname = ?, reportname = ?, reportpath = ?, printdatetime = ?, printpagenum = ?, printstatus = ? WHERE prrid = ?";
         Object[] params = { printReportRecord.getLoginname(),
                 printReportRecord.getReportname(),
                 printReportRecord.getReportpath(),
                 printReportRecord.getPrintdatetime(),
                 printReportRecord.getPrintpagenum(),
                 printReportRecord.getPrintstatus(),
-                printReportRecord.getPprid() };
+                printReportRecord.getPrrid() };
         return qr.update(sql, params);
         
     }
@@ -70,21 +69,21 @@ public class PrintReportRecordDao {
     /**
      * 查询打印记录
      * 
-     * @param pprid
+     * @param prrid
      * @return
      * @throws SQLException
      */
-    public PrintReportRecord findPrintReportRecord(int pprid)
+    public PrintReportRecord findPrintReportRecord(int prrid)
             throws SQLException {
-        String sql = "select * from t_printreportrecord where pprid=?";
+        String sql = "select * from t_printreportrecord where prrid=?";
         return qr.query(sql, new BeanHandler<PrintReportRecord>(
-                PrintReportRecord.class), pprid);
+                PrintReportRecord.class), prrid);
     }
     
     /**
      * 查询打印记录
      * 
-     * @param pprid
+     * @param prrid
      * @return
      * @throws SQLException
      */
@@ -137,7 +136,7 @@ public class PrintReportRecordDao {
     /**
      * 查询打印记录
      * 
-     * @param pprid
+     * @param prrid
      * @return
      * @throws SQLException
      */

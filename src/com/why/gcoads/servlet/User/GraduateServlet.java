@@ -105,6 +105,7 @@ public class GraduateServlet extends BaseServlet {
             req.setAttribute("student", student);
             req.setAttribute("graduate", graduate);
             req.setAttribute("value", param);
+            req.setAttribute("idcard", shenfenzhenghao);
             return "f:/jsps/graduateedu.jsp";
         }
 

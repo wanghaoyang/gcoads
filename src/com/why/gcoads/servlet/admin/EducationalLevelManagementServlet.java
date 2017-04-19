@@ -1,6 +1,7 @@
 package com.why.gcoads.servlet.admin;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -95,7 +96,7 @@ public class EducationalLevelManagementServlet extends BaseServlet {
 
     public String addEducationalLevel(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String msg ="";
+        String msg = "";
 
         String name = req.getParameter("educationallevelname");
         if (StringUtil.isNullOrEmpty(name)) {
@@ -105,11 +106,11 @@ public class EducationalLevelManagementServlet extends BaseServlet {
         } else {
             EducationalLevel formEducationalLevel = new EducationalLevel();
             formEducationalLevel.setEducationallevel(name);
-
+            formEducationalLevel.setCreatetime(new Date());
             try {
                 msg = educationalLevelService.addEducationalLevel(formEducationalLevel);
-                if (StringUtil.isNullOrEmpty(msg)){
-                    msg="添加成功!";
+                if (StringUtil.isNullOrEmpty(msg)) {
+                    msg = "添加成功!";
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -148,8 +149,8 @@ public class EducationalLevelManagementServlet extends BaseServlet {
                 formEducationalLevel.setEducationallevel(educationallevel);
                 formEducationalLevel.setElid(num);
                 msg = educationalLevelService.updateEducationalLevelByElid(formEducationalLevel);
-                if(StringUtil.isNullOrEmpty(msg)){
-                    msg="更新成功!";
+                if (StringUtil.isNullOrEmpty(msg)) {
+                    msg = "更新成功!";
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block

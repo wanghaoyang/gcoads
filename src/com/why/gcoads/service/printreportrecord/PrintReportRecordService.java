@@ -69,9 +69,9 @@ public class PrintReportRecordService {
         return pagePrintReportRecord;
     }
 
-    public PrintReportRecord findPrintReportRecordByPrrid(int pprid) {
+    public PrintReportRecord findPrintReportRecordByPrrid(int prrid) {
         try {
-            return printReportRecordDao.findPrintReportRecord(pprid);
+            return printReportRecordDao.findPrintReportRecord(prrid);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);

@@ -19,10 +19,10 @@ public class PayRecordService {
 
     private PayRecordDao payRecordDao = new PayRecordDao();
     
-    public int addPayRecord(PayRecord payRecord) {
+    public String addPayRecord(PayRecord payRecord) {
         try {
-            int key = payRecordDao.addPayRecord(payRecord);
-            return key;
+            String payId = payRecordDao.addPayRecord(payRecord);
+            return payId;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);

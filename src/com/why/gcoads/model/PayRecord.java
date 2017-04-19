@@ -5,6 +5,7 @@ import java.util.Date;
 public class PayRecord {
     
     private int prid;//主键
+    private String payid;//订单编号
     private String loginname;//支付人的用户名
     private String shenfenzhenghao;//被认证的学生的身份证号
     private Date paystartdatetime;//产生时间
@@ -17,6 +18,13 @@ public class PayRecord {
     }
     public void setPrid(int prid) {
         this.prid = prid;
+    }
+    
+    public String getPayid() {
+        return payid;
+    }
+    public void setPayid(String payid) {
+        this.payid = payid;
     }
     public String getLoginname() {
         return loginname;

@@ -24,18 +24,19 @@ public class PayRecordDao {
      * @param payRecord
      * @throws SQLException
      */
-    public int addPayRecord(PayRecord payRecord) throws SQLException {
-        String sql = "INSERT INTO t_payrecord (loginname,shenfenzhenghao,paystartdatetime,payfinisheddatetime,totalcost,certificationquantity,paystatus) VALUES (?,?,?,?,?,?,?)";
-        Object[] params = { payRecord.getLoginname(),
-                payRecord.getShenfenzhenghao(),
-                payRecord.getPaystartdatetime(),
-                payRecord.getPayfinisheddatetime(), payRecord.getTotalcost(),
+    public String addPayRecord(PayRecord payRecord) throws SQLException {
+        String sql = "INSERT INTO t_payrecord (payid,loginname,shenfenzhenghao,paystartdatetime,payfinisheddatetime,totalcost,certificationquantity,paystatus) VALUES (?,?,?,?,?,?,?,?)";
+        Object[] params = { StringUtil.Empty, payRecord.getLoginname(), payRecord.getShenfenzhenghao(),
+                payRecord.getPaystartdatetime(), payRecord.getPayfinisheddatetime(), payRecord.getTotalcost(),
                 payRecord.getCertificationquantity(), payRecord.getPaystatus() };
         qr.update(sql, params);
         sql = "select max(prid) from t_payrecord";
         Number number = (Number) qr.query(sql, new ScalarHandler());
         int key = number.intValue();// 得到了最新记录数
-        return key;
+        sql = "update t_payrecord set payid = ? where prid = ?";
+        String payid = "PR" + String.format("%08d", key);
+        qr.update(sql, payid, key);
+        return payid;
     }
 
     /**
@@ -46,11 +47,9 @@ public class PayRecordDao {
      */
     public int updatePayRecord(PayRecord payRecord) throws SQLException {
         String sql = "UPDATE t_payrecord SET loginname = ?, paystartdatetime = ?, payfinisheddatetime = ?, totalcost = ?, certificationquantity = ?, paystatus = ? WHERE prid = ?";
-        Object[] params = { payRecord.getLoginname(),
-                payRecord.getPaystartdatetime(),
-                payRecord.getPayfinisheddatetime(), payRecord.getTotalcost(),
-                payRecord.getCertificationquantity(), payRecord.getPaystatus(),
-                payRecord.getPrid() };
+        Object[] params = { payRecord.getLoginname(), payRecord.getPaystartdatetime(),
+                payRecord.getPayfinisheddatetime(), payRecord.getTotalcost(), payRecord.getCertificationquantity(),
+                payRecord.getPaystatus(), payRecord.getPrid() };
         int row = qr.update(sql, params);
         return row;
     }
@@ -87,8 +86,7 @@ public class PayRecordDao {
      * @return
      * @throws SQLException
      */
-    public PageBean<PayRecord> findPayRecordByPager(
-            PageBean<PayRecord> pagePayRecord, String loginname)
+    public PageBean<PayRecord> findPayRecordByPager(PageBean<PayRecord> pagePayRecord, String loginname)
             throws SQLException {
 
         if (pagePayRecord == null) {
@@ -123,10 +121,8 @@ public class PayRecordDao {
 
         sql = "select * from t_payrecord where loginname like ? order by payfinisheddatetime desc, paystartdatetime desc limit ?,? ";
 
-        List<PayRecord> beanList = qr.query(sql,
-                new BeanListHandler<PayRecord>(PayRecord.class), loginname,
-                (pagePayRecord.getPc() - 1) * pagePayRecord.getPs(),
-                pagePayRecord.getPs());
+        List<PayRecord> beanList = qr.query(sql, new BeanListHandler<PayRecord>(PayRecord.class), loginname,
+                (pagePayRecord.getPc() - 1) * pagePayRecord.getPs(), pagePayRecord.getPs());
         pagePayRecord.setBeanList(beanList);
 
         return pagePayRecord;
