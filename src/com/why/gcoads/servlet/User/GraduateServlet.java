@@ -82,6 +82,7 @@ public class GraduateServlet extends BaseServlet {
         if (StringUtil.isNullOrEmpty(param)) {
             return "r:/jsps/graduateedu.jsp";
         }
+        String shenfenzhenghao = "";
         Student stu = null;
         Graduate gra = null;
         String xuehao = graduateService.findXuehaoByshenfenzhenghao(param);
@@ -93,6 +94,7 @@ public class GraduateServlet extends BaseServlet {
             gra = graduateService.findGraduateByXuehao(param);
         }
         if (stu != null && gra != null) {
+            shenfenzhenghao = stu.getShenfenzhenghao();
             student = new Student();
             student.setStudentname(stu.getStudentname());
             student.setZhuanye(stu.getZhuanye());

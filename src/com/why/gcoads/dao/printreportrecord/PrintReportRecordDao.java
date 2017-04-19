@@ -2,14 +2,12 @@ package com.why.gcoads.dao.printreportrecord;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-import org.junit.Test;
 
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.PrintReportRecord;
@@ -49,24 +47,6 @@ public class PrintReportRecordDao {
         return pprid;
     }
 
-    @Test
-    public void pub() {
-        // TODO Auto-generated method stub
-        PrintReportRecord printReportRecord = new PrintReportRecord();
-        printReportRecord.setLoginname("123000000");
-        printReportRecord.setReportname("asd");
-        printReportRecord.setReportpath("asd/asd");
-        printReportRecord.setPrintdatetime(new Date());
-        printReportRecord.setPrintpagenum(10);
-        printReportRecord.setPrintstatus(true);
-        try {
-            new PrintReportRecordDao().addPrintReportRecord(printReportRecord);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
     /**
      * 更新打印记录
      * 
@@ -100,6 +80,59 @@ public class PrintReportRecordDao {
         return qr.query(sql, new BeanHandler<PrintReportRecord>(
                 PrintReportRecord.class), pprid);
     }
+    
+    /**
+     * 查询打印记录
+     * 
+     * @param pprid
+     * @return
+     * @throws SQLException
+     */
+    public PageBean<PrintReportRecord> findPrintReportRecordByLoginname(PageBean<PrintReportRecord> pagePrintReportRecord,String loginname)
+            throws SQLException {
+        if (pagePrintReportRecord == null) {
+            pagePrintReportRecord = new PageBean<PrintReportRecord>();
+            pagePrintReportRecord.setPc(1);
+            pagePrintReportRecord.setPs(10);
+        }
+
+        if (StringUtil.isNullOrEmpty(loginname)) {
+            loginname = StringUtil.Empty;
+        } else {
+            loginname.replace("\\", "\\\\");
+            loginname.replace("%", "\\%");
+            loginname.replace("_", "\\_");
+            loginname.replace("'", "\'");
+            loginname.replace("\"", "\\\"");
+        }
+        loginname = "%" + loginname + "%";
+
+        String sql = "select count(1) from t_printreportrecord where loginname = ?";
+        Number number = (Number) qr.query(sql, new ScalarHandler(), loginname);
+        int tr = number.intValue();// 得到了总记录数
+        pagePrintReportRecord.setTr(tr);
+        if (tr == 0) {
+            pagePrintReportRecord.setPc(1);
+            pagePrintReportRecord
+                    .setBeanList(new ArrayList<PrintReportRecord>());
+            return pagePrintReportRecord;
+        }
+        if (pagePrintReportRecord.getPc() > pagePrintReportRecord.getTp()) {
+            pagePrintReportRecord.setPc(pagePrintReportRecord.getTp());
+        }
+
+        sql = "select * from t_printreportrecord where loginname = ? order by prrid desc limit ?,? ";
+
+        List<PrintReportRecord> beanList = qr
+                .query(sql, new BeanListHandler<PrintReportRecord>(
+                        PrintReportRecord.class), loginname,
+                        (pagePrintReportRecord.getPc() - 1)
+                                * pagePrintReportRecord.getPs(),
+                        pagePrintReportRecord.getPs());
+        pagePrintReportRecord.setBeanList(beanList);
+
+        return pagePrintReportRecord;
+    }
 
     /**
      * 查询打印记录
@@ -112,7 +145,7 @@ public class PrintReportRecordDao {
             String loginname, String shenfenzhenghao) throws SQLException {
         String sql = "select * from t_printreportrecord where !printstatus and loginname=? and shenfenzhenghao=?";
         return qr.query(sql, new BeanHandler<PrintReportRecord>(
-                PrintReportRecord.class), loginname, shenfenzhenghao);
+               PrintReportRecord.class), loginname, shenfenzhenghao);
     }
 
     /**

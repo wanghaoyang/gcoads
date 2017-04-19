@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.junit.Test;
 
 import com.lowagie.text.Chapter;
 import com.lowagie.text.Document;
@@ -25,7 +28,10 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
+import com.why.gcoads.model.EducationalLevel;
+import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PrintReportRecord;
+import com.why.gcoads.model.Student;
 import com.why.gcoads.utils.StringUtil;
 
 /**
@@ -54,27 +60,9 @@ public class GeneratePDF {
 	private static final int intEncryptionType = PdfEncryption.STANDARD_ENCRYPTION_40;
 	private static final byte[] userPassword = null;
 	private static final byte[] ownerPassword ="why".getBytes();
-	private static final String imagePath ="";
-	private static final String waterMarkName ="毕业生学历证明";
-
-	
-	public static void main(String[] args) {
-
-		// 调用第一个方法，生成一个名字为ITextTest.pdf 的文件
-		try {
-			//writeSimplePdf();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// 调用第二个方法，向C盘名字为ITextTest.pdf的文件，添加章节。
-		try {
-			// writeCharpter();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+	private static final String imagePath ="d:\\_testreport\\zhang.jpg";
+	private static final String waterMarkName ="学历证明";
+    private static final String SEAL_POSITION = "(盖章)";
 
 	public static void writeSimplePdf(String filePath, String fileName, PrintReportRecord report) throws Exception {
 
@@ -168,8 +156,6 @@ public class GeneratePDF {
 		table.addCell(createCell(report.getStudent().getShenfenzhenghao(), normal_fontChinese, Element.ALIGN_LEFT));
 		table.addCell(createCell("学历类别：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
 		table.addCell(createCell(report.getGraduate().getXueli().getEducationallevel(), normal_fontChinese, Element.ALIGN_LEFT));
-		table.addCell(createCell("层    次：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
-		table.addCell(createCell("", normal_fontChinese, Element.ALIGN_LEFT));
 		table.addCell(createCell("专业名称：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
 		table.addCell(createCell(report.getGraduate().getZhuanye(), normal_fontChinese, Element.ALIGN_LEFT));
 		table.addCell(createCell("学习形式：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
@@ -187,9 +173,15 @@ public class GeneratePDF {
 		table.addCell(createCell("以上学历情况属实，专此认证。", bold_fontChinese, Element.ALIGN_LEFT, 2, false));
 		
 		table.setHorizontalAlignment(Element.ALIGN_LEFT);
-
+		
 		document.add(table);
-
+		PdfContentByte cb = writer.getDirectContent();
+        BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        cb.beginText();
+        cb.setFontAndSize(bf, 14);
+        cb.setTextMatrix(300, 150);
+        cb.showText(SEAL_POSITION);
+        cb.endText();
 		// 5.关闭文档
 		document.close();
 		
@@ -330,11 +322,8 @@ public class GeneratePDF {
             BaseFont base = BaseFont.createFont("STSong-Light",
                     "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);// 使用系统字体
             int total = reader.getNumberOfPages() + 1;
-            Image image = Image.getInstance(imageFile);
-            // 图片位置
-            //image.setAbsolutePosition(110, 110);
-           
-            image.setAbsolutePosition(10, -10);
+            
+            
             PdfContentByte under;
             Rectangle pageRect = null;
             for (int i = 1; i < total; i++) {
@@ -342,9 +331,9 @@ public class GeneratePDF {
                            getPageSizeWithRotation(i);
                 // 计算水印X,Y坐标
                 float x = pageRect.getWidth()/10;
-                float y = pageRect.getHeight()/10-10;
+                float y = pageRect.getHeight()/10;
                 // 获得PDF最顶层
-                under = stamper.getOverContent(i);
+                under = stamper.getUnderContent(i);
                 under.saveState();
                 // set Transparency
                 PdfGState gs = new PdfGState();
@@ -359,28 +348,32 @@ public class GeneratePDF {
                
                 float width = pageRect.getWidth();
                 float height = pageRect.getHeight();
-                
                 while(true){
                     int increasement_x = 100;
                     int increasement_y = 100;
                     if (x < width){
                         under.showTextAligned(Element.ALIGN_CENTER
                                 , waterMarkName, x,
-                                y, 55);
-                        x+=increasement_x;
+                                y, 45);
+                        x += increasement_x;
                     }else{
-                        x=0;
-                        y+=increasement_y;
+                        x = 0;
+                        y += increasement_y;
                     }
-                    
+
                     if (y > height){
                         break;
                     }
                 }
-                
                 under.endText();
                 under.setLineWidth(10f);
                 under.stroke();
+                under = stamper.getOverContent(i);
+                Image image = Image.getInstance(imageFile);
+                // 图片位置
+                image.setAbsolutePosition(pageRect.getWidth() - 180, 100);
+                image.scalePercent(50f);
+                under.addImage(image);
             }
             stamper.close();
             return true;
@@ -389,5 +382,33 @@ public class GeneratePDF {
             return false;
         }
     }
-    
+    @Test
+    public void ad(){
+        PrintReportRecord report = new PrintReportRecord();
+        Student stu = new Student();
+        stu.setStudentname("张三");
+        stu.setStudentgender("男");;
+        stu.setXuezhi(4);;
+        stu.setShenfenzhenghao("123123123412121234");
+        Graduate gra= new Graduate(stu);
+        EducationalLevel el = new EducationalLevel();
+        el.setElid(1); el.setEducationallevel("博士毕业生");
+        gra.setXueli(el);
+        gra.setZhuanye("计算机");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        gra.setRuxueshijian(new Date());
+        gra.setBiyeshijian(new Date());
+        gra.setGstatus("毕业");
+        gra.setGraduatecertificatenum("ABC123123123");
+        report.setDocnum("HH00001");
+        report.setPrintdatetime(new Date());
+        report.setStudent(stu);
+        report.setGraduate(gra);
+        try {
+            GeneratePDF.writeSimplePdf("d:\\_testreport\\", "mytest", report );
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

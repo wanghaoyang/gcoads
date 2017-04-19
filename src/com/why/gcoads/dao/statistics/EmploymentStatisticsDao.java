@@ -1,12 +1,11 @@
 package com.why.gcoads.dao.statistics;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.junit.Test;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 
 import com.why.gcoads.model.EmploymentStatistics;
 import com.why.gcoads.utils.jdbc.TxQueryRunner;
@@ -33,15 +32,19 @@ public class EmploymentStatisticsDao {
         return employmentStatisticsList;
     }
     
-    @Test
-    public void T(){
-        List<EmploymentStatistics> list = new ArrayList<EmploymentStatistics>();
-        try {
-            list = new EmploymentStatisticsDao().findEmploymentStatisticsByXueyuan("黑河学院");
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(list);
+    public List<String> findXueyuan() throws SQLException {
+        
+        String sql = "select (case when xueyuan is null then '' else xueyuan end ) as xueyuan from t_graduate group by xueyuan";
+        
+        List<String> xueyuanList = qr.query(sql, new ColumnListHandler<String>(1));
+        return xueyuanList;
+    }
+    
+    public List<Integer> findYear() throws SQLException {
+        
+        String sql = "select year(biyeshijian) as year from t_graduate where year(biyeshijian) is not null group by year(biyeshijian) order by year(biyeshijian) desc";
+        
+        List<Integer> yearList = qr.query(sql, new ColumnListHandler<Integer>(1));
+        return yearList;
     }
 }

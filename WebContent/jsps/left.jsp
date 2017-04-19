@@ -39,9 +39,10 @@
         </dd>
         <dd>
           <a
-            href="<c:url value='/GraduateServlet?method=findGraduate'/>"
+            href="<c:url value='/PayServlet?method=findPrintReportRecord'/>"
             target="body">学历证明</a>
         </dd>
+        </dl>
         <%-- <c:if test="${!('企业用户' eq sessionScope.sessionUser.role) } "> --%>
           <dl class="statistics">
             <dt>

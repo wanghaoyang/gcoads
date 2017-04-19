@@ -37,24 +37,6 @@ public class PayRecordDao {
         int key = number.intValue();// 得到了最新记录数
         return key;
     }
-    
-//    @Test
-//    public void T(){
-//        PayRecord payRecord = new PayRecord();
-//        payRecord.setLoginname("123");
-//        payRecord.setShenfenzhenghao("Test");
-//        payRecord.setPaystartdatetime(new Date());
-//        payRecord.setTotalcost(20);
-//        payRecord.setCertificationquantity(10);
-//        payRecord.setPaystatus(false);
-//        try {
-//            int key = new PayRecordDao().addPayRecord(payRecord);
-//            System.out.println(key);
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * 更新支付记录
@@ -84,7 +66,7 @@ public class PayRecordDao {
         String sql = "select * from t_payrecord where prid=?";
         return qr.query(sql, new BeanHandler<PayRecord>(PayRecord.class), prid);
     }
-    
+
     /**
      * 查询支付记录
      * 

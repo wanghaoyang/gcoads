@@ -62,10 +62,7 @@
       <thead>
         <tr style="background-color: #FFF;">
           <th></th>
-          <th>用户名</th>
           <th>学历证明编号</th>
-          <th>学历证明PDF名</th>
-          <th>学历证明PDF路径</th>
           <th>学历证明打印时间</th>
           <th>学历证明打印页数</th>
           <th>学历证明打印状态</th>
@@ -75,15 +72,12 @@
         var="printreportrecord">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${printreportrecord.loginname}</td>
           <td>${printreportrecord.docnum}</td>
-          <td>${printreportrecord.reportname }</td>
-          <td>${printreportrecord.reportpath }</td>
           <td>${printreportrecord.printdatetime }</td>
           <td>${printreportrecord.printpagenum }</td>
           <td><c:choose>
               <c:when test="${printreportrecord.printstatus }">已打印</c:when>
-              <c:otherwise>未打印</c:otherwise>
+              <c:otherwise><a href="<c:url value='/PayServlet?method=printPDF&printreportrecord.prrid'/>"></a></c:otherwise>
             </c:choose></td>
         </tr>
       </c:forEach>

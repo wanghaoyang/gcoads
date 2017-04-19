@@ -52,6 +52,22 @@ public class PrintReportRecordService {
         }
         return pagePrintReportRecord;
     }
+    
+    public PageBean<PrintReportRecord> findPrintReportRecordByLoginname(
+            PageBean<PrintReportRecord> pagePrintReportRecord, String loginname) {
+        try {
+            if (StringUtil.isNullOrEmpty(loginname)) {
+                loginname = StringUtil.Empty;
+            }
+            pagePrintReportRecord = printReportRecordDao
+                    .findPrintReportRecordByPager(pagePrintReportRecord,
+                            loginname);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+        return pagePrintReportRecord;
+    }
 
     public PrintReportRecord findPrintReportRecordByPrrid(int pprid) {
         try {

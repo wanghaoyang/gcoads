@@ -53,7 +53,7 @@
 				<td>${student.zhuanye }</td>
 				<td>${student.biyeshijian }</td>
 				<td>${graduate.xueli.educationallevel }</td>
-				<td><a href="">申请学历证明</a></td>
+				<td><a href="<c:url value='/PayServlet?method=addPayRecord&idcard=${idcard }'/>">申请学历证明</a></td>
 		</table>
 		</c:if>
 		<div id="flashMsg">${msg }</div>
