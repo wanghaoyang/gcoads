@@ -355,9 +355,7 @@ public class UserServlet extends BaseServlet {
         }
     }
 
-    /*
-     * 登录校验方法，内容稍后完成
-     */
+    
     private Map<String, String> validateLogin(User formUser, HttpSession session) {
         Map<String, String> errors = new HashMap<String, String>();
         return errors;

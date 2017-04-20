@@ -77,7 +77,7 @@
           <td>${printreportrecord.printpagenum }</td>
           <td><c:choose>
               <c:when test="${printreportrecord.printstatus }">已打印</c:when>
-              <c:otherwise><a href="<c:url value='/PayServlet?method=loadPDF&prrid=${ printreportrecord.prrid}'/>">立即打印</a></c:otherwise>
+              <c:otherwise><a href="<c:url value='/PayServlet?method=loadPDF&prrid=${ printreportrecord.prrid}'/>" target="_top">立即打印</a></c:otherwise>
             </c:choose></td>
         </tr>
       </c:forEach>

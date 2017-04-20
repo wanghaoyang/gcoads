@@ -169,7 +169,7 @@ public class PayServlet extends BaseServlet {
                     // 创建目录
                     file.mkdirs();
                 }
-                String fileName = new SimpleDateFormat("yyyy_MM_dd")
+                String fileName = new SimpleDateFormat("yyyy_MM_dd_HHmmss")
                         .format(new Date())
                         + "_"
                         + pay.getLoginname()
@@ -194,11 +194,9 @@ public class PayServlet extends BaseServlet {
                 printReportRecord.setGraduate(graduate);
                 printReportRecord.setStudent(student);
                 
-                    GeneratePDF.writeSimplePdf(savePath, fileName,
-                            printReportRecord);
+                GeneratePDF.writeSimplePdf(savePath, fileName, printReportRecord);
               
-                int prrid = printReportRecordService
-                        .addPrintReportRecord(printReportRecord);
+                int prrid = printReportRecordService.addPrintReportRecord(printReportRecord);
                 req.setAttribute("code", "success");
                 req.setAttribute("msg", "支付成功!");
                 printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(prrid);
@@ -213,9 +211,8 @@ public class PayServlet extends BaseServlet {
             e.printStackTrace();
         }
         
-        return "r:/jsps/user/paymsg.jsp";
+        return "f:/jsps/user/paymsg.jsp";
     }
-    
     
     public String findPrintReportRecord(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -257,6 +254,11 @@ public class PayServlet extends BaseServlet {
     
     
     public String loadPDF(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        User user = (User) req.getSession().getAttribute("sessionUser");
+        if (user == null) {
+            return "r:/jsps/user/login.jsp";
+        }
+        
         String prridStr = req.getParameter("prrid");
         int prrid = -1;
         try{
@@ -271,7 +273,7 @@ public class PayServlet extends BaseServlet {
                 printReportRecord.setPrintstatus(true);
                 printReportRecordService.updatePrintReportRecord(printReportRecord);
                 copyto(req, printReportRecord);
-                return "f:/pdfjs/generic/web?file="+printReportRecord.getReportname();
+                return "r:/pdfjs/generic/web/viewer.html?file=pdf/"+printReportRecord.getReportname()+".pdf";
             }
         }
         
@@ -280,6 +282,7 @@ public class PayServlet extends BaseServlet {
     
     private void copyto(HttpServletRequest req, PrintReportRecord printReportRecord)
             throws ServletException, IOException {
+        
         String savePath = this.getServletContext().getRealPath(
                 "/pdfjs/generic/web/pdf");
         File file = new File(savePath);
