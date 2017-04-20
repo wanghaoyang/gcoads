@@ -61,7 +61,6 @@ a:hover {color:#FF6600; text-decoration: underline;}
           <c:set var="img" value="/static/images/cuohao.png"/>
           <c:set var="title" value="失败"/>
       </c:when>
-      
   </c:choose>
 <div class="divBody">
     <div class="divTitle">
@@ -75,7 +74,11 @@ a:hover {color:#FF6600; text-decoration: underline;}
         <br/>
         <br/>
         <br/>
-        <span style="margin-left: 50px;"><a target="body" href="<c:url value='/GraduateServlet?method=findGraduateByLoginname'/>">返回</a></span>
+        
+      <c:if test="${code eq 'success' }"><%--如果code是功能，它显示对号图片 --%>
+          <span style="margin-left: 50px;"><a target="body" href="<c:url value='/GraduateServlet?method=loadPDF?${printReportRecord.prrid }'/>">打印预览学历证明</a></span>
+      </c:if>
+      <span style="margin-left: 50px;"><a target="_top" href="<c:url value='/index.jsp'/>">主页</a></span>
       </div>
     </div>
 </div>

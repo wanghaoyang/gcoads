@@ -27,8 +27,9 @@ public class PrintReportRecordDao {
     public int addPrintReportRecord(PrintReportRecord printReportRecord)
             throws SQLException {
 
-        String sql = "INSERT INTO t_printreportrecord (docnum,loginname, reportname,reportpath,printdatetime,printpagenum,printstatus) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO t_printreportrecord (docnum,loginname,shenfenzhenghao, reportname,reportpath,printdatetime,printpagenum,printstatus) VALUES (?,?,?,?,?,?,?,?)";
         Object[] params = { StringUtil.Empty, printReportRecord.getLoginname(),
+                printReportRecord.getShenfenzhenghao(),
                 printReportRecord.getReportname(),
                 printReportRecord.getReportpath(),
                 printReportRecord.getPrintdatetime(),
@@ -36,7 +37,7 @@ public class PrintReportRecordDao {
                 printReportRecord.getPrintstatus() };
         qr.update(sql, params);
 
-        sql = "select max(prrid) from t_payrecord";
+        sql = "select max(prrid) from t_printreportrecord";
         Number number = (Number) qr.query(sql, new ScalarHandler());
         int prrid = number.intValue();// 得到了最新记录主键
 
@@ -54,8 +55,9 @@ public class PrintReportRecordDao {
      */
     public int updatePrintReportRecord(PrintReportRecord printReportRecord)
             throws SQLException {
-        String sql = "UPDATE t_payrecord SET loginname = ?, reportname = ?, reportpath = ?, printdatetime = ?, printpagenum = ?, printstatus = ? WHERE prrid = ?";
+        String sql = "UPDATE t_printreportrecord SET loginname = ?,shenfenzhenghao=?, reportname = ?, reportpath = ?, printdatetime = ?, printpagenum = ?, printstatus = ? WHERE prrid = ?";
         Object[] params = { printReportRecord.getLoginname(),
+                printReportRecord.getShenfenzhenghao(),
                 printReportRecord.getReportname(),
                 printReportRecord.getReportpath(),
                 printReportRecord.getPrintdatetime(),
@@ -176,7 +178,7 @@ public class PrintReportRecordDao {
         }
         loginname = "%" + loginname + "%";
 
-        String sql = "select count(1) from t_printreportrecord where loginname like ?";
+        String sql = "select count(1) from t_printreportrecord where loginname like ? ";
         Number number = (Number) qr.query(sql, new ScalarHandler(), loginname);
         int tr = number.intValue();// 得到了总记录数
         pagePrintReportRecord.setTr(tr);
@@ -190,7 +192,7 @@ public class PrintReportRecordDao {
             pagePrintReportRecord.setPc(pagePrintReportRecord.getTp());
         }
 
-        sql = "select * from t_printreportrecord where loginname like ? order by printdatetime desc limit ?,? ";
+        sql = "select * from t_printreportrecord where loginname like ? order by printdatetime desc, prrid desc limit ?,? ";
 
         List<PrintReportRecord> beanList = qr
                 .query(sql, new BeanListHandler<PrintReportRecord>(

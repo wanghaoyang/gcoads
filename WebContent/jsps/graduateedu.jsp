@@ -38,7 +38,7 @@
 		</div>
 		
 		<c:if test="${!empty student }">
-		<table border=1 cellspacing="0" cellpadding="0" id="resultTab">
+		<table cellspacing="0" cellpadding="0" id="resultTab">
 			<thead>
 				<tr style="background-color: #FFF;">
 					<th>姓名</th>

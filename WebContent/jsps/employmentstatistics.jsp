@@ -5,16 +5,18 @@
     <title>毕业就业统计</title>
 </head>
 <body>
-<div>
-<select id="key" name="key">
+<div style="margin:30px 0 0 30px">
+<div><span>统计方式:</span查看>
+<select id="key" name="key" style="border: 2px solid #15B69A;width: 100px;height: 30px;">
 <option value="year" selected>毕业年份</option>
 <option value="xueyuan">学院名称</option>
 </select>
-<select id="value" name="value">
+<select id="value" name="value" style="border: 2px solid #15B69A;height: 30px;">
 </select>
 </div>
-  <div id="main" style="height: 400px;"></div>
+  <div id="main" style="height: 450px;"></div>
   <est:linecharts container="main" title="毕业就业情况统计" subtitle="" urls="/gcoads/StatisticsServlet?method=ajaxEmploymentStatistics"></est:linecharts>
+  </div>
 </body>
 <script type="text/javascript">
 	$(function(){

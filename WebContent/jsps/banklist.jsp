@@ -5,7 +5,7 @@
 <!DOCTYPE>
 <html>
   <head>
-    <title>pay.jsp</title>
+    <title>选择支付银行</title>
     
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
@@ -15,7 +15,7 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
-    <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/pay.css'/>">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/style/banklist.css'/>">
     <script type="text/javascript" src="<c:url value='/static/jquery/jquery-1.5.1.js'/>"></script>
 <script type="text/javascript">
 $(function() {
@@ -31,8 +31,8 @@ $(function() {
     <span class="spanPrice">支付金额：</span><span class="price_t">&yen;${payRecord.totalcost }</span>
     <span class="spanOid">编号：${payRecord.payid }</span>
 </div>
-<form action="<c:url value='/OrderServlet'/>" method="post" id="form1" target="_top">
-<input type="hidden" name="method" value="payment"/>
+<form action="<c:url value='/PayServlet'/>" target="_self" method="post" id="form1" target="_top">
+<input type="hidden" name="method" value="toBankPay"/>
 <input type="hidden" name="prid" value="${payRecord.prid }"/>
 <div class="divBank">
     <div class="divText">选择网上银行</div>

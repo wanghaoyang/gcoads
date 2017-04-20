@@ -1,10 +1,5 @@
 package com.why.gcoads.servlet;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -148,37 +143,5 @@ public class StatisticsServlet extends BaseServlet {
         String data = list.toString()
                 .substring(1, list.toString().length() - 1);
         System.out.println(data);
-    }
-
-    public void copyto(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String savePath = this.getServletContext().getRealPath(
-                "/pdfjs/generic/web/pdf");
-        File file = new File(savePath);
-        // 判断上传文件的保存目录是否存在
-        if (!file.exists() && !file.isDirectory()) {
-            System.out.println(savePath + "目录不存在，需要创建");
-            // 创建目录
-            file.mkdirs();
-        }
-        File srcFile = new File("D:\\_testreport");// 需要复制的文件的源路径
-        String srcPath = srcFile.getAbsolutePath();// 获得源路径
-        // 过滤出的文件
-        File oldFile = new File(srcPath + "\\" + "mytest.pdf"); // 需要复制的文件
-        File newFile = new File(savePath + "\\" + "mytest.pdf");// 复制后的文件
-        // 创建流对象
-        DataInputStream dis = new DataInputStream(new FileInputStream(oldFile));
-        DataOutputStream dos = new DataOutputStream(new FileOutputStream(
-                newFile));
-        int temp;
-        // 读写数据
-        while ((temp = dis.read()) != -1) {// 读数据
-            dos.write(temp);// 把读到的数据写入到Temp文件中
-        }
-        // 关闭流
-        dis.close();
-        dos.close();
-        System.out.println("文件已复制成功！");
-        System.out.println(savePath);
     }
 }

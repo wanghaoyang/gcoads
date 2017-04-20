@@ -159,7 +159,7 @@ public class GeneratePDF {
 		table.addCell(createCell("专业名称：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
 		table.addCell(createCell(report.getGraduate().getZhuanye(), normal_fontChinese, Element.ALIGN_LEFT));
 		table.addCell(createCell("学习形式：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
-		table.addCell(createCell("", normal_fontChinese, Element.ALIGN_LEFT));
+		table.addCell(createCell("全日制", normal_fontChinese, Element.ALIGN_LEFT));
 		table.addCell(createCell("学    制：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));
 		table.addCell(createCell(report.getStudent().getXuezhi()+" 年", normal_fontChinese, Element.ALIGN_LEFT));
 		table.addCell(createCell("入学日期：", normal_fontChinese, Element.ALIGN_JUSTIFIED_ALL));

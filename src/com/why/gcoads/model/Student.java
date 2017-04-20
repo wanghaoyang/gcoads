@@ -205,14 +205,19 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [sid=" + sid + ", kaoshenghao=" + kaoshenghao + ", shenfenzhenghao=" + shenfenzhenghao
-                + ", xuehao=" + xuehao + ", studentname=" + studentname + ", studentgender=" + studentgender
-                + ", minzu=" + minzu + ", zhengzhimianmao=" + zhengzhimianmao + ", zhuanye=" + zhuanye
-                + ", zhuanyefangxiang=" + zhuanyefangxiang + ", peiyangfangshi=" + peiyangfangshi + ", xuezhi=" + xuezhi
-                + ", ruxueshijian=" + ruxueshijian + ", biyeshijian=" + biyeshijian + ", shifanshengleibie="
-                + shifanshengleibie + ", xueyuan=" + xueyuan + ", xibie=" + xibie + ", banji=" + banji
-                + ", chushengriqi=" + chushengriqi + ", shengyuansuozaidi=" + shengyuansuozaidi + ", email=" + email
-                + ", address=" + address + "]";
+        return "Student [sid=" + sid + ", kaoshenghao=" + kaoshenghao
+                + ", shenfenzhenghao=" + shenfenzhenghao + ", xuehao=" + xuehao
+                + ", studentname=" + studentname + ", studentgender="
+                + studentgender + ", minzu=" + minzu + ", zhengzhimianmao="
+                + zhengzhimianmao + ", zhuanye=" + zhuanye
+                + ", zhuanyefangxiang=" + zhuanyefangxiang
+                + ", peiyangfangshi=" + peiyangfangshi + ", xuezhi=" + xuezhi
+                + ", ruxueshijian=" + ruxueshijian + ", biyeshijian="
+                + biyeshijian + ", shifanshengleibie=" + shifanshengleibie
+                + ", xueyuan=" + xueyuan + ", xibie=" + xibie + ", banji="
+                + banji + ", chushengriqi=" + chushengriqi
+                + ", shengyuansuozaidi=" + shengyuansuozaidi + ", email="
+                + email + ", address=" + address + "]";
     }
 
 }

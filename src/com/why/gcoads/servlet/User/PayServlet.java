@@ -1,8 +1,11 @@
 package com.why.gcoads.servlet.User;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,13 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.why.gcoads.commons.GeneratePDF;
+import com.why.gcoads.model.Graduate;
 import com.why.gcoads.model.PageBean;
 import com.why.gcoads.model.PayRecord;
 import com.why.gcoads.model.PrintReportRecord;
+import com.why.gcoads.model.Student;
 import com.why.gcoads.model.User;
+import com.why.gcoads.service.graduate.GraduateService;
 import com.why.gcoads.service.payrecord.PayRecordService;
 import com.why.gcoads.service.printreportrecord.PrintReportRecordService;
 import com.why.gcoads.servlet.BaseServlet;
+import com.why.gcoads.utils.BankMap;
 import com.why.gcoads.utils.StringUtil;
 import com.why.gcoads.utils.jdbc.JdbcUtils;
 
@@ -29,6 +36,7 @@ import com.why.gcoads.utils.jdbc.JdbcUtils;
 public class PayServlet extends BaseServlet {
     private static final long serialVersionUID = 1L;
     private PayRecordService payRecordService = new PayRecordService();
+    private GraduateService graduateService = new GraduateService();
     private PrintReportRecordService printReportRecordService = new PrintReportRecordService();
 
     /**
@@ -92,11 +100,41 @@ public class PayServlet extends BaseServlet {
 
         return "f:/jsps/banklist.jsp";
     }
+    
+    public String toBankPay(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        
+        User user = (User) req.getSession().getAttribute("sessionUser");
+        if (user == null) {
+            return "r:/jsps/user/login.jsp";
+        }
+        String pridStr = req.getParameter("prid");
+        String bank = req.getParameter("yh");
+        int prid = -1;
+        try {
+            prid = Integer.parseInt(pridStr);
+        } catch(NumberFormatException nfe){
+            nfe.printStackTrace();
+        }
+        PayRecord payRecord = payRecordService.findPayRecordByPrid(prid);
+        
+        req.setAttribute("payRecord", payRecord);
+        req.setAttribute("yh", BankMap.getBank(bank));
+
+        return "f:/jsps/user/pay.jsp";
+    }
 
     public String finishPay(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String param = req.getParameter("payid");
+        String bankloginname = req.getParameter("bankloginname");
+        String bankpassword = req.getParameter("bankpassword");
+        if (!("pay123".equals(bankloginname) &&"pay123".equals(bankpassword))){
+            req.setAttribute("msg", "用户名或密码错误!");
+            return "f:/jsps/user/pay.jsp";
+        }
+        
+        String param = req.getParameter("prid");
         User user = (User) req.getSession().getAttribute("sessionUser");
         if (user == null) {
             return "r:/jsps/user/login.jsp";
@@ -104,7 +142,7 @@ public class PayServlet extends BaseServlet {
         if (StringUtil.isNullOrEmpty(param)) {
             req.setAttribute("code", "error");
             req.setAttribute("msg", "支付失败!");
-            return "f:/jsps/user/msg.jsp";
+            return "f:/jsps/user/paymsg.jsp";
         }
         int prid = -1;
         try {
@@ -112,15 +150,12 @@ public class PayServlet extends BaseServlet {
         } catch (NumberFormatException e) {
             req.setAttribute("code", "error");
             req.setAttribute("msg", "支付失败!");
-            return "f:/jsps/user/msg.jsp";
+            return "f:/jsps/user/paymsg.jsp";
         }
-        PayRecord payRecord = new PayRecord();
-        payRecord.setPrid(prid);
-        payRecord.setPayfinisheddatetime(new Date());
+        PayRecord payRecord = payRecordService.findPayRecordByPrid(prid);
         payRecord.setPaystatus(true);
 
         try {
-            JdbcUtils.beginTransaction();
             int row = payRecordService.updatePayRecord(payRecord);
             if (row > 0) {
                 PayRecord pay = payRecordService.findPayRecordByPrid(prid);
@@ -128,7 +163,7 @@ public class PayServlet extends BaseServlet {
                 savePath = savePath.substring(0, savePath.indexOf("\\")) + "\\"
                         + req.getContextPath().substring(1) + "\\pdf" + "\\";
                 File file = new File(savePath);
-                // 判断上传文件的保存目录是否存在
+                // 判断文件的保存目录是否存在
                 if (!file.exists() && !file.isDirectory()) {
                     System.out.println(savePath + "目录不存在，需要创建");
                     // 创建目录
@@ -148,18 +183,22 @@ public class PayServlet extends BaseServlet {
                 printReportRecord.setReportname(fileName);
                 printReportRecord.setPrintpagenum(pay
                         .getCertificationquantity());
+                printReportRecord.setPrintdatetime(new Date());
                 printReportRecord.setPrintstatus(false);
-                try {
+                String xuehao = graduateService.findXuehaoByshenfenzhenghao(pay.getShenfenzhenghao());
+                if (StringUtil.isNullOrEmpty(xuehao)){
+                    return "r:/jsps/main.jsp";
+                }
+                Graduate graduate = graduateService.findGraduateByXuehao(xuehao);
+                Student student = graduateService.findStudentByXuehao(xuehao);
+                printReportRecord.setGraduate(graduate);
+                printReportRecord.setStudent(student);
+                
                     GeneratePDF.writeSimplePdf(savePath, fileName,
                             printReportRecord);
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    JdbcUtils.rollbackTransaction();
-                    e.printStackTrace();
-                }
+              
                 int prrid = printReportRecordService
                         .addPrintReportRecord(printReportRecord);
-                JdbcUtils.commitTransaction();
                 req.setAttribute("code", "success");
                 req.setAttribute("msg", "支付成功!");
                 printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(prrid);
@@ -169,19 +208,14 @@ public class PayServlet extends BaseServlet {
                 req.setAttribute("code", "error");
                 req.setAttribute("msg", "支付失败!");
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
-            try {
-                JdbcUtils.rollbackTransaction();
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
             e.printStackTrace();
         }
         
         return "r:/jsps/user/paymsg.jsp";
     }
+    
     
     public String findPrintReportRecord(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -222,19 +256,55 @@ public class PayServlet extends BaseServlet {
     }
     
     
-    public String loadPdf(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        
+    public String loadPDF(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String prridStr = req.getParameter("prrid");
         int prrid = -1;
         try{
             prrid = Integer.parseInt(prridStr);
-            
         }catch(NumberFormatException e){
             req.setAttribute("msg", "文件编号错误！");
             return "f:/jsps/user/pdflist.jsp";
         }
         PrintReportRecord printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(prrid);
+        if (printReportRecord != null){
+            if (!printReportRecord.getPrintstatus()){
+                printReportRecord.setPrintstatus(true);
+                printReportRecordService.updatePrintReportRecord(printReportRecord);
+                copyto(req, printReportRecord);
+                return "f:/pdfjs/generic/web?file="+printReportRecord.getReportname();
+            }
+        }
         
-        return "r:/jsps/user/paymsg.jsp";
+        return "f:/jsps/main.jsp";
+    }
+    
+    private void copyto(HttpServletRequest req, PrintReportRecord printReportRecord)
+            throws ServletException, IOException {
+        String savePath = this.getServletContext().getRealPath(
+                "/pdfjs/generic/web/pdf");
+        File file = new File(savePath);
+        // 判断上传文件的保存目录是否存在
+        if (!file.exists() && !file.isDirectory()) {
+            System.out.println(savePath + "目录不存在，需要创建");
+            // 创建目录
+            file.mkdirs();
+        }
+        File srcFile = new File(printReportRecord.getReportpath());// 需要复制的文件的源路径
+        String srcPath = srcFile.getAbsolutePath();// 获得源路径
+        // 过滤出的文件
+        File oldFile = new File(printReportRecord.getReportpath() + "\\" + printReportRecord.getReportname()+ ".pdf"); // 需要复制的文件
+        File newFile = new File(savePath + "\\" + printReportRecord.getReportname() + ".pdf");// 复制后的文件
+        // 创建流对象
+        DataInputStream dis = new DataInputStream(new FileInputStream(oldFile));
+        DataOutputStream dos = new DataOutputStream(new FileOutputStream(
+                newFile));
+        int temp;
+        // 读写数据
+        while ((temp = dis.read()) != -1) {// 读数据
+            dos.write(temp);// 把读到的数据写入到Temp文件中
+        }
+        // 关闭流
+        dis.close();
+        dos.close();
     }
 }

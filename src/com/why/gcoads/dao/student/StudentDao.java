@@ -26,14 +26,13 @@ public class StudentDao {
      * @throws SQLException
      */
     public void addStudent(Student student) throws SQLException {
-        String sql = "insert into t_student (kaoshenghao,shenfenzhenghao,xuehao,studentname,studentgender,minzu,zhengzhimianmao,zhuanye,zhuanyefangxiang,peiyangfangshi,xuezhi,ruxueshijian,biyeshijian,shifanshengleibie,xueyuan,xibie,banji,chushengriqi,shengyuansuozaidi,email,address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        System.out.println(sql);
+        String sql = "insert into t_student (kaoshenghao,shenfenzhenghao,xuehao,studentname,studentgender,minzu,zhengzhimianmao,zhuanye,zhuanyefangxiang,peiyangfangshi,xuezhi,ruxueshijian,biyeshijian,shifanshengleibie,xueyuan,xibie,banji,chushengriqi,shengyuansuozaidi,email,address,deleted) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] params = { student.getKaoshenghao(), student.getShenfenzhenghao(), student.getXuehao(),
                 student.getStudentname(), student.getStudentgender(), student.getMinzu(), student.getZhengzhimianmao(),
                 student.getZhuanye(), student.getZhuanyefangxiang(), student.getPeiyangfangshi(), student.getXuezhi(),
                 student.getRuxueshijian(), student.getBiyeshijian(), student.getShifanshengleibie(),
                 student.getXueyuan(), student.getXibie(), student.getBanji(), student.getChushengriqi(),
-                student.getShengyuansuozaidi(), student.getEmail(), student.getAddress() };
+                student.getShengyuansuozaidi(), student.getEmail(), student.getAddress(),false };
 
         qr.update(sql, params);
     }
@@ -46,7 +45,7 @@ public class StudentDao {
      * @throws SQLException
      */
     public int updateStudent(Student student) throws SQLException {
-        String sql = "update t_student set kaoshenghao=?,shenfenzhenghao=?,studentname=?,studentgender=?,minzu=?,zhengzhimianmao=?,zhuanye=?,zhuanyefangxiang=?,peiyangfangshi=?,xuezhi=?,ruxueshijian=?,biyeshijian=?,shifanshengleibie=?,xueyuan=?,xibie=?,banji=?,chushengriqi=?,shengyuansuozaidi=?,email=?,address=? where xuehao=?";
+        String sql = "update t_student set kaoshenghao=?,shenfenzhenghao=?,studentname=?,studentgender=?,minzu=?,zhengzhimianmao=?,zhuanye=?,zhuanyefangxiang=?,peiyangfangshi=?,xuezhi=?,ruxueshijian=?,biyeshijian=?,shifanshengleibie=?,xueyuan=?,xibie=?,banji=?,chushengriqi=?,shengyuansuozaidi=?,email=?,address=? where xuehao=? and !deleted";
         Object[] params = { student.getKaoshenghao(), student.getShenfenzhenghao(), student.getStudentname(),
                 student.getStudentgender(), student.getMinzu(), student.getZhengzhimianmao(), student.getZhuanye(),
                 student.getZhuanyefangxiang(), student.getPeiyangfangshi(), student.getXuezhi(),
@@ -66,7 +65,7 @@ public class StudentDao {
      * @throws SQLException
      */
     public Student findStudentBySid(int sid) throws SQLException {
-        String sql = "select * from t_student where sid = ?";
+        String sql = "select * from t_student where sid = ? and !deleted";
         return qr.query(sql, new BeanHandler<Student>(Student.class), sid);
     }
 
@@ -78,7 +77,7 @@ public class StudentDao {
      * @throws SQLException
      */
     public Student findStudentByXuehao(String xuehao) throws SQLException {
-        String sql = "select * from t_student where xuehao = ?";
+        String sql = "select * from t_student where xuehao = ? and !deleted";
         return qr.query(sql, new BeanHandler<Student>(Student.class), xuehao);
     }
     
@@ -90,7 +89,7 @@ public class StudentDao {
      * @throws SQLException
      */
     public Student findStudentByshenfenzhenghao(String shenfenzhenghao) throws SQLException {
-        String sql = "select * from t_student where shenfenzhenghao = ?";
+        String sql = "select * from t_student where shenfenzhenghao = ? and !deleted";
         return qr.query(sql, new BeanHandler<Student>(Student.class), shenfenzhenghao);
     }
 
@@ -105,7 +104,7 @@ public class StudentDao {
      */
     public PageBean<Student> findStudentByPager(PageBean<Student> pageStudent, String field, String value)
             throws SQLException {
-        String sql = "select {0} from t_student where {1} order by biyeshijian DESC, ruxueshijian DESC";
+        String sql = "select {0} from t_student where !deleted and {1} order by biyeshijian DESC, ruxueshijian DESC";
 
         if (value == null) {
             value = StringUtil.Empty;
@@ -197,7 +196,7 @@ public class StudentDao {
      */
     public List<Student> findStudentIdentifyIdByXuehao(String[] xuehaos) throws SQLException {
         // TODO Auto-generated method stub
-        String sql = "select shenfenzhenghao from t_student where xuehao in (";
+        String sql = "select shenfenzhenghao from t_student where !deleted and xuehao in (";
         if (xuehaos != null) {
             for (int i = 0; i < xuehaos.length; i++) {
                 sql += "?";
@@ -220,7 +219,7 @@ public class StudentDao {
      */
     public Student findStudentIdentifyIdByXuehao(String xuehao) throws SQLException {
         // TODO Auto-generated method stub
-        String sql = "select shenfenzhenghao from t_student where xuehao = ?";
+        String sql = "select shenfenzhenghao from t_student where !deleted xuehao = ?";
         
         return qr.query(sql, new BeanHandler<Student>(Student.class), xuehao);
     }
@@ -234,7 +233,7 @@ public class StudentDao {
      */
     public boolean isExistStudent(Student student) throws SQLException {
         // TODO Auto-generated method stub
-        String sql = "select count(1) from t_student where xuehao = ? or shenfenzhenghao = ? or kaoshenghao = ?";
+        String sql = "select count(1) from t_student where !deleted and xuehao = ? or shenfenzhenghao = ? or kaoshenghao = ?";
         Object[] params = { student.getXuehao(), student.getShenfenzhenghao(), student.getKaoshenghao() };
 
         Number number = (Number) qr.query(sql, new ScalarHandler(), params);

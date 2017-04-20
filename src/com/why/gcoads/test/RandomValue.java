@@ -2,6 +2,7 @@ package com.why.gcoads.test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class RandomValue {
     public static String base = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -48,7 +49,7 @@ public class RandomValue {
      * 返回中文姓名
      */
     private static String name_sex = "";
-    private static String getChineseName() {
+    public static String getChineseName() {
         int index=getNum(0, firstName.length()-1);
         String first=firstName.substring(index, index+1);
         int sex=getNum(0,1);
@@ -99,9 +100,20 @@ public class RandomValue {
     }
       
     public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
-            System.out.println(getAddress());
+        for (int i = 0; i < 1000000; i++) {
+            int ra = getLimitRandom(0, 5);
+            System.out.println(getChineseName() + "--------" + ra);
 //          System.out.println(getEmailName(6,9));
+            
+        }
+    }
+    
+    public static int getLimitRandom(int min, int max) {
+        if (max <= 0 || (max == min - 1)) {
+            return 0;
+        } else {
+            Random random = new Random();
+            return random.nextInt(max)%(max-min+1) + min;
         }
     }
 }

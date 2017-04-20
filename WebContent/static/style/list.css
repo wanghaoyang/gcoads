@@ -1,0 +1,56 @@
+body {margin: 0;}
+#funTitleDiv {font-size: 22px;margin: auto; text-align: center;}
+#tableDiv {height: 430px;margin-top: 13px;}
+#searchDiv {width:840px; margin:auto;}
+#deleteAllSpan {float: right; margin-right: 40px; margin-top: 15px;}
+#resultTab { margin: 10px 0 10px 70px; width:840px;}
+
+/* Border styles */
+#resultTab tr td {
+border-top-width: 1px;
+border-top-style: solid;
+border-top-color: rgb(211, 202, 221);
+}
+
+#resultTab {
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: rgb(211, 202, 221);
+}
+
+#resultTab tr th {
+border-top-width: 2px;
+border-top-style: solid;
+border-top-color: rgb(211, 202, 221);
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: rgb(211, 202, 221);
+}
+/* Padding and font style */
+#resultTab td, #resultTab th {
+padding: 5px 10px;
+font-size: 12px;
+font-family: Verdana;
+color: rgb(95, 74, 121);
+}
+
+/* Alternating background colors */
+#resultTab tr:nth-child(even) {
+background: rgb(223, 216, 232)
+}
+#resultTab tr:nth-child(odd) {
+background: #FFF
+}
+
+#resultTab tr:hover{
+background: rgb(150, 150, 232)
+}
+
+#checkboxTd {width: 60px;}
+td{text-align:center}
+#flashMsg{widows: 100%; text-align: center;}
+.studentName{cursor: pointer; color: blue; font-size: 12px;}
+.studentName:hover{text-decoration:underline}
+.clickspan{cursor: pointer; color: blue; font-size: 12px;}
+.clickspan:hover{text-decoration:underline}
+

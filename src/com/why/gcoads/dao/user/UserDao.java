@@ -211,7 +211,7 @@ public class UserDao {
 	}
 
 	/**
-	 * 批量彻底删除用户
+	 * 通过login name设置用户账户处于被删除状态
 	 * 
 	 * @param Loginnames
 	 * @return

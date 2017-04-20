@@ -1,9 +1,6 @@
-body {
-    font-size: 10pt;
-    color: #404040;
-}
-
 .divContent {
+	text-align:center;
+    font-size: 20px;
     width: 880px;
     height: 50px;
     background-color: #efeae5;
@@ -12,68 +9,80 @@ body {
     color: #404040;
     border: 5px solid #efeae5;
 }
-
-.divBank {
-    border: 5px solid #efeae5;
-    width: 880px;
-    height: 430px;
-    margin-left: 50px;
-    margin-top: 5px;
+#orderDiv{
+	border: 1px solid;
+    height: 300px;
+    width: 300px;
+    border-radius: 5px;
+    background: #F5F5F5;
+    float: left;
 }
-
-.divText {
-    font-size: 15px;
-    font-weight: 900;
-    margin: 10px;
-}
-
-.spanPrice {
-    font-weight: 900;
-    font-family: Arial;
-    margin-left: 30px;
-}
-
-.spanOid {
-    font-size: 13px;
-    color: #878787;
-    font-family: Arial;
-    padding-top: 10px;
-    margin-left: 30px;
-}
-
-.price_t {
-    color: #c30;
-    font-weight: bold;
-    padding-right: 10px;
-    font-family: Arial;
-    font-size: 15pt;
-}
-
-img {
-    margin-right: 25px;
-}
-
-.linkNext {
-    background: url(/gcoads/static/images/icon2.png) no-repeat;
-    display: inline-block;
-    background-position: 0 -35px;
-    height: 40px;
-    width: 190px;
-    margin: 0;
+#orderDivTop{
+    height: 30px;
+    background: rgb(230, 64, 52);
+    border: 0px;
+    border-bottom: 1px;
+    border-style: solid;
+    line-height: 30px;
     text-align: center;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: 900;
-    color: #ffffff;
-    line-height: 40px;
-    font-family: Arial;
+    color: #FFF;
+    font-family: arial;
 }
 
-.linkNext:HOVER {
-    background: url(/gcoads/static/images/icon2.png) no-repeat;
-    display: inline-block;
-    background-position: 0 -75px;
-    height: 40px;
-    width: 190px;
-    poorfish: expression(this.onclick = function jiesuan(){return true});
+#tableDiv{
+	padding-top: 50px;
+}
+
+#orderTab{
+	margin: auto;
+}
+.redBFont{
+	color: #F00;
+	font-weight: bold;
+}
+
+#cost {
+	color: green;
+	font-size: 18px;
+	font-style: oblique;
+	margin-left: 5px;
+}
+
+#loginBankDiv{
+	border: 1px solid;
+    height: 300px;
+    width: 500px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background: #F5F5F5;
+	display: inline-block;
+}
+
+#bankDivTop{
+	height: 30px;
+    background: rgb(249, 177, 15);
+    border: 0px;
+    border-bottom: 1px;
+    border-style: solid;
+    line-height: 30px;
+    text-align: center;
+    color: #FFF;
+    font-family: arial;
+}
+#bankloginname{
+    height: 25px;
+}
+#bankpassword{
+    height: 25px;
+
+}
+#pay{
+	height: 30px;
+    width: 70px;
+    margin-right: 10px; 
+}
+#reset{
+	height: 30px;
+    width: 70px;
+    margin-left: 10px; 
 }
