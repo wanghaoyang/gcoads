@@ -19,7 +19,7 @@
 		//$("#uploadfilepath").val($("#excel").val());
 		doCheck();
 		$("#uploadExcelForm").submit();
-		$("#tipmsg").text("上传解析中,请勿稍后。。。");
+		$("#tipmsg").text("上传解析中,请勿关闭,请稍后。。。");
 		
 	}
 	function doCheck() {

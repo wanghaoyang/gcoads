@@ -218,7 +218,7 @@
         <tr>
           <td class="star">*</td>
           <td>班级：</td>
-          <td><input type="text" id="banji" required="required"
+          <td><input type="text" id="banji" name="banji" required="required"
             maxlength="30"></td>
         </tr>
         <tr>

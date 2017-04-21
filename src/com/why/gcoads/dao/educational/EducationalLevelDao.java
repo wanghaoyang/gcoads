@@ -113,7 +113,7 @@ public class EducationalLevelDao {
             pageEducationalLevel.setPc(pageEducationalLevel.getTp());
         }
 
-        sql = "select elid, educationallevel from t_educationallevel where elid != 1 and educationallevel like ? order by elid asc limit ?,? ";
+        sql = "select elid, educationallevel,createtime from t_educationallevel where elid != 1 and educationallevel like ? order by elid asc limit ?,? ";
 
         List<EducationalLevel> beanList = qr.query(sql, new BeanListHandler<EducationalLevel>(EducationalLevel.class),
                 educationallevel, (pageEducationalLevel.getPc() - 1) * pageEducationalLevel.getPs(),
@@ -131,7 +131,7 @@ public class EducationalLevelDao {
      */
     public List<EducationalLevel> findAll() throws SQLException {
 
-        String sql = "select elid, educationallevel from t_educationallevel order by elid asc";
+        String sql = "select elid, educationallevel,createtime from t_educationallevel order by elid asc";
 
         List<EducationalLevel> beanList = qr.query(sql, new BeanListHandler<EducationalLevel>(EducationalLevel.class));
 

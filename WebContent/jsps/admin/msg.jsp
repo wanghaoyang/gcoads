@@ -109,6 +109,11 @@ function showError() {
 <span>${errorRowsOfStuExist }</span>
 </div>
 </c:if>
+<c:if test="${!(empty toomanystu)}">
+<div>
+<span>${toomanystu }</span>
+</div>
+</c:if>
 </div>
   </body>
 </html>

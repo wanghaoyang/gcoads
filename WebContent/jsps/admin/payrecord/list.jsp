@@ -80,10 +80,10 @@
         var="payrecord">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${payrecord.loginname}</td>
-          <td>${payrecord.paystartdatetime }</td>
-          <td>${payrecord.payfinisheddatetime }</td>
-          <td>${payrecord.totalcost }</td>
+          <td title="${payrecord.loginname}">${payrecord.loginname}</td>
+          <td title="${payrecord.paystartdatetime }">${payrecord.paystartdatetime }</td>
+          <td title="${payrecord.payfinisheddatetime }">${payrecord.payfinisheddatetime }</td>
+          <td title="${payrecord.totalcost }">${payrecord.totalcost }</td>
           <td>${payrecord.certificationquantity }</td>
           <td><c:choose>
               <c:when test="${payrecord.paystatus }">支付完成</c:when>

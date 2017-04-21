@@ -74,9 +74,9 @@
           <dt>
             支付管理<img src="/gcoads/static/images/left/select_xl01.png">
           </dt>
-          <dd>
+          <!-- <dd>
             <a href="#">支付渠道管理</a>
-          </dd>
+          </dd> -->
           <dd>
             <a
               href="<c:url value='/admin/PayRecordManagementServlet?method=findPayRecord'/>"

@@ -2,7 +2,14 @@ body {margin: 0;}
 #funTitleDiv {font-size: 22px;margin: auto; text-align: center;}
 #tableDiv {height: 427px;margin-top: 13px;}
 #searchDiv {width:840px; margin:auto;}
-#deleteAllSpan {float: right; margin-right: 40px; margin-top: 15px;}
+#deleteAllSpan {float: right;margin-right: 17px; margin-top: 8px;}
+#deleteBtn{    height: 30px;
+    width: 61px;
+    background-color: #15B69A;
+    border: 0;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 600;}
 #userListTab { margin: 10px 0 10px 70px; width:840px; table-layout:fixed;word-wrap:break-word;}
 
 /* Border styles */

@@ -75,12 +75,12 @@
         var="printreportrecord">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${printreportrecord.loginname}</td>
-          <td>${printreportrecord.docnum}</td>
-          <td>${printreportrecord.reportname }</td>
-          <td>${printreportrecord.reportpath }</td>
-          <td>${printreportrecord.printdatetime }</td>
-          <td>${printreportrecord.printpagenum }</td>
+          <td title="${printreportrecord.loginname}">${printreportrecord.loginname}</td>
+          <td title="${printreportrecord.docnum}">${printreportrecord.docnum}</td>
+          <td title="${printreportrecord.reportname }">${printreportrecord.reportname }</td>
+          <td title="${printreportrecord.reportpath }">${printreportrecord.reportpath }</td>
+          <td title="${printreportrecord.printdatetime }">${printreportrecord.printdatetime }</td>
+          <td title="${printreportrecord.printpagenum }">${printreportrecord.printpagenum }</td>
           <td><c:choose>
               <c:when test="${printreportrecord.printstatus }">已打印</c:when>
               <c:otherwise>未打印</c:otherwise>

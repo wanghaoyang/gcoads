@@ -132,7 +132,8 @@
         <tr style="background-color: #FFF;">
           <th></th>
           <th>学历号</th>
-          <th>学历名称</th>
+          <th style="width: 180px;">学历名称</th>
+          <th>创建时间</th>
           <th>操作</th>
         </tr>
       </thead>
@@ -144,11 +145,12 @@
             id="elid${status.index + 1 }" name="elid"
             value="${educationalLevel.elid }">
           </td>
-          <td><span id="name${status.index + 1 }">${educationalLevel.educationallevel }</span>
+          <td><span id="name${status.index + 1 }" title="${educationalLevel.educationallevel }">${educationalLevel.educationallevel }</span>
             <input id="educationallevel${status.index + 1 }"
             name="educationallevel"
             value="${educationalLevel.educationallevel }" maxlength="15"
             style="display: none;"></td>
+          <td title="${educationalLevel.createtime }">${educationalLevel.createtime }</td>
           <td><span onclick="_edit(this)"
             id="edit${status.index + 1 }" class="clickspan">编辑</span><span
             id="saveandcancel${status.index + 1 }" style="display: none"><span

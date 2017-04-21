@@ -124,11 +124,11 @@
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
           <td>${student.xuehao}</td>
-          <td><span class="studentName" onclick="detail(this)">${student.studentname }</span></td>
-          <td>${student.xueyuan }</td>
-          <td>${student.xibie }</td>
-          <td>${student.banji }</td>
-          <td>${student.zhuanye }</td>
+          <td><span class="studentName" title="${student.studentname }" onclick="detail(this)">${student.studentname }</span></td>
+          <td title="${student.xueyuan }">${student.xueyuan }</td>
+          <td title="${student.xibie }">${student.xibie }</td>
+          <td title="${student.banji }">${student.banji }</td>
+          <td title="${student.zhuanye }">${student.zhuanye }</td>
           
           <td><input type="checkbox" id="subcheck" name="userCheck"
             onclick="setSelectAll()" value="${student.xuehao }"/></td>

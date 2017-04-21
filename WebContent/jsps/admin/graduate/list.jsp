@@ -94,10 +94,10 @@
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
           <td id="xuehao">${graduate.xuehao}</td>
-          <td><span class="studentName" onclick="detail(this)">${graduate.studentname }</span></td>
-          <td>${graduate.xueyuan }</td>
-          <td>${graduate.xueli.educationallevel }</td>
-          <td>${graduate.biyeshijian }</td>
+          <td><span class="studentName" title="${graduate.studentname }" onclick="detail(this)">${graduate.studentname }</span></td>
+          <td title="${graduate.xueyuan }">${graduate.xueyuan }</td>
+          <td title="${graduate.xueli.educationallevel }">${graduate.xueli.educationallevel }</td>
+          <td title="${graduate.biyeshijian }">${graduate.biyeshijian }</td>
           <td>${graduate.gstatus }</td>
         </tr>
       </c:forEach>

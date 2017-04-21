@@ -106,8 +106,7 @@ public class GraduateManagementServlet extends BaseServlet {
         String field = req.getParameter("field");
         String value = req.getParameter("value");
         if (StringUtil.isNullOrEmpty(field)) {
-            field = StringUtil.Empty;
-            value = StringUtil.Empty;
+            field = "姓名";
         }
         /*
          * 4. 得到PageBean
@@ -366,6 +365,7 @@ public class GraduateManagementServlet extends BaseServlet {
             req.setAttribute("code", "error");
             req.setAttribute("errorRowsOfFormat", errorMap.get("errorRowsOfFormat"));
             req.setAttribute("errorRowsOfStuExist", errorMap.get("errorRowsOfStuExist"));
+            req.setAttribute("toomanystu", errorMap.get("toomanystu"));
             req.setAttribute("msg", "存在数据导入失败, 请检查!");
         }
 

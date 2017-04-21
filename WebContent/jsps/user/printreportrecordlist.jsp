@@ -43,20 +43,7 @@
 <body>
   <div id="funTitleDiv">认证记录信息列表</div>
   <div id="tableDiv">
-    <div id="searchDiv">
-      <form
-        action="<c:url value='/admin/PrintReportRecordManagementServlet'/>"
-        method="get" target="body" id="form1">
-        <input type="hidden" name="method" value="findPrintReportRecord" />
-        <input id="username" type="text" name="loginname"
-          placeholder="请输入用户名" maxlength="15" value="${loginname }"
-          style="width: 200px" /> <span> <a
-          href="javascript:document.getElementById('form1').submit();"><img
-            id="searchImg" align="top" border="0"
-            src="/gcoads/static/images/btn.bmp" /></a>
-        </span>
-      </form>
-    </div>
+    
 
     <table cellspacing="0" cellpadding="0" id="userListTab">
       <thead>

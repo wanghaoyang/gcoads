@@ -108,7 +108,7 @@
           <th>用户名</th>
           <th>邮箱</th>
           <th>角色</th>
-          <th>状态</th>
+          <th style="width: 130px;">状态</th>
           <th>操作</th>
           <th id="checkboxTd"><input type="checkbox" id="selectAll"
             onclick="selectAll()" />全选</th>
@@ -118,9 +118,9 @@
         var="user">
         <tr>
           <td>${(pageBean.pc - 1) * pageBean.ps + status.index + 1}</td>
-          <td>${user.loginname}</td>
-          <td>${user.email }</td>
-          <td>${user.role }</td>
+          <td title="${user.loginname}">${user.loginname}</td>
+          <td title="${user.email }">${user.email }</td>
+          <td title="${user.role }">${user.role }</td>
           <td><input type="radio" name="status${status.index}"
             value="1" ${user.status? 'checked':''} disabled />已激活 <input
             type="radio" name="status${status.index}" value="1"

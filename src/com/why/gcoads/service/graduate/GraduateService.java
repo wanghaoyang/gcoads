@@ -46,13 +46,14 @@ public class GraduateService {
         if (StringUtil.isNullOrEmpty(filePath)) {
             return null;
         }
-        // filePath = "D:/cloud/Qsync/gcoads/conf/student.xls";
-        // filePath = "D:/student.xls";
         Map<String, String> errorMap = new HashMap<String, String>();
+        Map<Integer, Map<String, Object>> map = ReadExcelUtils.parseExcel(filePath);
+        if (map.size() > 500) {
+            errorMap.put("toomanystu", "上传的Excel文件中, 有太多学生! 请不要超过500个学生！");
+            return errorMap;
+        }
         List<Integer> errorRowsOfFormat = new ArrayList<Integer>();
         List<Integer> errorRowsOfStuExist = new ArrayList<Integer>();
-        Map<Integer, Map<String, Object>> map = ReadExcelUtils
-                .parseExcel(filePath);
         int i = 1;
         for (; i <= map.size(); i++) {
             Map<String, Object> beanMap = map.get(i);

@@ -154,6 +154,7 @@ public class PayServlet extends BaseServlet {
             return "f:/jsps/user/paymsg.jsp";
         }
         PayRecord payRecord = payRecordService.findPayRecordByPrid(prid);
+        payRecord.setPayfinisheddatetime(new Date());
         payRecord.setPaystatus(true);
 
         try {
