@@ -38,8 +38,8 @@ public class EducationalLevelDao {
      * @throws SQLException
      */
     public void addEducationalLevel(EducationalLevel educationalLevel) throws SQLException {
-        String sql = "INSERT INTO t_educationallevel (educationallevel,) VALUES (?)";
-        qr.update(sql, educationalLevel.getEducationallevel());
+        String sql = "INSERT INTO t_educationallevel (educationallevel,createtime) VALUES (?,?)";
+        qr.update(sql, educationalLevel.getEducationallevel(),educationalLevel.getCreatetime());
     }
 
     /**

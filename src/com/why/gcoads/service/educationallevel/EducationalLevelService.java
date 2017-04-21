@@ -2,6 +2,7 @@ package com.why.gcoads.service.educationallevel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.why.gcoads.dao.educational.EducationalLevelDao;
@@ -23,6 +24,7 @@ public class EducationalLevelService {
 
         try {
             JdbcUtils.beginTransaction();
+            educationalLevel.setCreatetime(new Date());
             educationalLevelDao.addEducationalLevel(educationalLevel);
             int count = educationalLevelDao
                     .findEducationalLevelNumByEducationalName(educationalLevel.getEducationallevel());

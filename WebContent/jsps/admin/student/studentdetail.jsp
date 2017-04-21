@@ -176,30 +176,6 @@ function _delete(){
             value="${student.biyeshijian }"></td>
         </tr>
         <tr>
-          <td></td>
-          <td>学历：</td>
-          <td><select id="xueli" name="educationallevel">
-              <c:forEach items="${educationalLevelList }"
-                var="educationalLevel">
-                <option value="${educationalLevel.educationallevel}"
-                  <c:if test="${graduate.elid == educationalLevel.elid}">selected</c:if>>${educationalLevel.educationallevel}</option>
-              </c:forEach>
-          </select></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>毕业状态：</td>
-          <td><input type="radio" class="gstatus" name="gstatus"
-            value="未毕业"
-            <c:if test="${graduate.gstatus eq '未毕业' }" >checked</c:if>>未毕业
-            <input type="radio" class="gstatus" name="gstatus"
-            value="待审核"
-            <c:if test="${graduate.gstatus eq '待审核' }" >checked</c:if>>待审核
-            <input type="radio" class="gstatus" name="gstatus"
-            value="毕业"
-            <c:if test="${graduate.gstatus eq '毕业' }">checked</c:if>>毕业</td>
-        </tr>
-        <tr>
           <td class="star">*</td>
           <td>邮箱：</td>
           <td><input type="text" id="email" name="email"

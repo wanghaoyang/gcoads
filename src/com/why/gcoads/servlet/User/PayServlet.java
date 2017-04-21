@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -156,6 +157,7 @@ public class PayServlet extends BaseServlet {
         payRecord.setPaystatus(true);
 
         try {
+            JdbcUtils.beginTransaction();
             int row = payRecordService.updatePayRecord(payRecord);
             if (row > 0) {
                 PayRecord pay = payRecordService.findPayRecordByPrid(prid);
@@ -201,6 +203,7 @@ public class PayServlet extends BaseServlet {
                 req.setAttribute("msg", "支付成功!");
                 printReportRecord = printReportRecordService.findPrintReportRecordByPrrid(prrid);
                 req.setAttribute("printReportRecord", printReportRecord);
+                JdbcUtils.commitTransaction();
             } else {
                 JdbcUtils.rollbackTransaction();
                 req.setAttribute("code", "error");
@@ -209,6 +212,14 @@ public class PayServlet extends BaseServlet {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            try {
+                JdbcUtils.rollbackTransaction();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            req.setAttribute("code", "error");
+            req.setAttribute("msg", "支付失败!");
         }
         
         return "f:/jsps/user/paymsg.jsp";

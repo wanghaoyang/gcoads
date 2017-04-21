@@ -146,8 +146,7 @@ public class GraduateManagementServlet extends BaseServlet {
         String field = req.getParameter("field");
         String value = req.getParameter("value");
         if (StringUtil.isNullOrEmpty(field)) {
-            field = StringUtil.Empty;
-            value = StringUtil.Empty;
+            field = "姓名";
         }
         /*
          * 4. 得到PageBean
@@ -254,6 +253,7 @@ public class GraduateManagementServlet extends BaseServlet {
         pageStudent.setUrl("/gcoads/admin/GraduateManagementServlet?method=findStudent");
         pageStudent = graduateService.findStudentByPager(pageStudent, StringUtil.Empty, StringUtil.Empty);
         req.setAttribute("pageBean", pageStudent);
+        req.setAttribute("condition", condition1);
         if (errorMap.size() == 0) {
             req.setAttribute("msg", "添加成功");
             return "f:/jsps/admin/student/list.jsp";
@@ -418,6 +418,7 @@ public class GraduateManagementServlet extends BaseServlet {
         pageStudent.setUrl("/gcoads/admin/GraduateManagementServlet?method=findStudent");
         pageStudent = graduateService.findStudentByPager(pageStudent, StringUtil.Empty, StringUtil.Empty);
         req.setAttribute("pageBean", pageStudent);
+        req.setAttribute("condition", condition1);
         return "f:/jsps/admin/student/list.jsp";
     }
 
@@ -447,6 +448,7 @@ public class GraduateManagementServlet extends BaseServlet {
         pageGraduate.setUrl("/gcoads/admin/GraduateManagementServlet?method=findGraduate");
         pageGraduate = graduateService.findGraduateByPager(pageGraduate, StringUtil.Empty, StringUtil.Empty);
         req.setAttribute("pageBean", pageGraduate);
+        req.setAttribute("condition", condition2);
         return "f:/jsps/admin/graduate/list.jsp";
     }
 }

@@ -76,7 +76,7 @@ a:hover {color:#FF6600; text-decoration: underline;}
         <br/>
         
       <c:if test="${code eq 'success' }"><%--如果code是功能，它显示对号图片 --%>
-          <span style="margin-left: 50px;"><a target="body" href="<c:url value='/GraduateServlet?method=loadPDF?${printReportRecord.prrid }'/>" target="_top">打印预览学历证明</a></span>
+          <span style="margin-left: 50px;"><a target="body" href="<c:url value='/PayServlet?method=loadPDF&prrid=${printReportRecord.prrid }'/>" target="_blank">打印预览学历证明</a></span>
       </c:if>
       <span style="margin-left: 50px;"><a target="_top" href="<c:url value='/index.jsp'/>">主页</a></span>
       </div>

@@ -34,12 +34,22 @@
                 saveAsImage : {show: true}
             }
         },
+        grid: { // 控制图的大小，调整下面这些值就可以，
+            x: 120,
+            x2: 100,
+            y2: 200,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+        },
         calculable: true,
         xAxis : [
             {
                 type : 'category',
                 boundaryGap : false,
-                data : []
+                data : [],
+                axisLabel: {
+	                interval:0,
+	                rotate:40
+                },
+            boundaryGap: false //加上这个参数
             }
         ],
         yAxis : [
@@ -47,10 +57,11 @@
                 type : 'value',
                 axisLabel : {
                     formatter: '{value} '
-                }
+                },
+                margin: 20
             }
         ],
-        series : []
+        series : [ ]
     };
     //采用ajax异步请求数据
     function getemploymentstatistics(key, value, subtext){

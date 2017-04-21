@@ -1,15 +1,18 @@
 body {margin: 0;}
 #funTitleDiv {font-size: 22px;margin: auto; text-align: center;}
-#tableDiv {height: 430px;margin-top: 13px;}
+#tableDiv {height: 427px;margin-top: 13px;}
 #searchDiv {width:840px; margin:auto;}
 #deleteAllSpan {float: right; margin-right: 40px; margin-top: 15px;}
-#resultTab { margin: 10px 0 10px 70px; width:840px;}
+#resultTab { margin: 10px 0 10px 70px; width:840px;table-layout:fixed;word-wrap:break-word;}
 
 /* Border styles */
 #resultTab tr td {
 border-top-width: 1px;
 border-top-style: solid;
 border-top-color: rgb(211, 202, 221);
+white-space:nowrap;
+overflow:hidden;
+text-overflow: ellipsis;
 }
 
 #resultTab {
